@@ -4,8 +4,9 @@ const isEmpty = require ('./is-empty');
 module.exports = function validateLProfileInput(data) {
 	let errors = {};
 
-	data.handle = !isEmpty(data.handle) ? data.handle : " ";
-	data.status = !isEmpty(data.skills) ? data.skills : " ";
+	data.handle = !isEmpty(data.handle) ? data.handle : '';
+	data.status = !isEmpty(data.status) ? data.status : '';
+	data.skills = !isEmpty(data.skills) ? data.skills : '';
 
 	console.log(data.handle)
 	if(!Validator.isLength(data.handle, {min: 2, max: 40})) {
