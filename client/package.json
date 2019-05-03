@@ -3,9 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@types/react-router-dom": "^4.3.2",
+    "axios": "^0.18.0",
+    "classnames": "^2.2.6",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "react-scripts": "3.0.0"
+    "react-redux": "^7.0.3",
+    "react-router-dom": "^5.0.0",
+    "react-scripts": "3.0.0",
+    "redux": "^4.0.1",
+    "redux-thunk": "^2.3.0"
   },
   "scripts": {
     "start": "PORT=3006 react-scripts start",
@@ -13,7 +20,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "proxy" : "http://localhost:5000",
+  "proxy": "http://localhost:5000",
   "eslintConfig": {
     "extends": "react-app"
   },
