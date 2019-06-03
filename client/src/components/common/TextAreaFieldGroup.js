@@ -14,7 +14,7 @@ return (
     <div className="form-group">
     <textarea                    
         className={classnames('form-control form-control-lg', {
-          'is-invalid': {error}
+          'is-invalid': error
         })}
         placeholder={placeholder} 
         name={name}

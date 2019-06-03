@@ -21,7 +21,7 @@ return (
     <div className="form-group">
     <select                    
         className={classnames('form-control form-control-lg', {
-          'is-invalid': {error}
+          'is-invalid': error
         })}
         name={name}
         value={value} 
