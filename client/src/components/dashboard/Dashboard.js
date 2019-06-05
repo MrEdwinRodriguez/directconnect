@@ -7,6 +7,7 @@ import Spinner from '../common/Spinner';
 import ProfileActions from './ProfileActions';
 import Experience from './Experience';
 import Education from './Education';
+import '../../css/style.css';
 
 
 class Dashboard extends Component {
@@ -49,7 +50,7 @@ class Dashboard extends Component {
           <div>
             <p className='lead text-muted'>Welcome {user.name}</p>
             <p>You have not yet set up a profile, please add some info.</p>
-            <Link to="/create-profile" className="btn btn-lg btn-info">Create Profile</Link>
+            <Link to="/create-profile" className="btn btn-lg btn-royal text-white">Create Profile</Link>
           </div>
         )
       }

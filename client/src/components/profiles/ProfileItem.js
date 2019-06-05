@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import isEmpty from '../../validation/is-empty';
+import '../../css/style.css';
 
 class ProfileItem extends Component {
   render() {
@@ -18,7 +19,7 @@ class ProfileItem extends Component {
               <h3>{profile.user.name}</h3>
               <p>{profile.status} {isEmpty(profile.company) ? null : (<span>@ {profile.company}</span>)}</p>
               <p>{isEmpty(profile.location) ? null : (<span>@ {profile.location}</span>)}</p>
-              <Link to={`/profile/${profile.handle}`} className='btn btn-info'>View Profile</Link>
+              <Link to={`/profile/${profile.handle}`} className='btn btn-royal text-white'>View Profile</Link>
             </div>
             <div className='col-md-4 d-none d-md-block'>
               <h4>Skill Set</h4>

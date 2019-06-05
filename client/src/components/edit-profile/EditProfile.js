@@ -8,6 +8,7 @@ import TextAreaFieldGroup from '../common/TextAreaFieldGroup';
 import SelectListGroup from '../common/SelectListGroup';
 import { createProfile, getCurrentProfile } from "../../actions/profileActions";
 import isEmpty from '../../validation/is-empty';
+import '../../css/style.css';
 
 class CreateProfile extends Component {
 
@@ -163,7 +164,7 @@ class CreateProfile extends Component {
         {label: "Professional (3-7 years experience)", value: "Professional-Mid"},
         {label: "Professional (0-3 years experience)", value: "Professional-Junior"},
         {label: "Teacher/Instructor", value: "teacher"},
-        {label: "Business Owener", value: "owner"},
+        {label: "Business Owner", value: "owner"},
         {label: "Intern", value: "Intern"},
         {label: "Graduate Student", value: "Graduate"},
         {label: "Undergrad Student", value: "Undergrad"},
@@ -242,7 +243,7 @@ class CreateProfile extends Component {
                         <span className='text-muted'>  Optional</span>
                     </div>
                     {socialInputs}
-                    <input type='submit' value="Submit" className="btn btn-info btn-block mt-4"/>
+                    <input type='submit' value="Submit" className="btn btn-royal text-white btn-block mt-4"/>
                     </form>
                 </div>
             </div>
