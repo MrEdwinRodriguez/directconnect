@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import TextAreaFieldGroup from '../common/TextAreaFieldGroup';
 import { addComment } from '../../actions/postActions';
+import '../../css/style.css';
 
 
 class CommentForm extends Component {
@@ -51,7 +52,7 @@ class CommentForm extends Component {
     return (
         <div className="post-form mb-3">
         <div className="card card-info">
-          <div className="card-header bg-info text-white">
+          <div className="card-header bg-royal text-white">
             Comment...
           </div>
           <div className="card-body">
