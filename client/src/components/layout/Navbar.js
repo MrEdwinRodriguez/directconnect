@@ -79,11 +79,24 @@ class Navbar extends Component {
  
           <div className="collapse navbar-collapse" id="mobile-nav">
             <ul className="navbar-nav mr-auto">
-              <li className="nav-item">
-                <Link className="nav-link" to="/profiles">
+              <li className="nav-item dropdown">
+              <a className="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Find in Network
+              </a>
+              <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+              <Link className="dropdown-item" to="/profiles">
                   {' '}
                   Zetas and Sigmas
                 </Link>
+                <Link className="dropdown-item" to="/profiles">
+                  {' '}
+                  Sigmas Only
+                </Link>
+                <Link className="dropdown-item" to="/profiles">
+                  {' '}
+                  Zetas Only
+                </Link>
+              </div>   
               </li>
             </ul>
             {isAuthenticated ? authLinks : guestLinks}

@@ -14,6 +14,7 @@ class Register extends Component {
       email: '',
       password: '',
       password2: '',
+      inviteCode: '',
       errors: {}
     };
  
@@ -43,7 +44,8 @@ class Register extends Component {
       name: this.state.name,
       email: this.state.email,
       password: this.state.password,
-      password2: this.state.password2
+      password2: this.state.password2,
+      inviteCode: this.state.inviteCode
     };
  
     this.props.registerUser(newUser, this.props.history);
@@ -96,6 +98,14 @@ class Register extends Component {
                   value={this.state.password2}
                   onChange={this.onChange}
                   error={errors.password2}
+                />
+
+                <TextFieldGroup
+                  placeholder="Invite Code"
+                  name="inviteCode"
+                  value={this.state.inviteCode}
+                  onChange={this.onChange}
+                  error={errors.inviteCode}
                 />
 
                 <input type="submit" className="btn btn-royal text-white btn-block mt-4" />

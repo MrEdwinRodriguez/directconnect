@@ -17,6 +17,9 @@ class CreateProfile extends Component {
             displaySocialInputs: false,
             handle: '',
             company: '',
+            title: '',
+            orginization: '',
+            chapter: '',
             website: '',
             locations: '',
             status: '',
@@ -48,6 +51,9 @@ class CreateProfile extends Component {
             website: this.state.website,
             location: this.state.location,
             status: this.state.status,
+            title: this.state.title,
+            orginization: this.state.orginization,
+            chapter: this.state.chapter,
             skills: this.state.skills,
             bio: this.state.bio,
             twitter: this.state.twitter,
@@ -130,6 +136,20 @@ class CreateProfile extends Component {
         {label: "Other", value: "Other"},
     ];
 
+    const orginizations = [
+        {label: "* Orginization", value: 0},
+        {label: "Phi Beta Sigma", value: "phi_beta_sigma"},
+        {label: "Zeta Phi Beta", value: "zeta_phi_beta"}
+    ];
+
+    const chapters = [
+        {label: "* Chapters", value: 0},
+        {label: "Iota Rho", value: "iota_rho"},
+        {label: "Gamma Delta Sigma", value: "gamma_delta_sigma"},
+        {label: "Sigma Epsilon", value: "sigma_epsilon"},
+        {label: "Epsilon Zeta Zeta", value: "epsilon_zeta_zeta"}
+    ];
+
     return (
       <div className='create-profile'>
         <div className='container'>
@@ -156,6 +176,29 @@ class CreateProfile extends Component {
                         options={options}
                         error={errors.status}
                         info="Give an idea of where you are at in your primary career path."/>
+                    <TextFieldGroup 
+                        placeholder="Title"
+                        name='title'
+                        value={this.state.title}
+                        onChange={this.onChange}
+                        error={errors.title}
+                        info="Give us your professional title"/>
+                    <SelectListGroup 
+                        placeholder="Orginization"
+                        name='orginization'
+                        value={this.state.orginization}
+                        onChange={this.onChange}
+                        options={orginizations}
+                        error={errors.orginization}
+                        info="What orginization did you pledge?"/>
+                     <SelectListGroup 
+                        placeholder="Chapter"
+                        name='chapter'
+                        value={this.state.chapter}
+                        onChange={this.onChange}
+                        options={chapters}
+                        error={errors.chapter}
+                        info="What chapter did you pledge?"/>
                     <TextFieldGroup 
                         placeholder="Company"
                         name='company'

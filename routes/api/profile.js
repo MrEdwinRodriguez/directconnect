@@ -54,7 +54,7 @@ router.get('/handle/:handle', (req, res) => {
 	const errors = {};
 
 	Profile.findOne({ handle: req.params.handle })
-		.populate('user', ['name', 'avatar'])
+		.populate('user', ['name', 'avatar', 'email'])
 		.then(profile => {
 			if(!profile) {
 				errors.noprofile = "There is no profile found for this user";
@@ -103,6 +103,10 @@ router.post('/', passport.authenticate('jwt', {session: false }), (req, res) => 
 	profileFields.website = req.body.website ? req.body.website : null;
 	profileFields.bio = req.body.bio ? req.body.bio : null;
 	profileFields.status = req.body.status ? req.body.status : null;
+	profileFields.phoneNumber= req.body.phoneNumber? req.body.phoneNumber: null;
+	profileFields.title = req.body.title ? req.body.title : null;
+	profileFields.orginization = req.body.orginization ? req.body.orginization: null;
+	profileFields.chapter = req.body.chapter? req.body.chapter: null;
 	profileFields.githubusername = req.body.githubusername ? req.body.githubusername : null;
 	if (typeof req.body.skills !== 'undefined') {
 		profileFields.skills = req.body.skills.split(',');

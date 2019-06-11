@@ -25,6 +25,11 @@ router.post('/register', (req, res) => {
 		return res.status(400).json(errors);
 	};
 
+	inviteCodeArray = ['iotarho1978', 'sigmaepsilong1978']
+	if (inviteCodeArray.indexOf(req.body.inviteCode) == -1) {
+		return res.status(400).json(errors.name = "Enter a Valid Invite Code")
+	}
+
 	User.findOne({email : req.body.email })
 	.then(user => {
 		if (user) {
