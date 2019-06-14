@@ -47,6 +47,25 @@ router.get('/all', (req, res) => {
 		.catch(err => res.status(404).json({profile: "There is no profiles"}));
 });
 
+//GET API/profile/orginization/:orginization
+//get profile by orginization
+//public
+router.get('/orginization/:orginization', (req, res) => {
+	const errors = {};
+
+	Profile.find({ orginization: req.params.orginization })
+		.populate('user', ['name', 'avatar', 'email'])
+		.then(profiles => {
+			if(!profiles) {
+				errors.noprofile = "There are no profiles for this orginization";
+				res.status(400). json(errors)
+			}
+			res.json(profiles)
+		})
+		.catch(err => res.status(404).json(err));
+
+});
+
 //GET API/profile/handle/:handle
 //get profile by handle
 //public

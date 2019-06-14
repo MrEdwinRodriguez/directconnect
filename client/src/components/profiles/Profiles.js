@@ -3,12 +3,16 @@ import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import Spinner from '../common/Spinner';
 import ProfileItem from './ProfileItem';
-import { getProfiles } from '../../actions/profileActions';
+import { getProfiles, getProfilesByOrginization } from '../../actions/profileActions';
 
 
 class Profiles extends Component {
     componentDidMount () {
-        this.props.getProfiles();
+        if(this.props.match.params.orginization) {
+            this.props.getProfilesByOrginization(this.props.match.params.orginization)
+        } else {
+            this.props.getProfiles();
+        }
     }
   render() {
     const { profiles, loading } = this.props.profile;
@@ -49,6 +53,7 @@ class Profiles extends Component {
 
 Profiles.propTypes = {
     getProfiles: PropTypes.func.isRequired,
+    getProfilesByOrginization: PropTypes.func.isRequired,
     profile: PropTypes.object.isRequired
 }
 
@@ -56,4 +61,4 @@ const mapStateToProps = state => ({
     profile: state.profile
 })
 
-export default connect(mapStateToProps, { getProfiles })(Profiles);
+export default connect(mapStateToProps, { getProfiles, getProfilesByOrginization })(Profiles);

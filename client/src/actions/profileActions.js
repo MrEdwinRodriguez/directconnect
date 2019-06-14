@@ -133,6 +133,25 @@ export const  getProfiles = () => dispatch => {
             );
 }
 
+export const getProfilesByOrginization = (orginization) => dispatch => {
+    dispatch(setProfileLoading());
+    axios
+        .get(`/api/profile/orginization/${orginization}`)
+        .then(res => 
+            dispatch({
+                type: GET_PROFILES,
+                payload: res.data
+            })
+            )
+            .catch(err => 
+                dispatch({
+                    type: GET_PROFILES,
+                    payload: null
+                })
+                );
+     
+}
+
 //Delete account & profile
 export const deleteAccount = () => dispatch => {
     if(window.confirm('Are you sure you want to delete your account?  This cannot be undone!')) {

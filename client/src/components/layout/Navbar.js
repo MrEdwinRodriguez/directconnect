@@ -88,15 +88,15 @@ class Navbar extends Component {
                   {' '}
                   Zetas and Sigmas
                 </Link>
-                <Link className="dropdown-item" to="/profiles">
+                <Link className="dropdown-item" to="/profiles/phi_beta_sigma">
                   {' '}
                   Sigmas Only
                 </Link>
-                <Link className="dropdown-item" to="/profiles">
+                <Link className="dropdown-item" to="/profiles/zeta_phi_beta">
                   {' '}
                   Zetas Only
                 </Link>
-              </div>   
+              </div>
               </li>
             </ul>
             {isAuthenticated ? authLinks : guestLinks}
