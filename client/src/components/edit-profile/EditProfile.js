@@ -179,19 +179,43 @@ class CreateProfile extends Component {
         {label: "Other", value: "Other"},
     ];
 
-    const orginizations = [
-        {label: "* Orginization", value: 0},
-        {label: "Phi Beta Sigma", value: "phi_beta_sigma"},
-        {label: "Zeta Phi Beta", value: "zeta_phi_beta"}
-    ];
+    var orginizations = [];
+    var chapters =[];
+    switch (this.state.orginization) {
+        case "phi_beta_sigma":
+            orginizations = [
+                {label: "Phi Beta Sigma", value: "phi_beta_sigma"},
+            ];
+            chapters = [
+                {label: "Iota Rho", value: "iota_rho"},
+                {label: "Gamma Delta Sigma", value: "gamma_delta_sigma"},
+            ];
+          break;
+        case "zeta_phi_beta":
+            orginizations = [
+                    {label: "Zeta Phi Beta", value: "zeta_phi_beta"}
+                ];
+            chapters = [
+                {label: "Sigma Epsilon", value: "sigma_epsilon"},
+                {label: "Epsilon Zeta Zeta", value: "epsilon_zeta_zeta"}
+            ];
+        
+          break;
+        default:
+          orginizations = [
+                {label: "* Orginization", value: 0},
+                {label: "Phi Beta Sigma", value: "phi_beta_sigma"},
+                {label: "Zeta Phi Beta", value: "zeta_phi_beta"}
+            ];
 
-    const chapters = [
-        {label: "* Chapters", value: 0},
-        {label: "Iota Rho", value: "iota_rho"},
-        {label: "Gamma Delta Sigma", value: "gamma_delta_sigma"},
-        {label: "Sigma Epsilon", value: "sigma_epsilon"},
-        {label: "Epsilon Zeta Zeta", value: "epsilon_zeta_zeta"}
-    ];
+            chapters = [
+                {label: "* Chapters", value: 0},
+                {label: "Iota Rho", value: "iota_rho"},
+                {label: "Gamma Delta Sigma", value: "gamma_delta_sigma"},
+                {label: "Sigma Epsilon", value: "sigma_epsilon"},
+                {label: "Epsilon Zeta Zeta", value: "epsilon_zeta_zeta"}
+            ];
+      }
 
     return (
       <div className='create-profile'>

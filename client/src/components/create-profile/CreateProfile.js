@@ -7,6 +7,7 @@ import InputGroup from '../common/InputGroup';
 import TextAreaFieldGroup from '../common/TextAreaFieldGroup';
 import SelectListGroup from '../common/SelectListGroup';
 import { createProfile } from "../../actions/profileActions";
+// import { deletePost, addLike, removeLike } from '../../actions/postActions';
 import '../../css/style.css';
 
 class CreateProfile extends Component {
@@ -72,6 +73,8 @@ class CreateProfile extends Component {
 
   render() {
     const { errors, displaySocialInputs } = this.state;
+    const { inviteCode } = this.props.auth.user;
+    console.log(inviteCode)
 
     let socialInputs;
 
@@ -122,6 +125,43 @@ class CreateProfile extends Component {
         )
     }
 
+    var orginizations = [];
+    var chapters = [];
+    switch (inviteCode) {
+        case "iotarho1978":
+            orginizations = [
+                {label: "Phi Beta Sigma", value: "phi_beta_sigma"},
+            ];
+            chapters = [
+                {label: "Iota Rho", value: "iota_rho"},
+                {label: "Gamma Delta Sigma", value: "gamma_delta_sigma"},
+            ];
+          break;
+        case "sigmaepsilon1978":
+            orginizations = [
+                    {label: "Zeta Phi Beta", value: "zeta_phi_beta"}
+                ];
+            chapters = [
+                {label: "Sigma Epsilon", value: "sigma_epsilon"},
+                {label: "Epsilon Zeta Zeta", value: "epsilon_zeta_zeta"}
+            ];
+          break;
+        default:
+          orginizations = [
+                {label: "* Orginization", value: 0},
+                {label: "Phi Beta Sigma", value: "phi_beta_sigma"},
+                {label: "Zeta Phi Beta", value: "zeta_phi_beta"}
+            ];
+            chapters = [
+                {label: "* Chapters", value: 0},
+                {label: "Iota Rho", value: "iota_rho"},
+                {label: "Gamma Delta Sigma", value: "gamma_delta_sigma"},
+                {label: "Sigma Epsilon", value: "sigma_epsilon"},
+                {label: "Epsilon Zeta Zeta", value: "epsilon_zeta_zeta"}
+            ];
+      }
+
+
     //select options for status
     const options = [
         {label: "* Select Proffesional Status", value: 0},
@@ -136,19 +176,19 @@ class CreateProfile extends Component {
         {label: "Other", value: "Other"},
     ];
 
-    const orginizations = [
-        {label: "* Orginization", value: 0},
-        {label: "Phi Beta Sigma", value: "phi_beta_sigma"},
-        {label: "Zeta Phi Beta", value: "zeta_phi_beta"}
-    ];
+    // const orginizations = [
+    //     {label: "* Orginization", value: 0},
+    //     {label: "Phi Beta Sigma", value: "phi_beta_sigma"},
+    //     {label: "Zeta Phi Beta", value: "zeta_phi_beta"}
+    // ];
 
-    const chapters = [
-        {label: "* Chapters", value: 0},
-        {label: "Iota Rho", value: "iota_rho"},
-        {label: "Gamma Delta Sigma", value: "gamma_delta_sigma"},
-        {label: "Sigma Epsilon", value: "sigma_epsilon"},
-        {label: "Epsilon Zeta Zeta", value: "epsilon_zeta_zeta"}
-    ];
+    // const chapters = [
+    //     {label: "* Chapters", value: 0},
+    //     {label: "Iota Rho", value: "iota_rho"},
+    //     {label: "Gamma Delta Sigma", value: "gamma_delta_sigma"},
+    //     {label: "Sigma Epsilon", value: "sigma_epsilon"},
+    //     {label: "Epsilon Zeta Zeta", value: "epsilon_zeta_zeta"}
+    // ];
 
     return (
       <div className='create-profile'>
@@ -258,11 +298,13 @@ class CreateProfile extends Component {
 
 CreateProfile.propTypes = {
     profile: PropTypes.object.isRequired,
-    errors: PropTypes.object.isRequired
+    errors: PropTypes.object.isRequired,
+    auth: PropTypes.object.isRequired
 }
 
 const mapStateToProops = state => ({
     profile: state.profile,
+    auth: state.auth ,
     errors: state.errors
 })
 
