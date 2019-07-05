@@ -74,7 +74,6 @@ class CreateProfile extends Component {
   render() {
     const { errors, displaySocialInputs } = this.state;
     const { inviteCode } = this.props.auth.user;
-    console.log(inviteCode)
 
     let socialInputs;
 
@@ -161,7 +160,6 @@ class CreateProfile extends Component {
             ];
       }
 
-
     //select options for status
     const options = [
         {label: "* Select Proffesional Status", value: 0},
@@ -176,19 +174,6 @@ class CreateProfile extends Component {
         {label: "Other", value: "Other"},
     ];
 
-    // const orginizations = [
-    //     {label: "* Orginization", value: 0},
-    //     {label: "Phi Beta Sigma", value: "phi_beta_sigma"},
-    //     {label: "Zeta Phi Beta", value: "zeta_phi_beta"}
-    // ];
-
-    // const chapters = [
-    //     {label: "* Chapters", value: 0},
-    //     {label: "Iota Rho", value: "iota_rho"},
-    //     {label: "Gamma Delta Sigma", value: "gamma_delta_sigma"},
-    //     {label: "Sigma Epsilon", value: "sigma_epsilon"},
-    //     {label: "Epsilon Zeta Zeta", value: "epsilon_zeta_zeta"}
-    // ];
 
     return (
       <div className='create-profile'>
@@ -283,6 +268,18 @@ class CreateProfile extends Component {
                             }))
                         }}
                         className="btn btn-light">Add Social Media Links</button>
+                        <span className='text-muted'>  Optional</span>
+                    </div>
+                    {socialInputs}
+                    <div className="mb-3">
+                        <button 
+                            type='button'
+                            onClick={() => {
+                            this.setState(prevState => ({
+                                displaySocialInputs: !prevState.displaySocialInputs
+                            }))
+                        }}
+                        className="btn btn-light">Add Business</button>
                         <span className='text-muted'>  Optional</span>
                     </div>
                     {socialInputs}

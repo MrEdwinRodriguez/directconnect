@@ -14,6 +14,7 @@ const ProfileScheme = new Schema({
 	status: { type: String, required: true},
 	skills: { type: [String], required: true},
 	bio: {type: String },
+	lookingFor: {type: String },
 	githubusername: {type: String},
 	experience: [
 		{
@@ -46,6 +47,15 @@ const ProfileScheme = new Schema({
 		linkedin: {type: String},
 		instagram: {type: String},
 	},
+	business: [
+		{
+			Name: { type: String, required: true },
+			title: { type: String, required: true },
+			website: {type: String},
+			location: { type: String },
+			description: { type: String },
+		}
+	],
 	date: { type: Date, default: Date.now() }
 });
 

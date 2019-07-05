@@ -25,7 +25,7 @@ router.post('/register', (req, res) => {
 		return res.status(400).json(errors);
 	};
 
-	inviteCodeArray = ['iotarho1978', 'sigmaepsilon1978']
+	inviteCodeArray = ['iotarho1978', 'sigmaepsilon1978', "gammadeltasigma1951", "epsilonepsilonzeta1954"]
 	if (inviteCodeArray.indexOf(req.body.inviteCode) == -1) {
 		return res.status(400).json(errors.name = "Enter a Valid Invite Code")
 	}

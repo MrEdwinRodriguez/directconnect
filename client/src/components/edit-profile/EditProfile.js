@@ -16,6 +16,7 @@ class CreateProfile extends Component {
         super(props);
         this.state = {
             displaySocialInputs: false,
+            displayBusiness: false,
             handle: '',
             company: '',
             website: '',
@@ -63,7 +64,7 @@ class CreateProfile extends Component {
             profile.youtube = !isEmpty(profile.social.youtube) ? profile.social.youtube : "";
             profile.instagram = !isEmpty(profile.social.instagram) ? profile.social.instagram : "";
 
-            //sett component field state
+            //set component field state
             this.setState({
                 handle: profile.handle,
                 company: profile.company,
@@ -104,6 +105,11 @@ class CreateProfile extends Component {
             linkedin: this.state.linkedin,
             youtube: this.state.youtube,
             instagram: this.state.instagram,
+            businessNme: this.state.businessName,
+            businessTitle: this.state.businessTitle,
+            businessDescription: this.state.businessDescription,
+            location: this.state.location,
+            website: this.state.website,
         }
 
         this.props.createProfile(profileData, this.props.history)
@@ -114,9 +120,53 @@ class CreateProfile extends Component {
     }
 
   render() {
-    const { errors, displaySocialInputs } = this.state;
+    const { errors, displaySocialInputs, displayBusiness } = this.state;
 
     let socialInputs;
+    let businessFields;
+
+    if(displayBusiness){
+        businessFields = (
+            <div>
+                <TextFieldGroup 
+                    placeholder="Name"
+                    name='businessName'
+                    value={this.state.businessName}
+                    onChange={this.onChange}
+                    error={errors.businessName}
+                    info="Your Business Name."/>
+                <TextFieldGroup 
+                    placeholder="Title"
+                    name="businessTitle"
+                    value={this.state.businessTitle}
+                    onChange={this.onChange}
+                    error={errors.businessTitle}
+                    info="Your businessTitle in your company."/>
+                <TextFieldGroup 
+                    placeholder="Description"
+                    name="businessDescription"
+                    value={this.state.businessDescription}
+                    onChange={this.onChange}
+                    error={errors.businessDescription}
+                    info="What is your service/product?"/>
+                <TextFieldGroup 
+                    placeholder="Location"
+                    name="location"
+                    value={this.state.location}
+                    onChange={this.onChange}
+                    error={errors.location}
+                    info="Company location."/>
+                <TextFieldGroup 
+                    placeholder="Website"
+                    name="website"
+                    value={this.state.website}
+                    onChange={this.onChange}
+                    error={errors.website}
+                    info="Company website."/>
+            </div>
+        )
+
+    }
 
     if(displaySocialInputs){
         socialInputs = (
@@ -320,6 +370,18 @@ class CreateProfile extends Component {
                         <span className='text-muted'>  Optional</span>
                     </div>
                     {socialInputs}
+                    <div className="mb-3">
+                        <button 
+                            type='button'
+                            onClick={() => {
+                            this.setState(prevState => ({
+                                displayBusiness: !prevState.displayBusiness
+                            }))
+                        }}
+                        className="btn btn-light">Add Business</button>
+                        <span className='text-muted'>  Optional</span>
+                    </div>
+                    {businessFields}
                     <input type='submit' value="Submit" className="btn btn-royal text-white btn-block mt-4"/>
                     </form>
                 </div>

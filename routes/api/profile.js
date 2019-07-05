@@ -137,6 +137,16 @@ router.post('/', passport.authenticate('jwt', {session: false }), (req, res) => 
 	profileFields.social.linkedin = req.body.linkedin ? req.body.linkedin : null;
 	profileFields.social.instagram = req.body.instagram ? req.body.instagram : null;
 
+	const newBusiness = {
+		title: req.body.businessNme,
+		company: req.body.businessTitle,
+		businessDescription: req.body.businessDescription,
+		from: req.body.location,
+		to: req.body.website,
+	}
+	profileFields.business = [];
+	profileFields.business.unshift(newBusiness);
+
 	Profile.findOne({user: req.user.id}).then(profile => {
 		if(profile) {
 			Profile.findOneAndUpdate(
