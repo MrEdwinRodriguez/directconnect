@@ -3,7 +3,8 @@ import Moment from 'react-moment';
 
 class ProfileCreds extends Component {
   render() {
-    const { experience, education } = this.props;
+    console.log(this.props)
+    const { experience, education, business } = this.props;
 
     const expItems = experience.map( exp => (
      <li key={exp._id} className="list-group-item">
@@ -37,9 +38,20 @@ class ProfileCreds extends Component {
     </li>
  ))
 
+ const busiItems = business.map( busi => (
+  <li key={busi._id} className="list-group-item">
+   <h4>{busi.name}</h4>
+   <p><strong>Title:</strong> {busi.title}</p>
+   <p><strong>Website:</strong> {busi.website}</p>
+   <p><strong>Location:</strong> {busi.location}</p>
+   <p>
+     {busi.description=== "" ? null : (<span><strong>Description: </strong>{busi.description}</span>)}
+   </p>
+  </li>
+))
     return (
       <div className='row'>
-        <div className="col-md-6">
+        <div className="col-md-4">
           <h3 className="text-center text-royal">Experience</h3>
             {expItems.length > 0 ? (
               <ul className='list-group'>{expItems}</ul>
@@ -48,7 +60,7 @@ class ProfileCreds extends Component {
             )}
         </div>
 
-        <div className="col-md-6">
+        <div className="col-md-4">
           <h3 className="text-center text-royal">Education</h3>
             {eduItems.length > 0 ? (
               <ul className='list-group'>{eduItems}</ul>
@@ -57,9 +69,17 @@ class ProfileCreds extends Component {
             )}
         </div>
 
-
-        
+        <div className="col-md-4">
+          <h3 className="text-center text-royal">Business</h3>
+            {busiItems.length > 0 ? (
+              <ul className='list-group'>{busiItems}</ul>
+            ) : (
+              <p className='text-center'>No Business Listed</p>
+            )}
+        </div>
+ 
       </div>
+
     )
   }
 }

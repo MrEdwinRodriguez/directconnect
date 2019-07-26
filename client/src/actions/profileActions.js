@@ -128,6 +128,23 @@ export const  deleteEducation = (id) => dispatch => {
             );
 }
 
+//delete business
+export const  deleteBusiness = (id) => dispatch => {
+    axios
+        .delete(`/api/profile/business/${id}`)
+        .then(res => 
+            dispatch({
+                type: GET_PROFILE,
+                payload: res.data
+            }))
+        .catch(err => 
+            dispatch({
+                type: GET_ERRORS,
+                payload: err.response.data
+            })
+            );
+}
+
 //get all profiles
 export const  getProfiles = () => dispatch => {
     dispatch(setProfileLoading());
