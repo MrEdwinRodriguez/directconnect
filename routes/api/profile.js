@@ -8,6 +8,7 @@ const User = require('../../models/User');
 const validateProfileInput = require('../../validation/profile');
 const validateExperienceInput = require('../../validation/experience');
 const validateEducationInput = require('../../validation/education');
+const validateBusinessInput = require('../../validation/business');
 
 router.get('/test', (req,res) => res.json({msg: "Profile works"}));
 
@@ -137,16 +138,6 @@ router.post('/', passport.authenticate('jwt', {session: false }), (req, res) => 
 	profileFields.social.linkedin = req.body.linkedin ? req.body.linkedin : null;
 	profileFields.social.instagram = req.body.instagram ? req.body.instagram : null;
 
-	const newBusiness = {
-		title: req.body.businessNme,
-		company: req.body.businessTitle,
-		businessDescription: req.body.businessDescription,
-		from: req.body.location,
-		to: req.body.website,
-	}
-	profileFields.business = [];
-	profileFields.business.unshift(newBusiness);
-
 	Profile.findOne({user: req.user.id}).then(profile => {
 		if(profile) {
 			Profile.findOneAndUpdate(
@@ -173,7 +164,7 @@ router.post('/', passport.authenticate('jwt', {session: false }), (req, res) => 
 //private
 
 router.post('/experience', passport.authenticate('jwt', {session: false }), (req, res) => {
-	const { errors, isValid } = validateExperienceInput(req.body);
+	const { errors, isValid } = validateBusinessInput(req.body);
 
 	if(!isValid) {
 		return res.status(400).json(errors);
@@ -227,6 +218,36 @@ router.post('/education', passport.authenticate('jwt', {session: false }), (req,
 				description: req.body.description
 			}
 			profile.education.unshift(newEdu);
+			profile.save()
+				.then(profile => res.json(profile))
+	})
+})
+
+//POST API/profile/business
+//Add business to profile
+//private
+router.post('/business', passport.authenticate('jwt', {session: false }), (req, res) => {
+	const { errors, isValid } = validateBusinessInput(req.body);
+
+	if(!isValid) {
+		return res.status(400).json(errors);
+	};
+	Profile.findOne({user: req.user.id})
+		.then(profile => {
+			if(!profile) {
+				errors.noprofile = "There is no profile found for this user";
+				res.status(400). json(errors)
+			}
+			console.log('line 241d', req.body.name)
+			console.log('line 242d', req.body)
+			const newBusiness = {
+				name: req.body.name,
+				title: req.body.title,
+				description: req.body.description,
+				location: req.body.location,
+				website: req.body.website,
+			}
+			profile.business.unshift(newBusiness);
 			profile.save()
 				.then(profile => res.json(profile))
 	})

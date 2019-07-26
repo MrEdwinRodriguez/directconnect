@@ -49,8 +49,8 @@ const ProfileScheme = new Schema({
 	},
 	business: [
 		{
-			Name: { type: String, required: true },
-			title: { type: String, required: true },
+			name: { type: String},
+			title: { type: String},
 			website: {type: String},
 			location: { type: String },
 			description: { type: String },

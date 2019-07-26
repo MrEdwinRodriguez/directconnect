@@ -16,11 +16,10 @@ class CreateProfile extends Component {
         super(props);
         this.state = {
             displaySocialInputs: false,
-            displayBusiness: false,
             handle: '',
             company: '',
             website: '',
-            locations: '',
+            location: '',
             status: '',
             skills: '',
             githubusername: '',
@@ -104,12 +103,7 @@ class CreateProfile extends Component {
             facebook: this.state.facebook,
             linkedin: this.state.linkedin,
             youtube: this.state.youtube,
-            instagram: this.state.instagram,
-            businessNme: this.state.businessName,
-            businessTitle: this.state.businessTitle,
-            businessDescription: this.state.businessDescription,
-            location: this.state.location,
-            website: this.state.website,
+            instagram: this.state.instagram
         }
 
         this.props.createProfile(profileData, this.props.history)
@@ -120,53 +114,9 @@ class CreateProfile extends Component {
     }
 
   render() {
-    const { errors, displaySocialInputs, displayBusiness } = this.state;
+    const { errors, displaySocialInputs} = this.state;
 
     let socialInputs;
-    let businessFields;
-
-    if(displayBusiness){
-        businessFields = (
-            <div>
-                <TextFieldGroup 
-                    placeholder="Name"
-                    name='businessName'
-                    value={this.state.businessName}
-                    onChange={this.onChange}
-                    error={errors.businessName}
-                    info="Your Business Name."/>
-                <TextFieldGroup 
-                    placeholder="Title"
-                    name="businessTitle"
-                    value={this.state.businessTitle}
-                    onChange={this.onChange}
-                    error={errors.businessTitle}
-                    info="Your businessTitle in your company."/>
-                <TextFieldGroup 
-                    placeholder="Description"
-                    name="businessDescription"
-                    value={this.state.businessDescription}
-                    onChange={this.onChange}
-                    error={errors.businessDescription}
-                    info="What is your service/product?"/>
-                <TextFieldGroup 
-                    placeholder="Location"
-                    name="location"
-                    value={this.state.location}
-                    onChange={this.onChange}
-                    error={errors.location}
-                    info="Company location."/>
-                <TextFieldGroup 
-                    placeholder="Website"
-                    name="website"
-                    value={this.state.website}
-                    onChange={this.onChange}
-                    error={errors.website}
-                    info="Company website."/>
-            </div>
-        )
-
-    }
 
     if(displaySocialInputs){
         socialInputs = (
@@ -370,18 +320,6 @@ class CreateProfile extends Component {
                         <span className='text-muted'>  Optional</span>
                     </div>
                     {socialInputs}
-                    <div className="mb-3">
-                        <button 
-                            type='button'
-                            onClick={() => {
-                            this.setState(prevState => ({
-                                displayBusiness: !prevState.displayBusiness
-                            }))
-                        }}
-                        className="btn btn-light">Add Business</button>
-                        <span className='text-muted'>  Optional</span>
-                    </div>
-                    {businessFields}
                     <input type='submit' value="Submit" className="btn btn-royal text-white btn-block mt-4"/>
                     </form>
                 </div>

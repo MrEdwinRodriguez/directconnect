@@ -81,6 +81,19 @@ export const  addEducation = (eduData, history) => dispatch => {
             );
 }
 
+//add business
+export const  addBusiness = (businessDate, history) => dispatch => {
+    axios
+        .post("/api/profile/business", businessDate)
+        .then(res => history.push("/dashboard"))
+        .catch(err => 
+            dispatch({
+                type: GET_ERRORS,
+                payload: err.response.data
+            })
+            );
+}
+
 //delete experience
 export const  deleteExperience = (id) => dispatch => {
     axios
