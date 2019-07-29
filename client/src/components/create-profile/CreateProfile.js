@@ -16,6 +16,7 @@ class CreateProfile extends Component {
         super(props);
         this.state = {
             displaySocialInputs: false,
+            displayLooking: false,
             handle: '',
             company: '',
             title: '',
@@ -62,6 +63,7 @@ class CreateProfile extends Component {
             linkedin: this.state.linkedin,
             youtube: this.state.youtube,
             instagram: this.state.instagram,
+            lookingFor: this.state.lookingFor
         }
 
         this.props.createProfile(profileData, this.props.history)
@@ -72,11 +74,25 @@ class CreateProfile extends Component {
     }
 
   render() {
-    const { errors, displaySocialInputs } = this.state;
+    const { errors, displaySocialInputs, displayLooking } = this.state;
     const { inviteCode } = this.props.auth.user;
 
     let socialInputs;
+    let lookingFor;
 
+    if(displayLooking){
+        lookingFor = (
+            <div>
+                <TextFieldGroup 
+                    placeholder="Looking for..."
+                    name='lookingFor'
+                    value={this.state.lookingFor}
+                    onChange={this.onChange}
+                    // error={errors.title}
+                    info="What position are you looking for?"/>
+            </div>
+        )
+    }
     if(displaySocialInputs){
         socialInputs = (
             <div>
@@ -283,6 +299,18 @@ class CreateProfile extends Component {
                         <span className='text-muted'>  Optional</span>
                     </div>
                     {socialInputs}
+                    <div className="mb-3">
+                        <button 
+                            type='button'
+                            onClick={() => {
+                            this.setState(prevState => ({
+                                displayLooking: !prevState.displayLooking
+                            }))
+                        }}
+                        className="btn btn-light">Looking for a job</button>
+                        <span className='text-muted'>  Optional</span>
+                    </div>
+                    {lookingFor}
                     <input type='submit' value="Submit" className="btn btn-royal text-white btn-block mt-4"/>
                     </form>
                 </div>

@@ -16,6 +16,7 @@ class CreateProfile extends Component {
         super(props);
         this.state = {
             displaySocialInputs: false,
+            displayLooking: false,
             handle: '',
             company: '',
             website: '',
@@ -55,6 +56,7 @@ class CreateProfile extends Component {
             profile.website = !isEmpty(profile.website) ? profile.website : "";
             profile.location = !isEmpty(profile.location) ? profile.location : "";
             profile.bio = !isEmpty(profile.bio) ? profile.bio : "";
+            // profile.lookingFor = !isEmpty(profile.bio) ? profile.bio : "";
 
             profile.social = !isEmpty(profile.social) ? profile.social : {};
             profile.twitter = !isEmpty(profile.social.twitter) ? profile.social.twitter : "";
@@ -79,7 +81,8 @@ class CreateProfile extends Component {
                 twitter: profile.twitter,
                 facebook: profile.facebook,
                 linkedin: profile.linkedin,
-                youtube: profile.youtube
+                youtube: profile.youtube,
+                lookingFor: profile.lookingFor
             })
 
         }
@@ -103,7 +106,8 @@ class CreateProfile extends Component {
             facebook: this.state.facebook,
             linkedin: this.state.linkedin,
             youtube: this.state.youtube,
-            instagram: this.state.instagram
+            instagram: this.state.instagram,
+            lookingFor: this.state.lookingFor
         }
 
         this.props.createProfile(profileData, this.props.history)
@@ -114,9 +118,52 @@ class CreateProfile extends Component {
     }
 
   render() {
-    const { errors, displaySocialInputs} = this.state;
+    const { errors, displaySocialInputs, displayLooking} = this.state;
 
     let socialInputs;
+    let lookingFor;
+    let lookingForButton; 
+
+    if(displayLooking){
+        lookingFor = (
+            <div>
+                <TextFieldGroup 
+                    placeholder="Looking for..."
+                    name='lookingFor'
+                    value={this.state.lookingFor}
+                    onChange={this.onChange}
+                    // error={errors.title}
+                    info="What position are you looking for?"/>
+            </div>
+        )
+    }
+if(!this.state.lookingFor) {
+    lookingForButton = (                   
+        <div className="mb-3">
+            <button 
+                type='button'
+                onClick={() => {
+                this.setState(prevState => ({
+                    displayLooking: !prevState.displayLooking
+                }))
+            }}
+            className="btn btn-light">Looking for a job</button>
+            <span className='text-muted'>  Optional</span>
+        </div>
+    )
+} else {
+    lookingFor = (
+        <div>
+            <TextFieldGroup 
+                placeholder="Looking for..."
+                name='lookingFor'
+                value={this.state.lookingFor}
+                onChange={this.onChange}
+                // error={errors.title}
+                info="What position are you looking for?"/>
+        </div>
+    )
+}
 
     if(displaySocialInputs){
         socialInputs = (
@@ -320,6 +367,8 @@ class CreateProfile extends Component {
                         <span className='text-muted'>  Optional</span>
                     </div>
                     {socialInputs}
+                    {lookingForButton}
+                    {lookingFor}
                     <input type='submit' value="Submit" className="btn btn-royal text-white btn-block mt-4"/>
                     </form>
                 </div>

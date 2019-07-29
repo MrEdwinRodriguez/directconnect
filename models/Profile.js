@@ -15,6 +15,15 @@ const ProfileScheme = new Schema({
 	skills: { type: [String], required: true},
 	bio: {type: String },
 	lookingFor: {type: String },
+	hiringFor: [
+		{
+			company: { type: String, required: true },
+			position: { type: String },
+			location: { type: String },
+			description: { type: String },
+
+		}
+	],
 	githubusername: {type: String},
 	experience: [
 		{

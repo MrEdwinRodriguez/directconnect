@@ -128,6 +128,7 @@ router.post('/', passport.authenticate('jwt', {session: false }), (req, res) => 
 	profileFields.orginization = req.body.orginization ? req.body.orginization: null;
 	profileFields.chapter = req.body.chapter? req.body.chapter: null;
 	profileFields.githubusername = req.body.githubusername ? req.body.githubusername : null;
+	profileFields.lookingFor = req.body.lookingFor ? req.body.lookingFor : null;
 	if (typeof req.body.skills !== 'undefined') {
 		profileFields.skills = req.body.skills.split(',');
 	}

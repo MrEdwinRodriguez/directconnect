@@ -86,6 +86,8 @@ class ProfileHeader extends Component {
                     )}
 
                 </p>
+                <p>Looking for: {profile.lookingFor}</p>
+                <p>Hiring: .....</p>
               </div>
             </div>
           </div>
