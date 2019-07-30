@@ -5,6 +5,12 @@ class ProfileHeader extends Component {
   render() {
       const { profile } = this.props;
 
+      const hiringFor = profile.hiringFor.map( hire => (
+        <li key={hire._id} className="">    
+            {hire.position}
+        </li>
+     ))
+
     return (
         <div className="row">
           <div className="col-md-12">
@@ -87,7 +93,7 @@ class ProfileHeader extends Component {
 
                 </p>
                 <p>Looking for: {profile.lookingFor}</p>
-                <p>Hiring: .....</p>
+                <p>Hiring: {hiringFor} </p>
               </div>
             </div>
           </div>

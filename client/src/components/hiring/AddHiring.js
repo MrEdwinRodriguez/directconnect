@@ -69,7 +69,8 @@ class AddHiring extends Component {
               <p className="lead text-center">
                 Add any position you or somebody you know is hiring for.
               </p>
-              <small className="d-block pb-3">* = required fields</small>
+              <p className="text-center">(Where you can help get somebody into the door.)</p>
+              {/* <small className="d-block pb-3">* = required fields</small> */}
               <form onSubmit={this.onSubmit}>
               <TextFieldGroup 
                     placeholder="Company"

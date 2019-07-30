@@ -8,6 +8,7 @@ import ProfileActions from './ProfileActions';
 import Experience from './Experience';
 import Education from './Education';
 import Business from './Business';
+import Hiring from './Hiring';
 import '../../css/style.css';
 
 
@@ -40,6 +41,7 @@ class Dashboard extends Component {
             <Experience experience={profile.experience}/>
             <Education education={profile.education}/>
             <Business business={profile.business}/>
+            <Hiring hiring={profile.hiringFor}/>
             <div style={{marginBottom: '60px'}} />
             <button onClick={this.onDeleteClick.bind(this)} className='btn btn-danger'>
               Delete My Account
