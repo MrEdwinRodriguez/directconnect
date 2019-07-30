@@ -20,6 +20,7 @@ const ProfileScheme = new Schema({
 			company: { type: String, required: true },
 			position: { type: String },
 			location: { type: String },
+			pay: { type: String },
 			description: { type: String },
 
 		}

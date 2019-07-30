@@ -9,6 +9,7 @@ const validateProfileInput = require('../../validation/profile');
 const validateExperienceInput = require('../../validation/experience');
 const validateEducationInput = require('../../validation/education');
 const validateBusinessInput = require('../../validation/business');
+const validateHiringInput = require('../../validation/hiring');
 
 router.get('/test', (req,res) => res.json({msg: "Profile works"}));
 
@@ -239,8 +240,6 @@ router.post('/business', passport.authenticate('jwt', {session: false }), (req, 
 				errors.noprofile = "There is no profile found for this user";
 				res.status(400). json(errors)
 			}
-			console.log('line 241d', req.body.name)
-			console.log('line 242d', req.body)
 			const newBusiness = {
 				name: req.body.name,
 				title: req.body.title,
@@ -254,6 +253,33 @@ router.post('/business', passport.authenticate('jwt', {session: false }), (req, 
 	})
 })
 
+//POST API/profile/hiring
+//Add position hiring to profile
+//private
+router.post('/hiring', passport.authenticate('jwt', {session: false }), (req, res) => {
+	const { errors, isValid } = validateHiringInput(req.body);
+
+	if(!isValid) {
+		return res.status(400).json(errors);
+	};
+	Profile.findOne({user: req.user.id})
+		.then(profile => {
+			if(!profile) {
+				errors.noprofile = "There is no profile found for this user";
+				res.status(400). json(errors)
+			}
+			const newPosition = {
+				company: req.body.company,
+				position: req.body.position,
+				description: req.body.description,
+				location: req.body.location,
+				pay: req.body.pay,
+			}
+			profile.hiringFor.unshift(newPosition);
+			profile.save()
+				.then(profile => res.json(profile))
+	})
+})
 //DELETE API/profile/experience/:exp_id
 //Delete expereince from profile
 //private
@@ -286,6 +312,25 @@ router.delete('/education/:edu_id', passport.authenticate('jwt', {session: false
 					.indexOf(req.params.edu_id);
 
 			profile.education.splice(removeIndex, 1);
+			profile.save()
+				.then(profile => res.json(profile))		
+	})
+		.catch(err => res.status(404).json(err))
+});
+
+//DELETE API/profile/hiring/:hire_id
+//Delete position for hiring
+//private
+
+router.delete('/hiring/:hire_id', passport.authenticate('jwt', {session: false }), (req, res) => {
+
+	Profile.findOne({user: req.user.id})
+		.then(profile => {
+			const removeIndex = profile.hiringFor
+				.map(item => item.id)
+					.indexOf(req.params.hire_id);
+
+			profile.hiringFor.splice(removeIndex, 1);
 			profile.save()
 				.then(profile => res.json(profile))		
 	})

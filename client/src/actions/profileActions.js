@@ -94,6 +94,18 @@ export const  addBusiness = (businessDate, history) => dispatch => {
             );
 }
 
+//add hiring
+export const  addHiring = (hiringData, history) => dispatch => {
+    axios
+        .post("/api/profile/hiring", hiringData)
+        .then(res => history.push("/dashboard"))
+        .catch(err => 
+            dispatch({
+                type: GET_ERRORS,
+                payload: err.response.data
+            })
+            );
+}
 //delete experience
 export const  deleteExperience = (id) => dispatch => {
     axios
@@ -145,6 +157,22 @@ export const  deleteBusiness = (id) => dispatch => {
             );
 }
 
+//delete hiring
+export const  deleteHiring = (id) => dispatch => {
+    axios
+        .delete(`/api/profile/hiring/${id}`)
+        .then(res => 
+            dispatch({
+                type: GET_PROFILE,
+                payload: res.data
+            }))
+        .catch(err => 
+            dispatch({
+                type: GET_ERRORS,
+                payload: err.response.data
+            })
+            );
+}
 //get all profiles
 export const  getProfiles = () => dispatch => {
     dispatch(setProfileLoading());
