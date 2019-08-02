@@ -268,12 +268,22 @@ router.post('/hiring', passport.authenticate('jwt', {session: false }), (req, re
 				errors.noprofile = "There is no profile found for this user";
 				res.status(400). json(errors)
 			}
+
+			if(req.body.frequency === "yearly") {
+				req.body.pay = req.body.pay +"/year";
+			} else if (req.body.frequency === "hourly") {
+				req.body.pay = req.body.pay +"/hour";
+			} else {
+				req.body.pay = req.body.pay + " One time Payment";
+			}
+
 			const newPosition = {
 				company: req.body.company,
 				position: req.body.position,
 				description: req.body.description,
 				location: req.body.location,
 				pay: req.body.pay,
+				frequency: req.body.frequency,
 			}
 			profile.hiringFor.unshift(newPosition);
 			profile.save()

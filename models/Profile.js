@@ -17,10 +17,11 @@ const ProfileScheme = new Schema({
 	lookingFor: {type: String },
 	hiringFor: [
 		{
-			company: { type: String, required: true },
+			company: { type: String},
 			position: { type: String },
 			location: { type: String },
 			pay: { type: String },
+			frequency: { type: String },
 			description: { type: String },
 
 		}

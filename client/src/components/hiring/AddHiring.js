@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import TextFieldGroup from '../common/TextFieldGroup';
 import TextAreaFieldGroup from '../common/TextAreaFieldGroup';
+import CurrencyGroup from '../common/CurrencyGroup';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { addHiring } from '../../actions/profileActions';
@@ -13,12 +14,15 @@ class AddHiring extends Component {
         company: '',
         position: '',
         description: '',
+        frequency: '',
         location: '',
         pay: '',
         errors: {},
     };
 
     this.onChange = this.onChange.bind(this);
+    this.onChangePay = this.onChangePay.bind(this);
+    this.onChangeFrequency= this.onChangeFrequency.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.onCheck = this.onCheck.bind(this);
   }
@@ -36,6 +40,7 @@ class AddHiring extends Component {
         position: this.state.position,
         description: this.state.description,
         location: this.state.location,
+        frequency: this.state.frequency,
         pay: this.state.pay,
     }
 
@@ -44,6 +49,19 @@ class AddHiring extends Component {
 
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
+  }
+
+  onChangePay(e) {
+    const re = /^[0-9.,\b]+$/;
+    if(e.target.value.charAt(0) === "$") {
+        e.target.value = e.target.value.substring(1)
+    }
+    if (e.target.value === '' ||  re.test(e.target.value)) {
+        this.setState({pay: "$"+e.target.value})
+    }
+  }
+  onChangeFrequency(e) {
+    this.setState({frequency: e.target.value});
   }
 
   onCheck(e) {
@@ -93,13 +111,16 @@ class AddHiring extends Component {
                     onChange={this.onChange}
                     error={errors.location}
                     info="Company location."/>
-                <TextFieldGroup 
-                    placeholder="Pay"
+                <CurrencyGroup 
+                    placeholder="$10000"
                     name="pay"
+                    nameTwo="frequency"
                     value={this.state.pay}
-                    onChange={this.onChange}
+                    valueTwo={this.state.frequency}
+                    onChange={this.onChangePay}
+                    onChangeTwo={this.onChangeFrequency}
                     error={errors.pay}
-                    info="How much does this position pay."/>
+                    info="How much does this position pay."/>               
                 <TextAreaFieldGroup
                     placeholder="Description"
                     name='description'
