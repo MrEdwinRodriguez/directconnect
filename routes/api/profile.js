@@ -49,6 +49,30 @@ router.get('/all', (req, res) => {
 		.catch(err => res.status(404).json({profile: "There is no profiles"}));
 });
 
+//GET API/profile/hiring
+//get all hiring positions
+//private
+router.get('/hiring', passport.authenticate('jwt', {session: false }), (req, res) => {
+;
+	Profile.find({ hiringFor: { $exists: true, $ne: [] } })
+		.populate('user').lean()
+		.then(profiles => {
+			var hiringPositions = []
+			profiles.forEach(function (profile) {
+				profile.hiringFor.forEach(function(position){
+					position.contactName = profile.user.name;
+					position.contactEmail = profile.user.email;
+					position.contactPhone = profile.phoneNumber ? profile.phoneNumber : "";
+					hiringPositions.push(position)
+				})
+
+			})
+			// console.log('line 65', profiles[0].hiringFor)
+			res.json(hiringPositions)
+	})
+	.catch(err => res.status(404).json(err));
+});
+
 //GET API/profile/orginization/:orginization
 //get profile by orginization
 //public
