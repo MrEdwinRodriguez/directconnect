@@ -15,7 +15,7 @@ const CurrencyGroup = ({
     onChangeTwo,
     disabled
 }) => {
-    var options = [{frequency: "Yearly", value: "yearly"}, {frequency: "Hourly", value: "hourly"}, {frequency: "One Time", value: "once"}]
+    var options = [{frequency: "Yearly", value: "yearly"}, {frequency: "Hourly", value: "hourly"}, {frequency: "One Time", value: "once"}, {frequency: "Internship/No Pay", value: "internship"}]
     // this.onChangeFrequency = this.onChangeFrequency.bind(this);
     const selectOptions = options.map(option => (
         <option key={option.frequency} value={option.value}>

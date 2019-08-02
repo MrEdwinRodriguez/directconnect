@@ -268,11 +268,14 @@ router.post('/hiring', passport.authenticate('jwt', {session: false }), (req, re
 				errors.noprofile = "There is no profile found for this user";
 				res.status(400). json(errors)
 			}
+			console.log('line 271', req.body.frequency)
 
 			if(req.body.frequency === "yearly") {
 				req.body.pay = req.body.pay +"/year";
 			} else if (req.body.frequency === "hourly") {
 				req.body.pay = req.body.pay +"/hour";
+			} else if (req.body.frequency === "internship") {
+				req.body.pay = req.body.pay +"/ Internship/No Pay";
 			} else {
 				req.body.pay = req.body.pay + " One time Payment";
 			}
