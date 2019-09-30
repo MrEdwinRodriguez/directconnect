@@ -22,7 +22,7 @@ class Hiring extends Component {
     ))
     return (
       <div>
-          <h4 className='mb-4'>Hiring for....</h4>
+          <h4 className='mb-4'>I am Hiring for....</h4>
           <table className='table'>
             <thead>
                 <tr>

@@ -16,7 +16,16 @@ class Positions extends Component {
     }
   render() {
     const {loading, positions } = this.props.position;
-    // const { positions, loading } = this.props.position;
+   
+    if(positions){
+      console.log(positions)
+      positions.forEach(position => {
+          position.description = position.description.substring(0, 400);
+          if( position.description.length > 399) {
+            position.description = position.description + "..."
+          }
+      });
+    }
 
     let positionItems;
 

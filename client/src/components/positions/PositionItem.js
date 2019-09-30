@@ -22,7 +22,7 @@ class PositionItem extends Component {
             </div>
             <div className='col-md-6 d-none d-md-block'>
               <h4>Description</h4>
-              <p>position.description</p>
+              <p>{position.description}</p>
             </div>
           </div>
       </div>
