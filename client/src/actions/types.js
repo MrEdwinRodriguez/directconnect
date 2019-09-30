@@ -11,4 +11,9 @@ export const GET_POSTS = "GET_POSTS";
 export const GET_POST = "GET_POST";
 export const ADD_POST = "ADD_POST";
 export const DELETE_POST = "DELETE_POST";
+export const GET_POSITIONS = "GET_POSITIONS";
+export const GET_POSITION = "GET_POSITION";
+export const POSITION_LOADING = "POSITION LOADING";
+export const ADD_POSITION = "ADD_POSITION";
+export const DELETE_POSITION= "DELETE_POSITION";
 

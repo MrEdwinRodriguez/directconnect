@@ -49,6 +49,25 @@ router.get('/all', (req, res) => {
 		.catch(err => res.status(404).json({profile: "There is no profiles"}));
 });
 
+//GET API/profile/orginization/:orginization
+//get profile by orginization
+//public
+router.get('/orginization/:orginization', (req, res) => {
+	const errors = {};
+
+	Profile.find({ orginization: req.params.orginization })
+		.populate('user', ['name', 'avatar', 'email'])
+		.then(profiles => {
+			if(!profiles) {
+				errors.noprofile = "There are no profiles for this orginization";
+				res.status(400). json(errors)
+			}
+			res.json(profiles)
+		})
+		.catch(err => res.status(404).json(err));
+
+});
+
 //GET API/profile/hiring
 //get all hiring positions
 //private
@@ -73,24 +92,34 @@ router.get('/hiring', passport.authenticate('jwt', {session: false }), (req, res
 	.catch(err => res.status(404).json(err));
 });
 
-//GET API/profile/orginization/:orginization
+//GET API/profile/hiring/orginization/:orginization
 //get profile by orginization
 //public
-router.get('/orginization/:orginization', (req, res) => {
+router.get('/hiring/orginization/:orginization', passport.authenticate('jwt', {session: false }), (req, res) => {
 	const errors = {};
-
-	Profile.find({ orginization: req.params.orginization })
-		.populate('user', ['name', 'avatar', 'email'])
+	
+	Profile.find({ hiringFor: { $exists: true, $ne: [] }, orginization: req.params.orginization })
+		.populate('user').lean()
 		.then(profiles => {
 			if(!profiles) {
-				errors.noprofile = "There are no profiles for this orginization";
+				errors.noprofile = "There are no positions for this orginization";
 				res.status(400). json(errors)
 			}
-			res.json(profiles)
-		})
+			var hiringPositions = []
+			profiles.forEach(function (profile) {
+				profile.hiringFor.forEach(function(position){
+					position.contactName = profile.user.name;
+					position.contactEmail = profile.user.email;
+					position.contactPhone = profile.phoneNumber ? profile.phoneNumber : "";
+					hiringPositions.push(position)
+				})
+	
+			})
+				// console.log('line 65', profiles[0].hiringFor)
+			res.json(hiringPositions)
+	})
 		.catch(err => res.status(404).json(err));
-
-});
+	});
 
 //GET API/profile/handle/:handle
 //get profile by handle
