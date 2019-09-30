@@ -19,6 +19,7 @@ class ProfileItem extends Component {
               <h3>{profile.user.name}</h3>
               <p>{profile.status} {isEmpty(profile.company) ? null : (<span>@ {profile.company}</span>)}</p>
               <p>{isEmpty(profile.location) ? null : (<span>@ {profile.location}</span>)}</p>
+              <p>{isEmpty(profile.lookingFor) ? (<span>Currently Not Looking for New Position</span>)  : (<span>Looking For:  {profile.lookingFor} </span>)}</p>
               <Link to={`/profile/${profile.handle}`} className='btn btn-royal text-white'>View Profile</Link>
             </div>
             <div className='col-md-4 d-none d-md-block'>
