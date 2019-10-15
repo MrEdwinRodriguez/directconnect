@@ -92,6 +92,35 @@ router.get('/hiring', passport.authenticate('jwt', {session: false }), (req, res
 	.catch(err => res.status(404).json(err));
 });
 
+//GET API/hiring/:position
+//get hiring position by handle
+//public
+router.get('/hiring/:position', (req, res) => {
+	const errors = {};
+	const positionQueried = req.params.position;
+	var position = null;
+	Profile.findOne({ "hiringFor": { $elemMatch: { _id: positionQueried } } })
+		.populate('user', ['name', 'avatar', 'email'])
+		.lean()
+		.then(profile => {
+			if(!profile) {
+				errors.noprofile = "There is no position found";
+				res.status(400). json(errors)
+			}
+			position = profile.hiringFor.find(function (hiring){
+				if(hiring._id == positionQueried) {
+					return hiring
+				}
+			})
+
+			position.contactName = profile.user.name;
+			position.email = profile.user.email;
+			position.phoneNumber = profile.phoneNumber;
+			res.json(position)
+		})
+		.catch(err => res.status(404).json(err));
+
+});
 //GET API/profile/hiring/orginization/:orginization
 //get profile by orginization
 //public

@@ -18,7 +18,6 @@ class Positions extends Component {
     const {loading, positions } = this.props.position;
    
     if(positions){
-      console.log(positions)
       positions.forEach(position => {
           position.description = position.description.substring(0, 400);
           if( position.description.length > 399) {

@@ -23,6 +23,9 @@ class PositionItem extends Component {
             <div className='col-md-6 d-none d-md-block'>
               <h4>Description</h4>
               <p>{position.description}</p>
+              <Link to={`/position/${position._id}`} className="btn btn-info mr-1">
+              Read More
+            </Link>
             </div>
           </div>
       </div>

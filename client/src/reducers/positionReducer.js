@@ -19,6 +19,12 @@ export default function(state = initialState, action) {
         positions: action.payload,
         loading: false
       };
+      case GET_POSITION:
+      return {
+        ...state,
+        position: action.payload,
+        loading: false
+      };
     // case GET_POST:
     //   return {
     //     ...state,
