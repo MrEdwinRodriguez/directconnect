@@ -1,4 +1,5 @@
 const express = require('express');
+const fileUpload = require('express-fileupload')
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const passport = require('passport');
@@ -15,7 +16,7 @@ app.use(bodyParser.json());
 const db = require('./config/keys').mongoURI;
 
 mongoose
-	.connect(db)
+	.connect(db, { useNewUrlParser: true })
 	.then(() => console.log('MongoDB Connected'))
 	.catch( err => console.log(err));
 
@@ -24,7 +25,7 @@ app.use(passport.initialize());
 
 //passpord Config
 require('./config/passport')(passport);
-
+app.use(fileUpload());
 app.use('/api/users', users);
 app.use('/api/profile', profile);
 app.use('/api/posts', posts);

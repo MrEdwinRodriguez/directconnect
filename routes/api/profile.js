@@ -10,6 +10,15 @@ const validateExperienceInput = require('../../validation/experience');
 const validateEducationInput = require('../../validation/education');
 const validateBusinessInput = require('../../validation/business');
 const validateHiringInput = require('../../validation/hiring');
+var multer  = require('multer')
+var upload = multer({ dest: 'uploads/' })
+// // const storage = multer.diskStorage({
+// //     destination: function (req, res, cb) {
+// //         cb(null, 'uploads/')
+// //     }
+// // });
+
+// // const upload = multer({ storage: storage });
 
 router.get('/test', (req,res) => res.json({msg: "Profile works"}));
 
@@ -442,4 +451,38 @@ router.delete('/', passport.authenticate('jwt', { session: false }), (req, res) 
       );
     });
   });
+
+
+//POST API/profile/upload
+//Add experience to profile
+//private
+router.post('/upload', passport.authenticate('jwt', {session: false }), (req, res) => {
+	if(req.files === null) {
+		return res.status(400).json({ msg: "No File Uploaded"});
+	}
+console.log(req.files.file.name)
+	const file = req.files.file;
+	file.mv(`${__dirname}/../../client/public/uploads/${file.name}`, err => {
+		if (err) {
+		  console.error(err);
+		  return res.status(500).send(err);
+		}
+
+		Profile.findOne({ user: req.user.id })
+		.then(profile => {
+			if(!profile) {
+				errors.noprofile = "There is no profile found for this user";
+				res.status(400). json(errors)
+			}
+			
+			profile.profileImage = req.files.file.name;
+			profile.save()
+				.then(profile => res.json({ fileName: file.name, filePath: `/uploads/${file.name}` }))
+	})		
+
+})
+
+
+})
+
 module.exports = router;

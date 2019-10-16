@@ -1,7 +1,31 @@
 import React, { Component } from 'react';
 import isEmpty from '../../validation/is-empty';
 import '../../css/style.css';
+import axios from 'axios';
 class ProfileHeader extends Component {
+
+    state = {
+        selectedFile: null
+    }
+
+    fileSelectedHandler = event => {
+        this.setState({
+            selectedFile: event.target.files[0]
+        })
+    }
+
+    fileUploadHandler = () => {
+        const fd = new FormData;
+        fd.append('file', this.state.selectedFile, this.state.selectedFile.name)
+        const config = {
+            headers: {
+                'content-type': 'multipart/form-data'
+            }
+        }
+        axios.post('/api/profile/upload', fd, config)
+
+    }
+
   render() {
       const { profile } = this.props;
 
@@ -17,7 +41,9 @@ class ProfileHeader extends Component {
             <div className="card card-body bg-royal text-white mb-3">
               <div className="row">
                 <div className="col-4 col-md-3 m-auto">
-                  <img className="rounded-circle" src={profile.user.avatar} alt="" />
+                {profile.profileImage ? <img className="rounded-circle"  src={process.env.PUBLIC_URL + '/uploads/'+profile.profileImage} alt="profile image" /> :  <img className="rounded-circle" src={profile.user.avatar} alt="no image" /> }
+                  <input type="file" onChange={this.fileSelectedHandler} />
+                  <button onClick={this.fileUploadHandler}>Upload</button>
                 </div>
               </div>
               <div className="text-center">

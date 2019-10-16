@@ -61,7 +61,7 @@ Profile.propTypes = {
 }
 
 const mapStateToProps = state => ({
-    profile: state.position
+    profile: state.profile
 })
 
 export default connect(mapStateToProps, { getProfileByHandle })(Profile);
