@@ -3,7 +3,6 @@ import Moment from 'react-moment';
 
 class ProfileCreds extends Component {
   render() {
-    console.log(this.props)
     const { experience, education, business } = this.props;
 
     const expItems = experience.map( exp => (

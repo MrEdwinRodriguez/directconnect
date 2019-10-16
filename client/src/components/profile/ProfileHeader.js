@@ -28,7 +28,13 @@ class ProfileHeader extends Component {
 
   render() {
       const { profile } = this.props;
+      let fileName = "Update Profile Image";
 
+    
+      if (this.state.selectedFile) {
+        fileName = this.state.selectedFile.name;
+      }
+      
       const hiringFor = profile.hiringFor.map( hire => (
         <li key={hire._id} className="">    
             {hire.position}
@@ -41,10 +47,23 @@ class ProfileHeader extends Component {
             <div className="card card-body bg-royal text-white mb-3">
               <div className="row">
                 <div className="col-4 col-md-3 m-auto">
-                {profile.profileImage ? <img className="rounded-circle"  src={process.env.PUBLIC_URL + '/uploads/'+profile.profileImage} alt="profile image" /> :  <img className="rounded-circle" src={profile.user.avatar} alt="no image" /> }
-                  <input type="file" onChange={this.fileSelectedHandler} />
-                  <button onClick={this.fileUploadHandler}>Upload</button>
+                    {profile.profileImage ? <img className="rounded-circle"  src={process.env.PUBLIC_URL + '/uploads/'+profile.profileImage} alt="profile image" /> :  <img className="rounded-circle" src={profile.user.avatar} alt="no image" /> }
                 </div>
+              </div>
+              <div className='row'>
+              <div className="col-4 col-md-4 m-auto">
+                <div className="input-group mb-3">
+                        <div className="custom-file">
+                            <input type="file" className="custom-file-input"  id="inputGroupFile01" onChange={this.fileSelectedHandler} />
+                            <label className="custom-file-label" >{fileName}</label>
+                        </div>
+                        <div className='input-group-append'>
+                            <span className="input-group-text" onClick={this.fileUploadHandler}>Upload</span>
+                        </div>
+                    </div>
+                </div>
+              
+              
               </div>
               <div className="text-center">
                 <h1 className="display-4 text-center">{profile.user.name}</h1>
