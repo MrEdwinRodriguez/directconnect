@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { GET_PROFILE, PROFILE_LOADING, CLEAR_CURRENT_PROFILE, GET_ERRORS, SET_CURRENT_USER, GET_PROFILES, GET_POSITIONS } from './types';
+import { GET_PROFILE, PROFILE_LOADING, CLEAR_CURRENT_PROFILE, GET_ERRORS, SET_CURRENT_USER, GET_PROFILES, GET_POSITIONS, GET_EXPERIENCE } from './types';
 
 
 //Get current profile
@@ -65,6 +65,25 @@ export const  addExperience = (expData, history) => dispatch => {
                 type: GET_ERRORS,
                 payload: err.response.data
             })
+            );
+}
+
+//get one experience
+export const getExperience = (id) => dispatch => {
+    dispatch(setProfileLoading());
+    axios
+        .get(`/api/profile/experience/${id}`)
+        .then(res => 
+            dispatch({
+                type: GET_EXPERIENCE,
+                payload: res.data
+            })
+            )
+            .catch(err =>
+                dispatch({
+                    type: GET_EXPERIENCE,
+                    payload: null
+                })
             );
 }
 

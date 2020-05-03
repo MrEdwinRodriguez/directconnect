@@ -45,7 +45,7 @@ class CreateProfile extends Component {
             this.setState({errors: nextProps.errors});
         }
 
-        if(nextProps.profile.profile){
+        if(nextProps.profile.profile) {
             const profile = nextProps.profile.profile;
 
             //Bring skills array back to CSV
@@ -388,7 +388,7 @@ CreateProfile.propTypes = {
 
 const mapStateToProops = state => ({
     profile: state.profile,
-    errors: state.errors
+    errors: state.errors,
 })
 
 export default connect(mapStateToProops, {createProfile, getCurrentProfile})(withRouter(CreateProfile));
