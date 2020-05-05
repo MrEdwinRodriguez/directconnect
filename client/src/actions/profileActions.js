@@ -87,6 +87,19 @@ export const getExperience = (id) => dispatch => {
             );
 }
 
+//update experience
+export const updateExperience = (id, experienceData, history) => dispatch => {
+    axios
+        .put(`/api/profile/experience/${id}`, experienceData)
+        .then(res => history.push('/dashboard'))
+        .catch(err => 
+            dispatch({
+                type: GET_ERRORS,
+                payload: err.response.data
+            })
+            )
+}
+
 //add education
 export const  addEducation = (eduData, history) => dispatch => {
     axios

@@ -6,7 +6,7 @@ import TextFieldGroup from '../common/TextFieldGroup';
 import InputGroup from '../common/InputGroup';
 import TextAreaFieldGroup from '../common/TextAreaFieldGroup';
 import SelectListGroup from '../common/SelectListGroup';
-import { getCurrentProfile, getExperience, addExperience } from "../../actions/profileActions";
+import { getCurrentProfile, getExperience, addExperience, updateExperience } from "../../actions/profileActions";
 import isEmpty from '../../validation/is-empty';
 import '../../css/style.css';
 
@@ -69,7 +69,6 @@ class EditExperience extends Component {
             current: currentExperience.current,
             description: currentExperience.description
         })
-        console.log(this.state.from)
 
       }
     }
@@ -78,7 +77,6 @@ class EditExperience extends Component {
       e.preventDefault();
   
       const expData = {
-          _id: this.state._id,
           company: this.state.company,
           title: this.state.title,
           location: this.state.location,
@@ -87,8 +85,7 @@ class EditExperience extends Component {
           current: this.state.current,
           description: this.state.description
         };
-  
-      this.props.addExperience(expData, this.props.history);
+      this.props.updateExperience(this.props.match.params.exp, expData, this.props.history);
     }
   
     onChange(e) {
@@ -206,6 +203,7 @@ class EditExperience extends Component {
 
 EditExperience.propTypes = {
     getExperience:  PropTypes.func.isRequired,
+    updateExperience: PropTypes.func.isRequired,
     getCurrentProfile: PropTypes.func.isRequired,
     addExperience:  PropTypes.func.isRequired,
     profile: PropTypes.object.isRequired,
@@ -220,4 +218,4 @@ const mapStateToProops = state => ({
 })
 
 
-export default connect(mapStateToProops, {getCurrentProfile,  getExperience, addExperience})(withRouter(EditExperience));
+export default connect(mapStateToProops, {getCurrentProfile, updateExperience,  getExperience, addExperience})(withRouter(EditExperience));

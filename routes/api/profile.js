@@ -309,7 +309,7 @@ router.get('/experience/:exp_id', passport.authenticate('jwt', {session: false }
 //PUT  one experience 
 //private
 router.put('/experience/:exp_id', passport.authenticate('jwt', {session: false }), (req, res) => {
-	
+	// const { errors, isValid } = validateExperienceInput(req.body);
 	// if(!isValid) {
 	// 	return res.status(400).json(errors);
 	// };
@@ -319,63 +319,19 @@ router.put('/experience/:exp_id', passport.authenticate('jwt', {session: false }
 				errors.noprofile = "There is no profile found for this user";
 				res.status(400). json(errors)
 			}
-
-			var updateExperience = profile.experience.find(function(exp){
+			profile.experience.forEach(function(exp){
 				if(exp._id+"" === req.params.exp_id+"") {
-					return exp
-				}
+					exp.title = req.body.title;
+					exp.company = req.body.company;
+					exp.location = req.body.location;
+					exp.description = req.body.description;
+					exp.from = req.body.from;
+					exp.to = req.bodyto;
+					exp.current = req.body.current;
+				}	
 			})
-
-			var update = {}
-			if(req.body.title) {
-				update.experience.$.title = req.body.title
-			}
-			if(req.body.company) {
-				update.experience.$.company = req.body.company
-			}
-			if(req.body.location) {
-				update.experience.$.location = req.body.location
-			}
-			if(req.body.description) {
-				update.experience.$.description = req.body.description
-			}
-			if(req.body.from) {
-				update.experience.$.from = req.body.from
-			}
-			if(req.body.to) {
-				update.experience.$.to = req.body.to
-			}
-			if(req.body.current) {
-				update.experience.$.current = req.body.current
-			}
-
-			updateExperience.title = req.body.title;
-			updateExperience.company = req.body.company;
-			updateExperience.location = req.body.location;
-			updateExperience.description = req.body.description;
-			updateExperience.from = req.body.from;
-			updateExperience.to = req.bodyto;
-			updateExperience.current = req.body.current;
-
-			Profile.update({'experience._id': updateExperience._id},
-				{'$set': update},
-					function(err,profile) {
-					if(err){
-						console.log(err);
-						return res.send(err);
-					}
-					return res.json(profile)
-			});
-
-			// Profile.findOneAndUpdate(
-			// 	{ user: req.user.id },
-			// 	{ $set: updateExperience },
-			// 	{ new: true }
-			// 	).then(profile => res.json(profile));
-			
-			// profile.business.unshift(newBusiness);
-			// profile.save()
-			// 	.then(profile => res.json(profile))
+			profile.save()
+				.then(profile => res.json(profile))
 	})
 })
 
