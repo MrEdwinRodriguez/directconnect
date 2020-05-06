@@ -6,7 +6,7 @@ import TextFieldGroup from '../common/TextFieldGroup';
 import InputGroup from '../common/InputGroup';
 import TextAreaFieldGroup from '../common/TextAreaFieldGroup';
 import SelectListGroup from '../common/SelectListGroup';
-import { getCurrentProfile, getEducation, addExperience, updateExperience } from "../../actions/profileActions";
+import { getCurrentProfile, getEducation, addExperience, updateEducation } from "../../actions/profileActions";
 import isEmpty from '../../validation/is-empty';
 import '../../css/style.css';
 
@@ -84,7 +84,7 @@ class EditEducation extends Component {
           current: this.state.current,
           description: this.state.description
         };
-      this.props.updateExperience(this.props.match.params.edu, eduData, this.props.history);
+      this.props.updateEducation(this.props.match.params.edu, eduData, this.props.history);
     }
   
     onChange(e) {
@@ -189,9 +189,8 @@ class EditEducation extends Component {
 
 EditEducation.propTypes = {
     getEducation:  PropTypes.func.isRequired,
-    updateExperience: PropTypes.func.isRequired,
+    updateEducation: PropTypes.func.isRequired,
     getCurrentProfile: PropTypes.func.isRequired,
-    addExperience:  PropTypes.func.isRequired,
     profile: PropTypes.object.isRequired,
     education: PropTypes.object.isRequired,
     errors: PropTypes.object.isRequired,
@@ -204,4 +203,4 @@ const mapStateToProops = state => ({
 })
 
 
-export default connect(mapStateToProops, {getCurrentProfile, updateExperience,  getEducation, addExperience})(withRouter(EditEducation));
+export default connect(mapStateToProops, {getCurrentProfile, updateEducation,  getEducation})(withRouter(EditEducation));

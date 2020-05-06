@@ -367,6 +367,36 @@ router.post('/education', passport.authenticate('jwt', {session: false }), (req,
 	})
 })
 
+//PUT API/profile/education/:exp_id
+//PUT  one education 
+//private
+router.put('/education/:exp_id', passport.authenticate('jwt', {session: false }), (req, res) => {
+	// const { errors, isValid } = validateExperienceInput(req.body);
+	// if(!isValid) {
+	// 	return res.status(400).json(errors);
+	// };
+	Profile.findOne({user: req.user.id})
+		.then(profile => {
+			if(!profile) {
+				errors.noprofile = "There is no profile found for this user";
+				res.status(400). json(errors)
+			}
+			profile.education.forEach(function(edu){
+				if(edu._id+"" === req.params.exp_id+"") {
+					edu.title = req.body.title;
+					edu.company = req.body.company;
+					edu.location = req.body.location;
+					edu.description = req.body.description;
+					edu.from = req.body.from;
+					edu.to = req.bodyto;
+					edu.current = req.body.current;
+				}	
+			})
+			profile.save()
+				.then(profile => res.json(profile))
+	})
+})
+
 //POST API/profile/business
 //Add business to profile
 //private

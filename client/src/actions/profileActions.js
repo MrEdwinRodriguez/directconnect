@@ -131,6 +131,18 @@ export const  addEducation = (eduData, history) => dispatch => {
             })
             );
 }
+//update education
+export const updateEducation = (id, educationData, history) => dispatch => {
+    axios
+        .put(`/api/profile/education/${id}`, educationData)
+        .then(res => history.push('/dashboard'))
+        .catch(err => 
+            dispatch({
+                type: GET_ERRORS,
+                payload: err.response.data
+            })
+            )
+}
 
 //add business
 export const  addBusiness = (businessDate, history) => dispatch => {
