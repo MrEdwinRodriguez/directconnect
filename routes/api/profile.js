@@ -473,6 +473,26 @@ router.delete('/education/:edu_id', passport.authenticate('jwt', {session: false
 		.catch(err => res.status(404).json(err))
 });
 
+//GET API/profile/education/:edu_id
+//GET  one education
+//private
+router.get('/education/:edu_id', passport.authenticate('jwt', {session: false }), (req, res) => {
+	Profile.findOne({user: req.user.id})
+		.then(profile => {
+			if(!profile) {
+				errors.noprofile = "There is no profile found for this user";
+				res.status(400). json(errors)
+			}
+
+			var education = profile.education.find(function(edu){
+				if(edu._id+"" === req.params.edu_id+"") {
+					return edu
+				}
+			})
+			res.json(education)
+	})
+})
+
 //DELETE API/profile/hiring/:hire_id
 //Delete position for hiring
 //private

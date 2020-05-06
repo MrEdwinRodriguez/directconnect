@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { GET_PROFILE, PROFILE_LOADING, CLEAR_CURRENT_PROFILE, GET_ERRORS, SET_CURRENT_USER, GET_PROFILES, GET_POSITIONS, GET_EXPERIENCE } from './types';
+import { GET_PROFILE, PROFILE_LOADING, CLEAR_CURRENT_PROFILE, GET_ERRORS, SET_CURRENT_USER, GET_PROFILES, GET_POSITIONS, GET_EXPERIENCE, GET_EDUCATION } from './types';
 
 
 //Get current profile
@@ -82,6 +82,25 @@ export const getExperience = (id) => dispatch => {
             .catch(err =>
                 dispatch({
                     type: GET_EXPERIENCE,
+                    payload: null
+                })
+            );
+}
+
+//get one experience
+export const getEducation = (id) => dispatch => {
+    dispatch(setProfileLoading());
+    axios
+        .get(`/api/profile/education/${id}`)
+        .then(res => 
+            dispatch({
+                type: GET_EDUCATION,
+                payload: res.data
+            })
+            )
+            .catch(err =>
+                dispatch({
+                    type: GET_EDUCATION,
                     payload: null
                 })
             );
