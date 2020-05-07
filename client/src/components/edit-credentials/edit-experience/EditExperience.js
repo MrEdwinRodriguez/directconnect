@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
-import TextFieldGroup from '../common/TextFieldGroup';
-import InputGroup from '../common/InputGroup';
-import TextAreaFieldGroup from '../common/TextAreaFieldGroup';
-import SelectListGroup from '../common/SelectListGroup';
-import { getCurrentProfile, getExperience, addExperience, updateExperience } from "../../actions/profileActions";
-import isEmpty from '../../validation/is-empty';
-import '../../css/style.css';
+import TextFieldGroup from '../../common/TextFieldGroup';
+import InputGroup from '../../common/InputGroup';
+import TextAreaFieldGroup from '../../common/TextAreaFieldGroup';
+import SelectListGroup from '../../common/SelectListGroup';
+import { getCurrentProfile, getExperience, addExperience, updateExperience } from "../../../actions/profileActions";
+import isEmpty from '../../../validation/is-empty';
+import '../../../css/style.css';
 
 class EditExperience extends Component {
     constructor(props) {
