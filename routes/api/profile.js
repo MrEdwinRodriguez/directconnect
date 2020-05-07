@@ -335,6 +335,25 @@ router.put('/experience/:exp_id', passport.authenticate('jwt', {session: false }
 	})
 })
 
+//DELETE API/profile/experience/:exp_id
+//Delete expereince from profile
+//private
+
+router.delete('/experience/:exp_id', passport.authenticate('jwt', {session: false }), (req, res) => {
+
+	Profile.findOne({user: req.user.id})
+		.then(profile => {
+			const removeIndex = profile.experience
+				.map(item => item.id)
+					.indexOf(req.params.exp_id);
+
+			profile.experience.splice(removeIndex, 1);
+			profile.save()
+				.then(profile => res.json(profile))		
+	})
+		.catch(err => res.status(404).json(err))
+});
+
 //POST API/profile/education
 //Add education to profile
 //private
@@ -367,6 +386,26 @@ router.post('/education', passport.authenticate('jwt', {session: false }), (req,
 	})
 })
 
+//GET API/profile/education/:edu_id
+//GET  one education
+//private
+router.get('/education/:edu_id', passport.authenticate('jwt', {session: false }), (req, res) => {
+	Profile.findOne({user: req.user.id})
+		.then(profile => {
+			if(!profile) {
+				errors.noprofile = "There is no profile found for this user";
+				res.status(400). json(errors)
+			}
+
+			var education = profile.education.find(function(edu){
+				if(edu._id+"" === req.params.edu_id+"") {
+					return edu
+				}
+			})
+			res.json(education)
+	})
+})
+
 //PUT API/profile/education/:exp_id
 //PUT  one education 
 //private
@@ -396,6 +435,24 @@ router.put('/education/:exp_id', passport.authenticate('jwt', {session: false })
 				.then(profile => res.json(profile))
 	})
 })
+
+//DELETE API/profile/education/:exp_id
+//Delete education from profile
+//private
+router.delete('/education/:edu_id', passport.authenticate('jwt', {session: false }), (req, res) => {
+
+	Profile.findOne({user: req.user.id})
+		.then(profile => {
+			const removeIndex = profile.education
+				.map(item => item.id)
+					.indexOf(req.params.edu_id);
+
+			profile.education.splice(removeIndex, 1);
+			profile.save()
+				.then(profile => res.json(profile))		
+	})
+		.catch(err => res.status(404).json(err))
+});
 
 //POST API/profile/business
 //Add business to profile
@@ -463,63 +520,6 @@ router.post('/hiring', passport.authenticate('jwt', {session: false }), (req, re
 			profile.hiringFor.unshift(newPosition);
 			profile.save()
 				.then(profile => res.json(profile))
-	})
-})
-//DELETE API/profile/experience/:exp_id
-//Delete expereince from profile
-//private
-
-router.delete('/experience/:exp_id', passport.authenticate('jwt', {session: false }), (req, res) => {
-
-	Profile.findOne({user: req.user.id})
-		.then(profile => {
-			const removeIndex = profile.experience
-				.map(item => item.id)
-					.indexOf(req.params.exp_id);
-
-			profile.experience.splice(removeIndex, 1);
-			profile.save()
-				.then(profile => res.json(profile))		
-	})
-		.catch(err => res.status(404).json(err))
-});
-
-//DELETE API/profile/education/:exp_id
-//Delete education from profile
-//private
-
-router.delete('/education/:edu_id', passport.authenticate('jwt', {session: false }), (req, res) => {
-
-	Profile.findOne({user: req.user.id})
-		.then(profile => {
-			const removeIndex = profile.education
-				.map(item => item.id)
-					.indexOf(req.params.edu_id);
-
-			profile.education.splice(removeIndex, 1);
-			profile.save()
-				.then(profile => res.json(profile))		
-	})
-		.catch(err => res.status(404).json(err))
-});
-
-//GET API/profile/education/:edu_id
-//GET  one education
-//private
-router.get('/education/:edu_id', passport.authenticate('jwt', {session: false }), (req, res) => {
-	Profile.findOne({user: req.user.id})
-		.then(profile => {
-			if(!profile) {
-				errors.noprofile = "There is no profile found for this user";
-				res.status(400). json(errors)
-			}
-
-			var education = profile.education.find(function(edu){
-				if(edu._id+"" === req.params.edu_id+"") {
-					return edu
-				}
-			})
-			res.json(education)
 	})
 })
 
