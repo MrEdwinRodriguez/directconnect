@@ -482,6 +482,74 @@ router.post('/business', passport.authenticate('jwt', {session: false }), (req, 
 	})
 })
 
+//GET API/profile/business/:bus_id
+//GET  one business
+//private
+router.get('/business/:bus_id', passport.authenticate('jwt', {session: false }), (req, res) => {
+	Profile.findOne({user: req.user.id})
+		.then(profile => {
+			if(!profile) {
+				errors.noprofile = "There is no profile found for this user";
+				res.status(400). json(errors)
+			}
+
+			var business = profile.business.find(function(bus){
+				if(bus._id+"" === req.params.bus_id+"") {
+					return bus
+				}
+			})
+			res.json(business)
+	})
+})
+
+//PUT API/profile/business/:exp_id
+//PUT  one business 
+//private
+router.put('/business/:bus_id', passport.authenticate('jwt', {session: false }), (req, res) => {
+	// const { errors, isValid } = validateExperienceInput(req.body);
+	// if(!isValid) {
+	// 	return res.status(400).json(errors);
+	// };
+	Profile.findOne({user: req.user.id})
+		.then(profile => {
+			if(!profile) {
+				errors.noprofile = "There is no profile found for this user";
+				res.status(400). json(errors)
+			}
+			profile.business.forEach(function(bus){
+				if(bus._id+"" === req.params.bus_id+"") {
+					bus.title = req.body.title;
+					bus.company = req.body.company;
+					bus.location = req.body.location;
+					bus.description = req.body.description;
+					bus.from = req.body.from;
+					bus.to = req.bodyto;
+					bus.current = req.body.current;
+				}	
+			})
+			profile.save()
+				.then(profile => res.json(profile))
+	})
+})
+
+//DELETE API/profile/business/:bus_id
+//Delete business from profile
+//private
+router.delete('/business/:bus_id', passport.authenticate('jwt', {session: false }), (req, res) => {
+
+	Profile.findOne({user: req.user.id})
+		.then(profile => {
+			const removeIndex = profile.business
+				.map(item => item.id)
+					.indexOf(req.params.bus_id);
+
+			profile.business.splice(removeIndex, 1);
+			profile.save()
+				.then(profile => res.json(profile))		
+	})
+		.catch(err => res.status(404).json(err))
+});
+
 //POST API/profile/hiring
 //Add position hiring to profile
 //private
