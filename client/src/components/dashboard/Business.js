@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import { deleteBusiness } from "../../actions/profileActions";
+import { Link } from "react-router-dom";
 
 
 class Business extends Component {
@@ -11,13 +12,16 @@ class Business extends Component {
 
   render() {
 
-    const business = this.props.business.map(aBusiness => (
-        <tr key={aBusiness._id}>
-            <td>{aBusiness.name}</td>
-            <td>{aBusiness.title}</td>
-            <td>{aBusiness.website}</td>
-            <td>{aBusiness.location}</td>
-            <td><button onClick={this.onDeleteClick.bind(this, aBusiness._id)} className='btn btn-danger'>Delete</button></td>   
+    const business = this.props.business.map(bus => (
+        <tr key={bus._id}>
+            <td>{bus.name}</td>
+            <td>{bus.title}</td>
+            <td>{bus.website}</td>
+            <td>{bus.location}</td>
+            <td><Link to={`/profile/business/${bus._id}`} class="btn btn-primary">
+              Edit</Link>
+            </td>
+            <td><button onClick={this.onDeleteClick.bind(this, bus._id)} className='btn btn-danger'>Delete</button></td>   
         </tr>
 
     ))

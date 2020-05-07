@@ -18,6 +18,7 @@ import EditProfile from './components/edit-profile/EditProfile';
 import AddExperience from './components/add-credentials/AddExperience';
 import EditExperience from './components/edit-experience/EditExperience';
 import EditEducation from './components/edit-education/EditEducation';
+import EditBusiness from './components/edit-business/EditBusiness';
 import AddEducation from './components/add-credentials/AddEducation';
 import AddBusiness from './components/add-credentials/AddBusiness';
 import AddHiring from './components/hiring/AddHiring';
@@ -80,6 +81,9 @@ class App extends Component {
               </Switch>
               <Switch>
                 <PrivateRoute exact path="/profile/education/:edu" component={EditEducation} />
+              </Switch>
+              <Switch>
+                <PrivateRoute exact path="/profile/business/:bus" component={EditBusiness} />
               </Switch>
               <Switch>
                 <PrivateRoute exact path="/add-education" component={AddEducation} />
