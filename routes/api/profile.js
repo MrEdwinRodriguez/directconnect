@@ -130,6 +130,100 @@ router.get('/hiring/:position', (req, res) => {
 		.catch(err => res.status(404).json(err));
 
 });
+
+//POST API/profile/hiring
+//Add position hiring to profile
+//private
+router.post('/hiring', passport.authenticate('jwt', {session: false }), (req, res) => {
+	const { errors, isValid } = validateHiringInput(req.body);
+
+	if(!isValid) {
+		return res.status(400).json(errors);
+	};
+	Profile.findOne({user: req.user.id})
+		.then(profile => {
+			if(!profile) {
+				errors.noprofile = "There is no profile found for this user";
+				res.status(400). json(errors)
+			}
+			if(req.body.frequency === "yearly") {
+				req.body.pay = req.body.pay +"/year";
+			} else if (req.body.frequency === "hourly") {
+				req.body.pay = req.body.pay +"/hour";
+			} else if (req.body.frequency === "internship") {
+				req.body.pay = req.body.pay +"/ Internship/No Pay";
+			} else {
+				req.body.pay = req.body.pay + " One time Payment";
+			}
+
+			const newPosition = {
+				company: req.body.company,
+				position: req.body.position,
+				description: req.body.description,
+				location: req.body.location,
+				pay: req.body.pay,
+				frequency: req.body.frequency,
+			}
+			profile.hiringFor.unshift(newPosition);
+			profile.save()
+				.then(profile => res.json(profile))
+	})
+	.catch(err => res.status(404).json(err));
+})
+
+//PUT API/profile/hiring/:hire_id
+//PUT  one hiring
+//private
+router.put('/hiring/:hire_id', passport.authenticate('jwt', {session: false }), (req, res) => {
+	// const { errors, isValid } = validateExperienceInput(req.body);
+	// if(!isValid) {
+	// 	return res.status(400).json(errors);
+	// };
+
+	Profile.findOne({user: req.user.id})
+		.then(profile => {
+			if(!profile) {
+				errors.noprofile = "There is no profile found for this user";
+				res.status(400). json(errors)
+			}
+
+			profile.hiringFor.forEach(function(hire){
+				if(hire._id+"" === req.params.hire_id+"") {
+					hire.company = req.body.company;
+					hire.position = req.body.position;
+					hire.location = req.body.location;
+					hire.description = req.body.description;
+					hire.pay = req.body.pay;
+					hire.frequency = req.body.frequency;
+					hire.contactName = req.body.contactName;
+					hire.email = req.body.email;
+					hire.phoneNumber = req.body.phoneNumber;
+				}	
+			})
+			profile.save()
+				.then(profile => res.json(profile))
+	})
+	.catch(err => res.status(404).json(err))
+})
+
+//DELETE API/profile/hiring/:hire_id
+//Delete position for hiring
+//private
+router.delete('/hiring/:hire_id', passport.authenticate('jwt', {session: false }), (req, res) => {
+
+	Profile.findOne({user: req.user.id})
+		.then(profile => {
+			const removeIndex = profile.hiringFor
+				.map(item => item.id)
+					.indexOf(req.params.hire_id);
+
+			profile.hiringFor.splice(removeIndex, 1);
+			profile.save()
+				.then(profile => res.json(profile))		
+	})
+		.catch(err => res.status(404).json(err))
+});
+
 //GET API/profile/hiring/orginization/:orginization
 //get profile by orginization
 //public
@@ -544,66 +638,6 @@ router.delete('/business/:bus_id', passport.authenticate('jwt', {session: false 
 					.indexOf(req.params.bus_id);
 
 			profile.business.splice(removeIndex, 1);
-			profile.save()
-				.then(profile => res.json(profile))		
-	})
-		.catch(err => res.status(404).json(err))
-});
-
-//POST API/profile/hiring
-//Add position hiring to profile
-//private
-router.post('/hiring', passport.authenticate('jwt', {session: false }), (req, res) => {
-	const { errors, isValid } = validateHiringInput(req.body);
-
-	if(!isValid) {
-		return res.status(400).json(errors);
-	};
-	Profile.findOne({user: req.user.id})
-		.then(profile => {
-			if(!profile) {
-				errors.noprofile = "There is no profile found for this user";
-				res.status(400). json(errors)
-			}
-			console.log('line 271', req.body.frequency)
-
-			if(req.body.frequency === "yearly") {
-				req.body.pay = req.body.pay +"/year";
-			} else if (req.body.frequency === "hourly") {
-				req.body.pay = req.body.pay +"/hour";
-			} else if (req.body.frequency === "internship") {
-				req.body.pay = req.body.pay +"/ Internship/No Pay";
-			} else {
-				req.body.pay = req.body.pay + " One time Payment";
-			}
-
-			const newPosition = {
-				company: req.body.company,
-				position: req.body.position,
-				description: req.body.description,
-				location: req.body.location,
-				pay: req.body.pay,
-				frequency: req.body.frequency,
-			}
-			profile.hiringFor.unshift(newPosition);
-			profile.save()
-				.then(profile => res.json(profile))
-	})
-})
-
-//DELETE API/profile/hiring/:hire_id
-//Delete position for hiring
-//private
-
-router.delete('/hiring/:hire_id', passport.authenticate('jwt', {session: false }), (req, res) => {
-
-	Profile.findOne({user: req.user.id})
-		.then(profile => {
-			const removeIndex = profile.hiringFor
-				.map(item => item.id)
-					.indexOf(req.params.hire_id);
-
-			profile.hiringFor.splice(removeIndex, 1);
 			profile.save()
 				.then(profile => res.json(profile))		
 	})

@@ -22,6 +22,7 @@ import EditBusiness from './components/edit-credentials/edit-business/EditBusine
 import AddEducation from './components/add-credentials/AddEducation';
 import AddBusiness from './components/add-credentials/AddBusiness';
 import AddHiring from './components/hiring/AddHiring';
+import EditHiring from './components/hiring/EditHiring';
 import Profiles from './components/profiles/Profiles';
 import Profile from './components/profile/Profile';
 import NotFound from './components/not-found/NotFound';
@@ -93,6 +94,9 @@ class App extends Component {
               </Switch>
               <Switch>
                 <PrivateRoute exact path="/add-hiring" component={AddHiring} />
+              </Switch>
+              <Switch>
+                <PrivateRoute exact path="/profile/edit-hiring/:hire" component={EditHiring} />
               </Switch>
               <Switch>
                 <PrivateRoute exact path="/profiles" component={Profiles} />

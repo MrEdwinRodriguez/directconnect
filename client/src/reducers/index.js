@@ -7,6 +7,7 @@ import educationceReducer from './educationReducer';
 import postReducer from './postReducer';
 import positionReducer from './positionReducer';
 import businessReducer from './businessReducer';
+import hireReducer from './hireReducer';
 
 export default combineReducers({
     auth: authReducer,
@@ -14,6 +15,7 @@ export default combineReducers({
     profile: profileReducer,
     experience: experienceReducer,
     education: educationceReducer,
+    hire: hireReducer,
     post: postReducer,
     position: positionReducer,
     business: businessReducer,

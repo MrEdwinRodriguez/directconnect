@@ -19,4 +19,5 @@ export const DELETE_POSITION= "DELETE_POSITION";
 export const GET_EXPERIENCE= "GET_EXPERIENCE";
 export const GET_EDUCATION= "GET_EDUCATION";
 export const GET_BUSINESS= "GET_BUSINESS";
+export const GET_HIRE= "GET_HIRE";
 

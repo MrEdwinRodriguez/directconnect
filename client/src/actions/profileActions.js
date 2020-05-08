@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { GET_PROFILE, PROFILE_LOADING, CLEAR_CURRENT_PROFILE, GET_ERRORS, SET_CURRENT_USER, GET_PROFILES, GET_POSITIONS, GET_EXPERIENCE, GET_EDUCATION, GET_BUSINESS } from './types';
+import { GET_PROFILE, PROFILE_LOADING, CLEAR_CURRENT_PROFILE, GET_ERRORS, SET_CURRENT_USER, GET_PROFILES, GET_POSITIONS, GET_EXPERIENCE, GET_EDUCATION, GET_BUSINESS, GET_HIRE } from './types';
 
 
 //Get current profile
@@ -236,21 +236,36 @@ export const  addHiring = (hiringData, history) => dispatch => {
             );
 }
 
-//delete business
-export const  deleteBusiness = (id) => dispatch => {
+//get one hire
+export const getHiring = (id) => dispatch => {
+    dispatch(setProfileLoading());
     axios
-        .delete(`/api/profile/business/${id}`)
+        .get(`/api/profile/hiring/${id}`)
         .then(res => 
             dispatch({
-                type: GET_PROFILE,
+                type: GET_HIRE,
                 payload: res.data
-            }))
+            })
+            )
+            .catch(err =>
+                dispatch({
+                    type: GET_HIRE,
+                    payload: null
+                })
+            );
+}
+
+//update hiring
+export const updateHire = (id, HireData, history) => dispatch => {
+    axios
+        .put(`/api/profile/hiring/${id}`, HireData)
+        .then(res => history.push('/dashboard'))
         .catch(err => 
             dispatch({
                 type: GET_ERRORS,
                 payload: err.response.data
             })
-            );
+            )
 }
 
 //delete hiring
@@ -269,6 +284,24 @@ export const  deleteHiring = (id) => dispatch => {
             })
             );
 }
+
+//delete business
+export const  deleteBusiness = (id) => dispatch => {
+    axios
+        .delete(`/api/profile/business/${id}`)
+        .then(res => 
+            dispatch({
+                type: GET_PROFILE,
+                payload: res.data
+            }))
+        .catch(err => 
+            dispatch({
+                type: GET_ERRORS,
+                payload: err.response.data
+            })
+            );
+}
+
 //get all profiles
 export const  getProfiles = () => dispatch => {
     dispatch(setProfileLoading());
