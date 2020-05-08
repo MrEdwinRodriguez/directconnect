@@ -25,7 +25,7 @@ class Profiles extends Component {
                 document.getElementById("network").innerHTML = "Blue and White Profile" ;
             }
         } 
-         
+        
     }
 
   render() {

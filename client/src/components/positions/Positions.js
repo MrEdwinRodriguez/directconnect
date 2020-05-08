@@ -7,6 +7,16 @@ import { getPositionsHiring, getPositionsHiringByOrginization } from '../../acti
 
 
 class Positions extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            search: '',
+            errors: {},
+          };
+        this.searchClicked = this.searchClicked.bind(this);
+        this.searchChanged = this.searchChanged.bind(this);
+      }
+
     componentDidMount () {
         if(this.props.match.params.orginization) {
             this.props.getPositionsHiringByOrginization(this.props.match.params.orginization)
@@ -14,6 +24,13 @@ class Positions extends Component {
             this.props.getPositionsHiring();
         }
     }
+    searchChanged (e) {
+        this.setState({search: e.target.value})
+    }
+    searchClicked(e) {
+        console.log(this.state.search)
+  
+      }
   render() {
     const {loading, positions } = this.props.position;
    
@@ -49,6 +66,12 @@ class Positions extends Component {
                         <p className="lead text-center">
                         Browse positions in your network.
                         </p>
+                        <div className="input-group mb-3">
+                            <input type="text" className="form-control" placeholder="Job Title or Keywords" aria-label="Recipient's username" aria-describedby="basic-addon2" onChange={ this.searchChanged }></input>
+                            <div className="input-group-append">
+                                <button type='button' className="input-group-text" id="search" onClick={this.searchClicked}>search</button>
+                            </div>
+                       </div>           
                         {positionItems}
                     </div>
                 </div>

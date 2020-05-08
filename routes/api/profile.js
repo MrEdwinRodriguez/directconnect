@@ -81,7 +81,7 @@ router.get('/orginization/:orginization', (req, res) => {
 //get all hiring positions
 //private
 router.get('/hiring', passport.authenticate('jwt', {session: false }), (req, res) => {
-;
+
 	Profile.find({ hiringFor: { $exists: true, $ne: [] } })
 		.populate('user').lean()
 		.then(profiles => {
@@ -127,6 +127,41 @@ router.get('/hiring/:position', (req, res) => {
 			position.phoneNumber = profile.phoneNumber;
 			res.json(position)
 		})
+		.catch(err => res.status(404).json(err));
+
+});
+//GET API/hiring/search/:criteria
+//get all hiring by criteria
+//private
+router.get('/hiring/search/:criteria', passport.authenticate('jwt', {session: false }), (req, res) => {
+	const errors = {};
+	const criteria = req.params.criteria;
+	if (criteria == null || criteria == undefined) {
+		return res.send(400)
+	}
+	var search_parameter = {
+		$or : [
+			{hiringFor: {$elemMatch: {description: {$regex : criteria}}}},
+			{position: {$elemMatch: {description: {$regex : criteria}}}}, 
+		]
+	}
+	Profile.find(search_parameter)
+		.populate('user').lean()
+		.then(profiles => {
+			console.log('line 145', profiles.length)
+			var hiringPositions = []
+			profiles.forEach(function (profile) {
+				profile.hiringFor.forEach(function(position){
+					position.contactName = profile.user.name;
+					position.contactEmail = profile.user.email;
+					position.contactPhone = profile.phoneNumber ? profile.phoneNumber : "";
+					hiringPositions.push(position)
+				})
+
+			})
+			console.log(hiringPositions.length)
+			res.json(hiringPositions)
+	})
 		.catch(err => res.status(404).json(err));
 
 });
@@ -687,5 +722,7 @@ console.log(req.files.file.name)
 
 
 })
+
+
 
 module.exports = router;
