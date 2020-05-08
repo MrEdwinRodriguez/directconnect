@@ -12,10 +12,10 @@ class Navbar extends Component {
     this.props.clearCurrentProfile();
     this.props.logoutUser();
   }
- 
+
   render() {
     const { isAuthenticated, user } = this.props.auth;
- 
+
     const authLinks = (
       <ul className="navbar-nav ml-auto">
         <li className="nav-item">
@@ -86,18 +86,18 @@ class Navbar extends Component {
             <ul className="navbar-nav mr-auto">
               <li className="nav-item dropdown">
               <a className="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Find in Network
+                Find in Network
               </a>
               <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-              <Link className="dropdown-item" to="/profiles">
+                <Link className="dropdown-item" to="/profiles">
                   {' '}
                   Zetas and Sigmas
                 </Link>
-                <Link className="dropdown-item" to="/profiles/phi_beta_sigma">
+                <Link className="dropdown-item" to="/profiles/orginization/phi_beta_sigma">
                   {' '}
                   Sigmas Only
                 </Link>
-                <Link className="dropdown-item" to="/profiles/zeta_phi_beta">
+                <Link className="dropdown-item" to="/profiles/orginization/zeta_phi_beta">
                   {' '}
                   Zetas Only
                 </Link>

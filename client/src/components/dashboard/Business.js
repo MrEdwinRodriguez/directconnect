@@ -18,7 +18,7 @@ class Business extends Component {
             <td>{bus.title}</td>
             <td>{bus.website}</td>
             <td>{bus.location}</td>
-            <td><Link to={`/profile/business/${bus._id}`} class="btn btn-primary">
+            <td><Link to={`/profile/business/${bus._id}`} className="btn btn-primary">
               Edit</Link>
             </td>
             <td><button onClick={this.onDeleteClick.bind(this, bus._id)} className='btn btn-danger'>Delete</button></td>   

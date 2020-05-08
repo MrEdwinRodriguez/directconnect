@@ -13,7 +13,21 @@ class Profiles extends Component {
         } else {
             this.props.getProfiles();
         }
+        if(this.props.match.params.orginization != undefined) {
+            switch (this.props.match.params.orginization) {
+            case "phi_beta_sigma":
+                document.getElementById("network").innerHTML = "Sigma Profiles" ;
+            break;
+            case "zeta_phi_beta":
+                document.getElementById("network").innerHTML = "Zeta Profiles" ;
+            break;
+            default:
+                document.getElementById("network").innerHTML = "Blue and White Profile" ;
+            }
+        } 
+         
     }
+
   render() {
     const { profiles, loading } = this.props.profile;
 
@@ -36,7 +50,7 @@ class Profiles extends Component {
             <div className="container">
                 <div className="row">
                     <div className="col-md-12">
-                        <h1 className="display-4 text-center">Blue and White Profiles</h1>
+                        <h1 className="display-4 text-center" id='network'>Blue and White Profiles</h1>
                         <p className="lead text-center">
                         Browse and Connect with Zetas and Sigmas
                         </p>

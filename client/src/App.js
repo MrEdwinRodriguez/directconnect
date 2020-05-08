@@ -102,7 +102,7 @@ class App extends Component {
                 <PrivateRoute exact path="/profiles" component={Profiles} />
               </Switch>
               <Switch>
-                <PrivateRoute exact path="/profiles/:orginization" component={Profiles} />
+                <PrivateRoute exact path="/profiles/orginization/:orginization" component={Profiles} />
               </Switch>
               <Switch>
                 <PrivateRoute exact path="/profile/:handle" component={Profile} />

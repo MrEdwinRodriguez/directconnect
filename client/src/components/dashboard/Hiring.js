@@ -17,7 +17,7 @@ class Hiring extends Component {
             <td>{hire.company}</td>
             <td>{hire.location}</td>
             <td>{hire.pay}</td>
-            <td><Link to={`/profile/edit-hiring/${hire._id}`} class="btn btn-primary">
+            <td><Link to={`/profile/edit-hiring/${hire._id}`} className="btn btn-primary">
               Edit</Link>
             </td>
             <td><button onClick={this.onDeleteClick.bind(this, hire._id)} className='btn btn-danger'>Delete</button></td>   
