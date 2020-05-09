@@ -6,29 +6,6 @@ const Profile = require('../../models/Profile');
 const HiringFor = require('../../models/HiringFor');
 const validateHiringInput = require('../../validation/hiring');
 
-router.get('/test', (req,res) => res.json({msg: "Posts works"}));
-// GET api/posts
-// // Get posts
-// // Public
-// router.get('/', (req, res) => {
-//   Post.find()
-//     .sort({ date: -1 })
-//     .then(posts => res.json(posts))
-//     .catch(err => res.status(404).json({ nopostsfound: 'No posts found' }));
-// });
-
-// // GET api/posts/:id
-// // Get post by id
-// // Public
-// router.get('/:id', (req, res) => {
-//   Post.findById(req.params.id)
-//     .then(post => res.json(post))
-//     .catch(err =>
-//       res.status(404).json({ nopostfound: 'No post found with that ID' })
-//     );
-// });
-// 
-
 //POST API/hire
 //create post
 //private
@@ -55,6 +32,24 @@ router.post('/', passport.authenticate('jwt', { session: false }), (req, res) =>
 
 })
 
+//GET API/hire
+//get all hiring positions
+//private
+router.get('/', passport.authenticate('jwt', {session: false }), (req, res) => {
+	const errors = {};
+	HiringFor.find({})
+		.populate('user', ['name', 'avatar', 'email'])
+		.lean()
+		.then(positions => {
+            positions.forEach(function(position){
+                position.contactName = position.user.name;
+                position.contactEmail = position.user.email;
+                position.contactPhone = position.phoneNumber ? position.phoneNumber : "";
+            })
+			res.json(positions)
+		})
+		.catch(err => res.status(404).json(err));
+});
 //GET API/hire/:position
 //get hiring position by handle
 //public

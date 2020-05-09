@@ -3,8 +3,8 @@ import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import Spinner from '../common/Spinner';
 import PositionItem from './PositionItem';
-import { getPositionsHiring, getPositionsHiringByOrginization } from '../../actions/positionActions';
-
+import { getPositionsHiringByOrginization } from '../../actions/positionActions';
+import { getPositionsHiring } from '../../actions/hiringActions';
 
 class Positions extends Component {
     constructor(props) {

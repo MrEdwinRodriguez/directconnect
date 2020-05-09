@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { ADD_POST, GET_ERRORS, HIRE_LOADING, CLEAR_ERRORS, GET_HIRE, DELETE_HIRE, GET_PROFILE} from './types';
+import { ADD_POST, GET_ERRORS, HIRE_LOADING, CLEAR_ERRORS, GET_HIRE, DELETE_HIRE, GET_PROFILE, GET_POSITIONS, POSITION_LOADING,} from './types';
 
 //add Post
 //add hiring
@@ -31,6 +31,24 @@ export const getHiring = (id) => dispatch => {
                     type: GET_HIRE,
                     payload: null
                 })
+            );
+}
+
+//get all positions hiring
+export const  getPositionsHiring = () => dispatch => {
+    dispatch(setHireLoading());
+    axios
+        .get("/api/hire")
+        .then(res => 
+            dispatch({
+                type: GET_POSITIONS,
+                payload: res.data
+            }))
+        .catch(err => 
+            dispatch({
+                type: GET_POSITIONS,
+                payload: null
+            })
             );
 }
 
