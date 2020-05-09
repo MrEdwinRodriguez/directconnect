@@ -7,6 +7,7 @@ const passport = require('passport');
 const users = require('./routes/api/users');
 const profile = require('./routes/api/profile');
 const posts = require('./routes/api/posts');
+const hire = require('./routes/api/hire');
 
 const app = express();
 
@@ -29,6 +30,7 @@ app.use(fileUpload());
 app.use('/api/users', users);
 app.use('/api/profile', profile);
 app.use('/api/posts', posts);
+app.use('/api/hire', hire);
 
 const port = process.env.PORT || 5000;
 

@@ -236,54 +236,7 @@ export const  addHiring = (hiringData, history) => dispatch => {
             );
 }
 
-//get one hire
-export const getHiring = (id) => dispatch => {
-    dispatch(setProfileLoading());
-    axios
-        .get(`/api/profile/hiring/${id}`)
-        .then(res => 
-            dispatch({
-                type: GET_HIRE,
-                payload: res.data
-            })
-            )
-            .catch(err =>
-                dispatch({
-                    type: GET_HIRE,
-                    payload: null
-                })
-            );
-}
 
-//update hiring
-export const updateHire = (id, HireData, history) => dispatch => {
-    axios
-        .put(`/api/profile/hiring/${id}`, HireData)
-        .then(res => history.push('/dashboard'))
-        .catch(err => 
-            dispatch({
-                type: GET_ERRORS,
-                payload: err.response.data
-            })
-            )
-}
-
-//delete hiring
-export const  deleteHiring = (id) => dispatch => {
-    axios
-        .delete(`/api/profile/hiring/${id}`)
-        .then(res => 
-            dispatch({
-                type: GET_PROFILE,
-                payload: res.data
-            }))
-        .catch(err => 
-            dispatch({
-                type: GET_ERRORS,
-                payload: err.response.data
-            })
-            );
-}
 
 //delete business
 export const  deleteBusiness = (id) => dispatch => {

@@ -5,7 +5,8 @@ import TextAreaFieldGroup from '../common/TextAreaFieldGroup';
 import CurrencyGroup from '../common/CurrencyGroup';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { getHiring, updateHire, getCurrentProfile } from '../../actions/profileActions';
+import { getCurrentProfile } from '../../actions/profileActions';
+import { getHiring, updateHire } from '../../actions/hiringActions';
 
 class EditHiring extends Component {
   constructor(props) {

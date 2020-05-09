@@ -9,6 +9,7 @@ const HiringForSchema = new Schema ({
     pay: { type: String },
     frequency: { type: String },
     description: { type: String },
+    created_on: {type: Date},
 });
 
 module.exports = HiringFor = mongoose.model('hiringFor', HiringForSchema);

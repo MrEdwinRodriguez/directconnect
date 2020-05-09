@@ -16,17 +16,7 @@ const ProfileScheme = new Schema({
 	skills: { type: [String], required: true},
 	bio: {type: String },
 	lookingFor: {type: String },
-	hiringFor: [
-		{
-			company: { type: String},
-			position: { type: String },
-			location: { type: String },
-			pay: { type: String },
-			frequency: { type: String },
-			description: { type: String },
-
-		}
-	],
+	hiringFor: [{type: Schema.Types.ObjectId, ref: "hiringFor"}],
 	githubusername: {type: String},
 	experience: [
 		{

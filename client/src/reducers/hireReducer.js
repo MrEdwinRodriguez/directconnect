@@ -1,4 +1,4 @@
-import { PROFILE_LOADING, GET_HIRE } from '../actions/types'
+import { PROFILE_LOADING, GET_HIRE, DELETE_HIRE } from '../actions/types'
 
 const initialState = {
     hire: null,
@@ -7,6 +7,7 @@ const initialState = {
 }
 
 export default function(state = initialState, action) {
+    console.log(state)
     switch(action.type) {
         case PROFILE_LOADING:
             return {
@@ -19,6 +20,11 @@ export default function(state = initialState, action) {
                 hire: action.payload,
                 loading: false
             }
+        // case DELETE_HIRE:
+        // return {
+        //     ...state,
+        //     hire: state.hire.filter(hire => hire._id !== action.payload)
+        // };
         // case GET_PROFILES:
         //     return {
         //         ...state,

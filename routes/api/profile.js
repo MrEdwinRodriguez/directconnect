@@ -5,6 +5,7 @@ const passport = require('passport');
 //load models
 const Profile = require('../../models/Profile');
 const User = require('../../models/User');
+const Hire = require('../../models/HiringFor');
 const validateProfileInput = require('../../validation/profile');
 const validateExperienceInput = require('../../validation/experience');
 const validateEducationInput = require('../../validation/education');
@@ -20,22 +21,31 @@ var upload = multer({ dest: 'uploads/' })
 
 // // const upload = multer({ storage: storage });
 
-router.get('/test', (req,res) => res.json({msg: "Profile works"}));
 
 //GET API/profile
 //get current users profile
 //private
 router.get('/', passport.authenticate('jwt', {session: false }), (req, res) => {
 	const errors = {};
-
+	var profileFound = null;
 	Profile.findOne({ user: req.user.id })
 		.populate('user', ['name', 'avatar'])
+		.lean()
 		.then(profile => {
 			if(!profile){
 				errors.noprofile = "There is not profile for this user";
 				return res.status(404).json(errors)
 			}
-			res.json(profile)
+			profileFound = profile;
+			const authUser = profile.user._id;
+		
+			return Hire.find({user: authUser}).lean().exec()
+		})
+		.then(positions => {
+			console.log(positions)
+			profileFound.hiringFor = positions;
+
+			res.json(profileFound)
 	})
 	.catch(err => res.status(404).json(err));
 });
@@ -101,35 +111,7 @@ router.get('/hiring', passport.authenticate('jwt', {session: false }), (req, res
 	.catch(err => res.status(404).json(err));
 });
 
-//GET API/hiring/:position
-//get hiring position by handle
-//public
-router.get('/hiring/:position', (req, res) => {
-	const errors = {};
-	const positionQueried = req.params.position;
-	var position = null;
-	Profile.findOne({ "hiringFor": { $elemMatch: { _id: positionQueried } } })
-		.populate('user', ['name', 'avatar', 'email'])
-		.lean()
-		.then(profile => {
-			if(!profile) {
-				errors.noprofile = "There is no position found";
-				res.status(400). json(errors)
-			}
-			position = profile.hiringFor.find(function (hiring){
-				if(hiring._id == positionQueried) {
-					return hiring
-				}
-			})
 
-			position.contactName = profile.user.name;
-			position.email = profile.user.email;
-			position.phoneNumber = profile.phoneNumber;
-			res.json(position)
-		})
-		.catch(err => res.status(404).json(err));
-
-});
 //GET API/hiring/search/:criteria
 //get all hiring by criteria
 //private
@@ -148,7 +130,6 @@ router.get('/hiring/search/:criteria', passport.authenticate('jwt', {session: fa
 	Profile.find(search_parameter)
 		.populate('user').lean()
 		.then(profiles => {
-			console.log('line 145', profiles.length)
 			var hiringPositions = []
 			profiles.forEach(function (profile) {
 				profile.hiringFor.forEach(function(position){
@@ -159,7 +140,6 @@ router.get('/hiring/search/:criteria', passport.authenticate('jwt', {session: fa
 				})
 
 			})
-			console.log(hiringPositions.length)
 			res.json(hiringPositions)
 	})
 		.catch(err => res.status(404).json(err));
@@ -206,58 +186,6 @@ router.post('/hiring', passport.authenticate('jwt', {session: false }), (req, re
 	.catch(err => res.status(404).json(err));
 })
 
-//PUT API/profile/hiring/:hire_id
-//PUT  one hiring
-//private
-router.put('/hiring/:hire_id', passport.authenticate('jwt', {session: false }), (req, res) => {
-	// const { errors, isValid } = validateExperienceInput(req.body);
-	// if(!isValid) {
-	// 	return res.status(400).json(errors);
-	// };
-
-	Profile.findOne({user: req.user.id})
-		.then(profile => {
-			if(!profile) {
-				errors.noprofile = "There is no profile found for this user";
-				res.status(400). json(errors)
-			}
-
-			profile.hiringFor.forEach(function(hire){
-				if(hire._id+"" === req.params.hire_id+"") {
-					hire.company = req.body.company;
-					hire.position = req.body.position;
-					hire.location = req.body.location;
-					hire.description = req.body.description;
-					hire.pay = req.body.pay;
-					hire.frequency = req.body.frequency;
-					hire.contactName = req.body.contactName;
-					hire.email = req.body.email;
-					hire.phoneNumber = req.body.phoneNumber;
-				}	
-			})
-			profile.save()
-				.then(profile => res.json(profile))
-	})
-	.catch(err => res.status(404).json(err))
-})
-
-//DELETE API/profile/hiring/:hire_id
-//Delete position for hiring
-//private
-router.delete('/hiring/:hire_id', passport.authenticate('jwt', {session: false }), (req, res) => {
-
-	Profile.findOne({user: req.user.id})
-		.then(profile => {
-			const removeIndex = profile.hiringFor
-				.map(item => item.id)
-					.indexOf(req.params.hire_id);
-
-			profile.hiringFor.splice(removeIndex, 1);
-			profile.save()
-				.then(profile => res.json(profile))		
-	})
-		.catch(err => res.status(404).json(err))
-});
 
 //GET API/profile/hiring/orginization/:orginization
 //get profile by orginization
