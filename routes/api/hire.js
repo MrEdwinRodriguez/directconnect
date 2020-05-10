@@ -73,6 +73,52 @@ router.get('/:position', (req, res) => {
 
 });
 
+//GET API/hire/search/:criteria
+//get all hiring by criteria
+//private
+router.get('/search/:criteria', passport.authenticate('jwt', {session: false }), (req, res) => {
+	const errors = {};
+    const criteria = req.params.criteria;
+    var search_parameter = {};
+	if (criteria == null || criteria == undefined) {
+		return res.send(400)
+    }
+    if (criteria != "") {
+        search_parameter = {
+            $or: [{
+                description : {$regex: criteria, $options: 'i'}
+            },
+            {
+                company : {$regex: criteria, $options: 'i'}
+            }, 
+            {
+                position : {$regex: criteria, $options: 'i'}
+            }
+            ]
+        }
+    }
+	HiringFor.find(search_parameter)
+		.populate('user', ['name', 'avatar', 'email'])
+		.lean()
+		.then(positions => {
+            console.log('line 97',positions)
+			if(!positions || positions == null) {
+				errors.noposition = "There is no position found for "+criteria;
+				res.status(400).json(errors)
+            }
+            if(positions.length > 0) {
+                positions.forEach(function(position){
+                    position.contactName = position.user.name;
+                    position.contactEmail = position.user.email;
+                    position.contactPhone = position.phoneNumber ? position.phoneNumber : "";
+                })
+            }
+			res.json(positions)
+		})
+		.catch(err => res.status(404).json(err));
+
+});
+
 //PUT API/hire/:hire_id
 //PUT  one hire
 //private

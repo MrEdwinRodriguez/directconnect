@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import Spinner from '../common/Spinner';
 import PositionItem from './PositionItem';
 import { getPositionsHiringByOrginization } from '../../actions/positionActions';
-import { getPositionsHiring } from '../../actions/hiringActions';
+import { getPositionsHiring, getPositionsBySearchCriteria } from '../../actions/hiringActions';
 
 class Positions extends Component {
     constructor(props) {
@@ -28,8 +28,11 @@ class Positions extends Component {
         this.setState({search: e.target.value})
     }
     searchClicked(e) {
-        console.log(this.state.search)
-  
+        if (this.state.search != "") {
+            this.props.getPositionsBySearchCriteria(this.state.search)
+        } else {
+            this.props.getPositionsHiring();  
+        }
       }
   render() {
     const {loading, positions } = this.props.position;
@@ -86,6 +89,7 @@ class Positions extends Component {
 Positions.propTypes = {
     getPositionsHiring: PropTypes.func.isRequired,
     getPositionsHiringByOrginization: PropTypes.func.isRequired,
+    getPositionsBySearchCriteria: PropTypes.func.isRequired,
     position: PropTypes.object.isRequired
 }
 
@@ -93,4 +97,4 @@ const mapStateToProps = state => ({
     position: state.position
 })
 
-export default connect(mapStateToProps, { getPositionsHiring, getPositionsHiringByOrginization })(Positions);
+export default connect(mapStateToProps, { getPositionsHiring, getPositionsHiringByOrginization, getPositionsBySearchCriteria })(Positions);

@@ -113,38 +113,7 @@ router.get('/hiring', passport.authenticate('jwt', {session: false }), (req, res
 
 
 //GET API/hiring/search/:criteria
-//get all hiring by criteria
-//private
-router.get('/hiring/search/:criteria', passport.authenticate('jwt', {session: false }), (req, res) => {
-	const errors = {};
-	const criteria = req.params.criteria;
-	if (criteria == null || criteria == undefined) {
-		return res.send(400)
-	}
-	var search_parameter = {
-		$or : [
-			{hiringFor: {$elemMatch: {description: {$regex : criteria}}}},
-			{position: {$elemMatch: {description: {$regex : criteria}}}}, 
-		]
-	}
-	Profile.find(search_parameter)
-		.populate('user').lean()
-		.then(profiles => {
-			var hiringPositions = []
-			profiles.forEach(function (profile) {
-				profile.hiringFor.forEach(function(position){
-					position.contactName = profile.user.name;
-					position.contactEmail = profile.user.email;
-					position.contactPhone = profile.phoneNumber ? profile.phoneNumber : "";
-					hiringPositions.push(position)
-				})
 
-			})
-			res.json(hiringPositions)
-	})
-		.catch(err => res.status(404).json(err));
-
-});
 
 //POST API/profile/hiring
 //Add position hiring to profile

@@ -1,4 +1,4 @@
-import { GET_POSITIONS, DELETE_POSISITION, POSITION_LOADING, GET_POSITION} from '../actions/types';
+import { GET_POSITIONS, DELETE_POSISITION, POSITION_LOADING, GET_POSITION, GET_POSITIONS_CRITERIA} from '../actions/types';
 
 const initialState = {
     positions: [],
@@ -25,6 +25,12 @@ export default function(state = initialState, action) {
         position: action.payload,
         loading: false
       };
+      case GET_POSITIONS_CRITERIA:
+      return {
+        ...state,
+        positions: action.payload,
+        loading: false
+      }
     // case GET_POST:
     //   return {
     //     ...state,
