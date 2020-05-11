@@ -38,7 +38,6 @@ router.get('/', passport.authenticate('jwt', {session: false }), (req, res) => {
 			}
 			profileFound = profile;
 			const authUser = profile.user._id;
-		
 			return Hire.find({user: authUser}).lean().exec()
 		})
 		.then(positions => {
@@ -190,15 +189,22 @@ router.get('/hiring/orginization/:orginization', passport.authenticate('jwt', {s
 //public
 router.get('/handle/:handle', (req, res) => {
 	const errors = {};
-
+	var profileFound = null;
 	Profile.findOne({ handle: req.params.handle })
 		.populate('user', ['name', 'avatar', 'email'])
+		.lean()
 		.then(profile => {
 			if(!profile) {
 				errors.noprofile = "There is no profile found for this user";
 				res.status(400). json(errors)
 			}
-			res.json(profile)
+			profileFound = profile;
+			const authUser = profile.user._id;
+			return Hire.find({user: authUser}).lean().exec()
+		})
+		.then(positions => {
+			profileFound.hiringFor = positions;
+			res.json(profileFound)
 		})
 		.catch(err => res.status(404).json(err));
 
@@ -595,7 +601,6 @@ router.post('/upload', passport.authenticate('jwt', {session: false }), (req, re
 	if(req.files === null) {
 		return res.status(400).json({ msg: "No File Uploaded"});
 	}
-console.log(req.files.file.name)
 	const file = req.files.file;
 	file.mv(`${__dirname}/../../client/public/uploads/${file.name}`, err => {
 		if (err) {
@@ -613,13 +618,9 @@ console.log(req.files.file.name)
 			profile.profileImage = req.files.file.name;
 			profile.save()
 				.then(profile => res.json({ fileName: file.name, filePath: `/uploads/${file.name}` }))
-	})		
+		})		
 
+	})
 })
-
-
-})
-
-
 
 module.exports = router;

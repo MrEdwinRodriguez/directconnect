@@ -22,3 +22,26 @@
     height: 40px;
     position: absolute;  */
 }
+
+ul {
+    list-style: none;
+    margin-left: 0
+}
+
+li .profile {
+    width: 250px;
+    height: 40px;
+    margin: auto;
+    color: blue;
+    padding-top: 6px;
+    padding-bottom: 6px;
+}
+
+.zoom {
+    transition: transform .2s; /* Animation */
+
+  }
+  
+  .zoom:hover {
+    transform: scale(1.02); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+  }

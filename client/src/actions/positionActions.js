@@ -29,24 +29,6 @@ export const getPositionsHiringByOrginization = (orginization) => dispatch => {
      
 }
 
-//Get one  position by id
-export const getPositionById = (position) => dispatch => {
-    dispatch(setPositionLoading());
-    axios
-        .get(`/api/profile/hiring/${position}`)
-        .then(res => 
-            dispatch({
-                type: GET_POSITION,
-                payload: res.data
-            })
-            )
-            .catch(err =>
-                dispatch({
-                    type: GET_POSITION,
-                    payload: null
-                })
-            );
-}
 
 export const setPositionLoading = () => {
     return {

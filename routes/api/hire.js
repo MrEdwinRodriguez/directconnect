@@ -51,7 +51,7 @@ router.get('/', passport.authenticate('jwt', {session: false }), (req, res) => {
 		.catch(err => res.status(404).json(err));
 });
 //GET API/hire/:position
-//get hiring position by handle
+//get hiring position by id
 //public
 router.get('/:position', (req, res) => {
 	const errors = {};

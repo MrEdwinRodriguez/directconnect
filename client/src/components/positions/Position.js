@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import Spinner from '../common/Spinner';
 import ProfileItem from '../profiles/ProfileItem';
 // import { getProfiles, getPositionById } from '../../actions/profileActions';
-import { getPositionById } from '../../actions/positionActions';
+import { getPositionById } from '../../actions/hiringActions';
 
 
 class Profiles extends Component {
@@ -33,7 +33,7 @@ class Profiles extends Component {
                 <h3>{position.position}</h3>
                 <p>Company: {position.company}</p>
                 <p>Location: {position.location}</p>
-                <p>Pay: {position.pay}</p>
+                <p>Pay: {position.pay} {position.frequency}</p>
                 <hr></hr>
                 <p>Contact: </p>
                 <p>{position.contactName? 'Name: ' + position.contactName : ''}</p>
