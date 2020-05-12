@@ -151,9 +151,7 @@ class ProfileHeader extends Component {
 
                     </p>
                     <p>Looking for: </p>
-                    <ul class="list-group list-group-flush">
-                    {lookginFor} 
-                    </ul>
+                    <p>{profile.lookingFor}</p>
                     <p>Hiring: </p>
                     <ul class="list-group list-group-flush">
                     {hiringFor} 

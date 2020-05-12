@@ -29,6 +29,11 @@ class Navbar extends Component {
           </Link>
         </li>
         <li className="nav-item">
+          <Link className="nav-link" to="/businesses">
+            Businesses
+          </Link>
+        </li>
+        <li className="nav-item">
           <Link className="nav-link" to="/dashboard">
             Dashboard
           </Link>
@@ -82,7 +87,6 @@ class Navbar extends Component {
           >
             <span className="navbar-toggler-icon" />
           </button>
- 
           <div className="collapse navbar-collapse" id="mobile-nav">
             <ul className="navbar-nav mr-auto">
               <li className="nav-item dropdown">

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { GET_PROFILE, PROFILE_LOADING, CLEAR_CURRENT_PROFILE, GET_ERRORS, SET_CURRENT_USER, GET_PROFILES, GET_POSITIONS, GET_EXPERIENCE, GET_EDUCATION, GET_BUSINESS, GET_HIRE } from './types';
+import { GET_PROFILE, PROFILE_LOADING, CLEAR_CURRENT_PROFILE, GET_ERRORS, SET_CURRENT_USER, GET_PROFILES, GET_EXPERIENCE, GET_EDUCATION, GET_BUSINESS, GET_BUSINESSES,  GET_HIRE } from './types';
 
 
 //Get current profile
@@ -187,6 +187,24 @@ export const  addBusiness = (businessDate, history) => dispatch => {
             dispatch({
                 type: GET_ERRORS,
                 payload: err.response.data
+            })
+            );
+}
+
+//get all business
+export const  getBusinesses = () => dispatch => {
+    dispatch(setProfileLoading());
+    axios
+        .get("/api/profile/businesses")
+        .then(res => 
+            dispatch({
+                type:  GET_BUSINESSES,
+                payload: res.data
+            }))
+        .catch(err => 
+            dispatch({
+                type:  GET_BUSINESSES,
+                payload: null
             })
             );
 }

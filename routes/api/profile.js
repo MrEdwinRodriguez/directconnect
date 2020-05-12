@@ -86,31 +86,6 @@ router.get('/orginization/:orginization', (req, res) => {
 
 });
 
-//GET API/profile/hiring
-//get all hiring positions
-//private
-router.get('/hiring', passport.authenticate('jwt', {session: false }), (req, res) => {
-
-	Profile.find({ hiringFor: { $exists: true, $ne: [] } })
-		.populate('user').lean()
-		.then(profiles => {
-			var hiringPositions = []
-			profiles.forEach(function (profile) {
-				profile.hiringFor.forEach(function(position){
-					position.contactName = profile.user.name;
-					position.contactEmail = profile.user.email;
-					position.contactPhone = profile.phoneNumber ? profile.phoneNumber : "";
-					hiringPositions.push(position)
-				})
-
-			})
-			// console.log('line 65', profiles[0].hiringFor)
-			res.json(hiringPositions)
-	})
-	.catch(err => res.status(404).json(err));
-});
-
-
 //GET API/hiring/search/:criteria
 
 
@@ -513,6 +488,29 @@ router.post('/business', passport.authenticate('jwt', {session: false }), (req, 
 				.then(profile => res.json(profile))
 	})
 })
+
+
+//GET API/profile/business
+//GET  all businesses
+//private
+router.get('/businesses', passport.authenticate('jwt', {session: false }), (req, res) => {
+	Profile.find({ business: { $exists: true, $ne: [] } })
+		.populate('user').lean()
+		.then(profiles => {
+			var businesses = []
+			profiles.forEach(function (profile) {
+				profile.business.forEach(function(obusiness){
+					obusiness.contactName = profile.user.name;
+					obusiness.contactEmail = profile.user.email;
+					obusiness.contactPhone = profile.phoneNumber ? profile.phoneNumber : "";
+					businesses.push(obusiness)
+				})
+			})
+			res.json(businesses)
+	})
+	.catch(err => res.status(404).json(err));
+});
+
 
 //GET API/profile/business/:bus_id
 //GET  one business

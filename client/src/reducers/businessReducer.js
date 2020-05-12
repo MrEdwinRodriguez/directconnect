@@ -1,4 +1,4 @@
-import { PROFILE_LOADING, GET_BUSINESS } from '../actions/types'
+import { PROFILE_LOADING, GET_BUSINESS, GET_BUSINESSES } from '../actions/types'
 
 const initialState = {
     business: null,
@@ -17,6 +17,12 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 business: action.payload,
+                loading: false
+            }
+        case GET_BUSINESSES:
+            return {
+                ...state,
+                businesses: action.payload,
                 loading: false
             }
         // case GET_PROFILES:

@@ -28,6 +28,8 @@ import Profile from './components/profile/Profile';
 import NotFound from './components/not-found/NotFound';
 import Posts from './components/posts/Posts';
 import Positions from './components/positions/Positions';
+import Busineseses from './components/businesses/Businesses';
+import Business from './components/businesses/Business';
 import Position from './components/positions/Position';
 import Post from './components/post/Post';
  
@@ -113,6 +115,12 @@ class App extends Component {
               </Switch>
               <Switch>
                 <PrivateRoute exact path="/hiring" component={Positions} />
+              </Switch>
+              <Switch>
+                <PrivateRoute exact path="/businesses" component={Busineseses} />
+              </Switch>
+              <Switch>
+                <PrivateRoute exact path="/business/:business" component={Business} />
               </Switch>
               <Switch>
                 <PrivateRoute exact path="/post/:id" component={Post} />
