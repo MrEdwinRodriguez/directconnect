@@ -36,18 +36,21 @@ class ProfileCreds extends Component {
      </p>
     </li>
  ))
-
- const busiItems = business.map( busi => (
-  <li key={busi._id} className="list-group-item">
-   <h4>{busi.name}</h4>
-   <p><strong>Title:</strong> {busi.title}</p>
-   <p><strong>Website:</strong> {busi.website}</p>
-   <p><strong>Location:</strong> {busi.location}</p>
-   <p>
-     {busi.description=== "" ? null : (<span><strong>Description: </strong>{busi.description}</span>)}
-   </p>
-  </li>
-))
+  
+ let busiItems = [];
+  if(business && business.length > 0) {
+    busiItems = business.map( busi => (
+      <li key={busi._id} className="list-group-item">
+      <h4>{busi.name}</h4>
+      <p><strong>Title:</strong> {busi.title}</p>
+      <p><strong>Website:</strong> {busi.website}</p>
+      <p><strong>Location:</strong> {busi.location}</p>
+      <p>
+        {busi.description=== "" ? null : (<span><strong>Description: </strong>{busi.description}</span>)}
+      </p>
+      </li>
+    ))
+  }
     return (
       <div className='row'>
         <div className="col-md-4">

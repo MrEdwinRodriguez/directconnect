@@ -179,25 +179,6 @@ export const  deleteEducation = (id) => dispatch => {
 }
 
 
-//get business by search crietria
-export const  getBusinessBySearchCriteria = (crietria) => dispatch => {
-    dispatch(setProfileLoading());
-    axios
-        .get(`/api/profile/business/search/${crietria}`)
-        .then(res => 
-            dispatch({
-                type: GET_BUSINESSES_CRITERIA,
-                payload: res.data
-            }))
-        .catch(err => 
-            dispatch({
-                type: GET_BUSINESSES_CRITERIA,
-                payload: null
-            })
-            );
-}
-
-
 //add hiring
 export const  addHiring = (hiringData, history) => dispatch => {
     axios

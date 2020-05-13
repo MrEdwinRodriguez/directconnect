@@ -3,10 +3,8 @@ import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import Spinner from '../common/Spinner';
 import BusinessItem from './BusinessItem';
-import { getBusinessBySearchCriteria } from '../../actions/profileActions';
-import { getBusinesses } from '../../actions/businessActions';
+import { getBusinesses, getBusinessBySearchCriteria } from '../../actions/businessActions';
 
-// import { getPositionsHiring, getPositionsBySearchCriteria } from '../../actions/hiringActions';
 
 
 class Businesses extends Component {

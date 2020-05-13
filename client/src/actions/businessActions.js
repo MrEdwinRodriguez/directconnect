@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { BUSINESS_LOADING, CLEAR_CURRENT_BUSINESS, GET_ERRORS, GET_BUSINESSES, GET_BUSINESS, GET_PROFILE, GET_BUSINESSES_CRITERIA, DELETE_BUSINESS } from './types';
+import { BUSINESS_LOADING, CLEAR_CURRENT_BUSINESS, GET_ERRORS, GET_BUSINESSES, GET_BUSINESS, GET_PROFILE, GET_BUSINESSES_CRITERIA } from './types';
 
 //add business
 export const addBusiness = (businessDate, history) => dispatch => {
@@ -48,6 +48,24 @@ export const getBusiness = (id) => dispatch => {
                     type: GET_BUSINESS,
                     payload: null
                 })
+            );
+}
+
+//get business by search crietria
+export const  getBusinessBySearchCriteria = (crietria) => dispatch => {
+    dispatch(setBusinessLoading());
+    axios
+        .get(`/api/business/search/${crietria}`)
+        .then(res => 
+            dispatch({
+                type: GET_BUSINESSES_CRITERIA,
+                payload: res.data
+            }))
+        .catch(err => 
+            dispatch({
+                type: GET_BUSINESSES_CRITERIA,
+                payload: null
+            })
             );
 }
 

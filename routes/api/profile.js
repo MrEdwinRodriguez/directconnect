@@ -169,6 +169,7 @@ router.get('/hiring/orginization/:orginization', passport.authenticate('jwt', {s
 router.get('/handle/:handle', (req, res) => {
 	const errors = {};
 	var profileFound = null;
+	let authUser = null;
 	Profile.findOne({ handle: req.params.handle })
 		.populate('user', ['name', 'avatar', 'email'])
 		.lean()
@@ -178,15 +179,18 @@ router.get('/handle/:handle', (req, res) => {
 				res.status(400). json(errors)
 			}
 			profileFound = profile;
-			const authUser = profile.user._id;
+			authUser = profile.user._id;
 			return Hire.find({user: authUser}).lean().exec()
 		})
 		.then(positions => {
 			profileFound.hiringFor = positions;
+			return Business.find({user: authUser}).lean().exec()
+		})
+		.then(businesses => {
+			profileFound.business = businesses;
 			res.json(profileFound)
 		})
 		.catch(err => res.status(404).json(err));
-
 });
 
 //GET API/profile/user/:user_id
@@ -514,39 +518,6 @@ router.get('/businesses', passport.authenticate('jwt', {session: false }), (req,
 	})
 	.catch(err => res.status(404).json(err));
 });
-
-//GET API/profile/business/search/:criteria
-//GET  all businesses that meet criteria
-//private
-router.get('/business/search/:criteria', passport.authenticate('jwt', {session: false }), (req, res) => {
-	const criteria = req.params.criteria;
-	var search_parameter = {};
-	// var search_parameter = {business: { $exists: true, $ne: [] }};
-	if (criteria == null || criteria == undefined) {
-		return res.send(400)	
-    }
-    if (criteria != "") {
-		search_parameter.business =  { $elemMatch: { description: criteria } } 
-        // search_parameter.business = { $regex: criteria, $options: 'i'};
-	}
-	console.log(search_parameter)
-	Profile.find(search_parameter)
-		.populate('user').lean()
-		.then(profiles => {
-			var businesses = []
-			profiles.forEach(function (profile) {
-				profile.business.forEach(function(obusiness){
-					obusiness.contactName = profile.user.name;
-					obusiness.contactEmail = profile.user.email;
-					obusiness.contactPhone = profile.phoneNumber ? profile.phoneNumber : "";
-					businesses.push(obusiness)
-				})
-			})
-			res.json(businesses)
-	})
-	.catch(err => res.status(404).json(err));
-});
-
 
 //GET API/profile/business/:bus_id
 //GET  one business

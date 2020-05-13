@@ -48,7 +48,7 @@ class ProfileHeader extends Component {
         
             if (profile.hiringFor) {
                 hiringFor = profile.hiringFor.map( hire => (
-                    <li><Link to={`/position/${hire._id}`} className="list-group-item profile zoom">
+                    <li key={hire._id}><Link to={`/position/${hire._id}`} className="list-group-item profile zoom">
                         {hire.position}</Link>
                     </li>
                 ))
@@ -151,9 +151,9 @@ class ProfileHeader extends Component {
 
                     </p>
                     <p>Looking for: </p>
-                    <p>{profile.lookingFor}</p>
+                    <p>{profile.lookingFor} Position</p>
                     <p>Hiring: </p>
-                    <ul class="list-group list-group-flush">
+                    <ul className="list-group list-group-flush">
                     {hiringFor} 
                     </ul>
                 </div>

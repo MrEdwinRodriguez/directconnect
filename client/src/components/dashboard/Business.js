@@ -12,7 +12,7 @@ class Business extends Component {
 
   render() {
     var  business = null;
-    if (this.props.business && this.props.business.length != 0) {
+    if (this.props.business && this.props.business.length !== 0) {
         business = this.props.business.map(bus => (
             <tr key={bus._id}>
                 <td>{bus.name}</td>

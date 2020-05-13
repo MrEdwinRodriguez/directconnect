@@ -12,7 +12,7 @@ class Hiring extends Component {
 
   render() {
     let hiring = null;
-    if (this.props.hiring && this.props.hiring.length != 0) {
+    if (this.props.hiring && this.props.hiring.length !== 0) {
         hiring = this.props.hiring.map(hire => (
             <tr key={hire._id}>
                 <td>{hire.position}</td>

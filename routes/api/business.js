@@ -72,6 +72,53 @@ router.get('/:business', (req, res) => {
 
 });
 
+//GET API/business/search/:criteria
+//GET  all businesses that meet criteria
+//private
+router.get('/search/:criteria', passport.authenticate('jwt', {session: false }), (req, res) => {
+	const errors = {};
+    const criteria = req.params.criteria;
+    var search_parameter = {};
+	if (criteria == null || criteria == undefined) {
+		return res.send(400)
+    }
+    if (criteria != "") {
+        search_parameter = {
+            $or: [{
+                description : {$regex: criteria, $options: 'i'}
+            },
+            {
+                name : {$regex: criteria, $options: 'i'}
+            }, 
+            {
+                location : {$regex: criteria, $options: 'i'}
+            },            
+            {
+                website : {$regex: criteria, $options: 'i'}
+            }
+            ]
+        }
+    }
+	Business.find(search_parameter)
+		.populate('user', ['name', 'avatar', 'email'])
+		.lean()
+		.then(businesses => {
+			if(!businesses || businesses == null) {
+				errors.nobusiness = "There were no businesses found for "+criteria;
+				res.status(400).json(errors)
+            }
+            if(businesses.length > 0) {
+                businesses.forEach(function(business){
+                    business.contactName = business.user.name;
+                    business.contactEmail = business.user.email;
+                    business.contactPhone = business.phoneNumber ? business.phoneNumber : "";
+                })
+            }
+			res.json(businesses)
+		})
+		.catch(err => res.status(404).json(err));
+});
+
 //PUT API/business/:business_id
 //PUT one business
 //private

@@ -13,7 +13,7 @@ class Profiles extends Component {
         } else {
             this.props.getProfiles();
         }
-        if(this.props.match.params.orginization != undefined) {
+        if(this.props.match.params.orginization !== undefined) {
             switch (this.props.match.params.orginization) {
             case "phi_beta_sigma":
                 document.getElementById("network").innerHTML = "Sigma Profiles" ;
