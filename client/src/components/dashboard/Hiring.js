@@ -11,19 +11,27 @@ class Hiring extends Component {
     }
 
   render() {
-    const hiring = this.props.hiring.map(hire => (
-        <tr key={hire._id}>
-            <td>{hire.position}</td>
-            <td>{hire.company}</td>
-            <td>{hire.location}</td>
-            <td>{hire.pay}</td>
-            <td><Link to={`/profile/edit-hiring/${hire._id}`} className="btn btn-primary">
-              Edit</Link>
-            </td>
-            <td><button onClick={this.onDeleteClick.bind(this, hire._id)} className='btn btn-danger'>Delete</button></td>   
-        </tr>
+    let hiring = null;
+    if (this.props.hiring && this.props.hiring.length != 0) {
+        hiring = this.props.hiring.map(hire => (
+            <tr key={hire._id}>
+                <td>{hire.position}</td>
+                <td>{hire.company}</td>
+                <td>{hire.location}</td>
+                <td>{hire.pay}</td>
+                <td><Link to={`/profile/edit-hiring/${hire._id}`} className="btn btn-primary">
+                Edit</Link>
+                </td>
+                <td><button onClick={this.onDeleteClick.bind(this, hire._id)} className='btn btn-danger'>Delete</button></td>   
+            </tr>
 
-    ))
+        ))
+    } else {
+        hiring = 
+        <tr>
+            <td>You have not added a position</td>
+        </tr>
+    }
     return (
       <div>
           <h4 className='mb-4'>I am Hiring for....</h4>

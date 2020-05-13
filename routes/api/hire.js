@@ -101,7 +101,6 @@ router.get('/search/:criteria', passport.authenticate('jwt', {session: false }),
 		.populate('user', ['name', 'avatar', 'email'])
 		.lean()
 		.then(positions => {
-            console.log('line 97',positions)
 			if(!positions || positions == null) {
 				errors.noposition = "There is no position found for "+criteria;
 				res.status(400).json(errors)
@@ -151,6 +150,8 @@ router.put('/:hire_id', passport.authenticate('jwt', {session: false }), (req, r
 //private
 router.delete('/:hire_id', passport.authenticate('jwt', {session: false }), (req, res) => {
     const positionQueried = req.params.hire_id;
+    const authUser = req.user.id;
+    let profileFound = null;
 	HiringFor.findOne({_id: positionQueried})
 		.then(position => {
             if(!position) {
@@ -163,11 +164,20 @@ router.delete('/:hire_id', passport.authenticate('jwt', {session: false }), (req
             .then(() => {
                 Profile.findOne({user: req.user.id}).exec()
                 .then((profile) => {
-                res.json(profile)	
+                    profileFound = profile;
+                    return HiringFor.find({user: authUser}).lean().exec()
+                })
+                .then(positions => {
+                    profileFound.hiringFor = positions;
+                    return Business.find({user: authUser}).lean().exec()
+                })
+                .then(businesses => {
+                    profileFound.business = businesses;
+                    res.json(profileFound)	
             }) 
-        })     
-	})
-		.catch(err => res.status(404).json({ postnotfound: 'No post found' }))
+        })   
+        .catch(err => res.status(404).json({ postnotfound: 'No post found' }))
+    })
 });
 
 

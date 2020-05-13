@@ -8,6 +8,7 @@ const users = require('./routes/api/users');
 const profile = require('./routes/api/profile');
 const posts = require('./routes/api/posts');
 const hire = require('./routes/api/hire');
+const business = require('./routes/api/business');
 
 const app = express();
 
@@ -31,6 +32,8 @@ app.use('/api/users', users);
 app.use('/api/profile', profile);
 app.use('/api/posts', posts);
 app.use('/api/hire', hire);
+app.use('/api/business', business);
+
 
 const port = process.env.PORT || 5000;
 

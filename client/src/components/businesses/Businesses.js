@@ -3,8 +3,9 @@ import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import Spinner from '../common/Spinner';
 import BusinessItem from './BusinessItem';
-import { getPositionsHiringByOrginization } from '../../actions/positionActions';
-import { getBusinesses } from '../../actions/profileActions';
+import { getBusinessBySearchCriteria } from '../../actions/profileActions';
+import { getBusinesses } from '../../actions/businessActions';
+
 // import { getPositionsHiring, getPositionsBySearchCriteria } from '../../actions/hiringActions';
 
 
@@ -20,21 +21,18 @@ class Businesses extends Component {
       }
 
     componentDidMount () {
-        // if(this.props.match.params.orginization) {
-        //     this.props.getPositionsHiringByOrginization(this.props.match.params.orginization)
-        // } else {
-            this.props.getBusinesses();
-        // }
+        this.props.getBusinesses();
+
     }
     searchChanged (e) {
         this.setState({search: e.target.value})
     }
     searchClicked(e) {
-        // if (this.state.search != "") {
-        //     this.props.getPositionsBySearchCriteria(this.state.search)
-        // } else {
-            this.props.getPositionsHiring();  
-        // }
+        if (this.state.search != "") {
+            this.props.getBusinessBySearchCriteria(this.state.search)
+        } else {
+            this.props.getBusinesses();  
+        }
       }
   render() {
     const { businesses } = this.props.businesses;
@@ -90,6 +88,7 @@ class Businesses extends Component {
 
 Businesses.propTypes = {
     getBusinesses: PropTypes.func.isRequired,
+    getBusinessBySearchCriteria: PropTypes.func.isRequired,
     position: PropTypes.object.isRequired
 }
 
@@ -97,4 +96,4 @@ const mapStateToProps = state => ({
     businesses: state.business
 })
 
-export default connect(mapStateToProps, { getBusinesses })(Businesses);
+export default connect(mapStateToProps, { getBusinesses, getBusinessBySearchCriteria })(Businesses);

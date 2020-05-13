@@ -3,7 +3,10 @@ import { Link, withRouter } from 'react-router-dom';
 import TextFieldGroup from '../../common/TextFieldGroup';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { getBusiness, getCurrentProfile, updateBusiness } from '../../../actions/profileActions';
+import { getCurrentProfile} from '../../../actions/profileActions';
+import { getBusiness, updateBusiness } from '../../../actions/businessActions';
+
+
 
 class EditBusiness extends Component {
   constructor(props) {

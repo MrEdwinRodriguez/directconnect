@@ -6,6 +6,7 @@ const passport = require('passport');
 const Profile = require('../../models/Profile');
 const User = require('../../models/User');
 const Hire = require('../../models/HiringFor');
+const Business = require('../../models/Business');
 const validateProfileInput = require('../../validation/profile');
 const validateExperienceInput = require('../../validation/experience');
 const validateEducationInput = require('../../validation/education');
@@ -28,6 +29,7 @@ var upload = multer({ dest: 'uploads/' })
 router.get('/', passport.authenticate('jwt', {session: false }), (req, res) => {
 	const errors = {};
 	var profileFound = null;
+	var authUser = null;
 	Profile.findOne({ user: req.user.id })
 		.populate('user', ['name', 'avatar'])
 		.lean()
@@ -37,13 +39,15 @@ router.get('/', passport.authenticate('jwt', {session: false }), (req, res) => {
 				return res.status(404).json(errors)
 			}
 			profileFound = profile;
-			const authUser = profile.user._id;
+			authUser = profile.user._id;
 			return Hire.find({user: authUser}).lean().exec()
 		})
 		.then(positions => {
-			console.log(positions)
 			profileFound.hiringFor = positions;
-
+			return Business.find({user: authUser}).lean().exec()
+		})
+		.then(businesses => {
+			profileFound.business = businesses;
 			res.json(profileFound)
 	})
 	.catch(err => res.status(404).json(err));
@@ -495,6 +499,38 @@ router.post('/business', passport.authenticate('jwt', {session: false }), (req, 
 //private
 router.get('/businesses', passport.authenticate('jwt', {session: false }), (req, res) => {
 	Profile.find({ business: { $exists: true, $ne: [] } })
+		.populate('user').lean()
+		.then(profiles => {
+			var businesses = []
+			profiles.forEach(function (profile) {
+				profile.business.forEach(function(obusiness){
+					obusiness.contactName = profile.user.name;
+					obusiness.contactEmail = profile.user.email;
+					obusiness.contactPhone = profile.phoneNumber ? profile.phoneNumber : "";
+					businesses.push(obusiness)
+				})
+			})
+			res.json(businesses)
+	})
+	.catch(err => res.status(404).json(err));
+});
+
+//GET API/profile/business/search/:criteria
+//GET  all businesses that meet criteria
+//private
+router.get('/business/search/:criteria', passport.authenticate('jwt', {session: false }), (req, res) => {
+	const criteria = req.params.criteria;
+	var search_parameter = {};
+	// var search_parameter = {business: { $exists: true, $ne: [] }};
+	if (criteria == null || criteria == undefined) {
+		return res.send(400)	
+    }
+    if (criteria != "") {
+		search_parameter.business =  { $elemMatch: { description: criteria } } 
+        // search_parameter.business = { $regex: criteria, $options: 'i'};
+	}
+	console.log(search_parameter)
+	Profile.find(search_parameter)
 		.populate('user').lean()
 		.then(profiles => {
 			var businesses = []

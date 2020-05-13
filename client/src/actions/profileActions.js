@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { GET_PROFILE, PROFILE_LOADING, CLEAR_CURRENT_PROFILE, GET_ERRORS, SET_CURRENT_USER, GET_PROFILES, GET_EXPERIENCE, GET_EDUCATION, GET_BUSINESS, GET_BUSINESSES,  GET_HIRE } from './types';
+import { GET_PROFILE, PROFILE_LOADING, CLEAR_CURRENT_PROFILE, GET_ERRORS, SET_CURRENT_USER, GET_PROFILES, GET_EXPERIENCE, GET_EDUCATION, GET_BUSINESS, GET_BUSINESSES, GET_BUSINESSES_CRITERIA,  GET_HIRE } from './types';
 
 
 //Get current profile
@@ -178,68 +178,25 @@ export const  deleteEducation = (id) => dispatch => {
             );
 }
 
-//add business
-export const  addBusiness = (businessDate, history) => dispatch => {
-    axios
-        .post("/api/profile/business", businessDate)
-        .then(res => history.push("/dashboard"))
-        .catch(err => 
-            dispatch({
-                type: GET_ERRORS,
-                payload: err.response.data
-            })
-            );
-}
 
-//get all business
-export const  getBusinesses = () => dispatch => {
+//get business by search crietria
+export const  getBusinessBySearchCriteria = (crietria) => dispatch => {
     dispatch(setProfileLoading());
     axios
-        .get("/api/profile/businesses")
+        .get(`/api/profile/business/search/${crietria}`)
         .then(res => 
             dispatch({
-                type:  GET_BUSINESSES,
+                type: GET_BUSINESSES_CRITERIA,
                 payload: res.data
             }))
         .catch(err => 
             dispatch({
-                type:  GET_BUSINESSES,
+                type: GET_BUSINESSES_CRITERIA,
                 payload: null
             })
             );
 }
 
-//get one business
-export const getBusiness = (id) => dispatch => {
-    dispatch(setProfileLoading());
-    axios
-        .get(`/api/profile/business/${id}`)
-        .then(res => 
-            dispatch({
-                type: GET_BUSINESS,
-                payload: res.data
-            })
-            )
-            .catch(err =>
-                dispatch({
-                    type: GET_BUSINESS,
-                    payload: null
-                })
-            );
-}
-
-//update business
-export const updateBusiness = (id, businessData, history) => dispatch => {
-    axios
-        .put(`/api/profile/business/${id}`, businessData)
-        .then(res => history.push('/dashboard'))
-        .catch(err => 
-            dispatch({
-                type: GET_ERRORS,
-                payload: err.response.data
-            })
-            )
-}
 
 //add hiring
 export const  addHiring = (hiringData, history) => dispatch => {
@@ -254,24 +211,6 @@ export const  addHiring = (hiringData, history) => dispatch => {
             );
 }
 
-
-
-//delete business
-export const  deleteBusiness = (id) => dispatch => {
-    axios
-        .delete(`/api/profile/business/${id}`)
-        .then(res => 
-            dispatch({
-                type: GET_PROFILE,
-                payload: res.data
-            }))
-        .catch(err => 
-            dispatch({
-                type: GET_ERRORS,
-                payload: err.response.data
-            })
-            );
-}
 
 //get all profiles
 export const  getProfiles = () => dispatch => {

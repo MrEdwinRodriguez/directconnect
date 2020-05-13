@@ -3,7 +3,7 @@ import { Link, withRouter } from 'react-router-dom';
 import TextFieldGroup from '../common/TextFieldGroup';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { addBusiness } from '../../actions/profileActions';
+import { addBusiness } from '../../actions/businessActions';
 
 class AddBusiness extends Component {
   constructor(props) {
