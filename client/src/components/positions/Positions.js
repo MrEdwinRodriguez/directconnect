@@ -18,8 +18,8 @@ class Positions extends Component {
       }
 
     componentDidMount () {
-        if(this.props.match.params.orginization) {
-            this.props.getPositionsHiringByOrginization(this.props.match.params.orginization)
+        if(this.props.match.params.criteria) {
+            this.props.getPositionsBySearchCriteria(this.props.match.params.criteria)
         } else {
             this.props.getPositionsHiring();
         }
@@ -29,6 +29,7 @@ class Positions extends Component {
     }
     searchClicked(e) {
         if (this.state.search != "") {
+            window.location.href = window.location.origin+'/hiring/search/'+this.state.search
             this.props.getPositionsBySearchCriteria(this.state.search)
         } else {
             this.props.getPositionsHiring();  

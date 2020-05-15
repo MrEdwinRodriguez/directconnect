@@ -19,14 +19,18 @@ class Businesses extends Component {
       }
 
     componentDidMount () {
-        this.props.getBusinesses();
-
+        if (this.props.match.params.criteria) {
+            this.props.getBusinessBySearchCriteria(this.props.match.params.criteria)
+        } else {
+            this.props.getBusinesses();
+        }
     }
     searchChanged (e) {
         this.setState({search: e.target.value})
     }
     searchClicked(e) {
         if (this.state.search != "") {
+           window.location.href = window.location.origin+'/hiring/search/'+this.state.search
             this.props.getBusinessBySearchCriteria(this.state.search)
         } else {
             this.props.getBusinesses();  

@@ -117,7 +117,13 @@ class App extends Component {
                 <PrivateRoute exact path="/hiring" component={Positions} />
               </Switch>
               <Switch>
+                <PrivateRoute exact path="/hiring/search/:criteria" component={Positions} />
+              </Switch>
+              <Switch>
                 <PrivateRoute exact path="/businesses" component={Busineseses} />
+              </Switch>
+              <Switch>
+                <PrivateRoute exact path="/businesses/search/:criteria" component={Busineseses} />
               </Switch>
               <Switch>
                 <PrivateRoute exact path="/business/:business" component={Business} />
