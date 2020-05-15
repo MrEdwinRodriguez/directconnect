@@ -15,16 +15,16 @@ class Education extends Component {
     if (this.props.education && this.props.education.length > 0) {
         education = this.props.education.map(edu => (
             <tr key={edu._id}>
-                <td>{edu.school}</td>
-                <td>{edu.degree}</td>
-                <td>
+                <td width="30%">{edu.school}</td>
+                <td width="30%">{edu.degree}</td>
+                <td width="20%">
                 <Moment format="YYYY/MM/DD">{edu.from}</Moment> -
                 {edu.to === null ? (' Now') : <Moment format="YYYY/MM/DD">{edu.to}</Moment>}
                 </td>
-                <td><Link to={`/profile/education/${edu._id}`} className="btn btn-primary">
+                <td width="10%"><Link to={`/profile/education/${edu._id}`} className="btn btn-primary">
                 Edit</Link>
                 </td>
-                <td><button onClick={this.onDeleteClick.bind(this, edu._id)} className='btn btn-danger'>Delete</button></td>   
+                <td width="10%"><button onClick={this.onDeleteClick.bind(this, edu._id)} className='btn btn-danger'>Delete</button></td>   
             </tr>
 
         ))

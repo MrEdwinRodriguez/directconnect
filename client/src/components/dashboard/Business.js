@@ -15,14 +15,14 @@ class Business extends Component {
     if (this.props.business && this.props.business.length !== 0) {
         business = this.props.business.map(bus => (
             <tr key={bus._id}>
-                <td>{bus.name}</td>
-                <td>{bus.title}</td>
-                <td>{bus.website}</td>
-                <td>{bus.location}</td>
-                <td><Link to={`/profile/business/${bus._id}`} className="btn btn-primary">
+                <td width="25%">{bus.name}</td>
+                <td width="25%">{bus.title}</td>
+                <td width="15%">{bus.website}</td>
+                <td width="15%">{bus.location}</td>
+                <td width="10%"><Link to={`/profile/business/${bus._id}`} className="btn btn-primary">
                 Edit</Link>
                 </td>
-                <td><button onClick={this.onDeleteClick.bind(this, bus._id)} className='btn btn-danger'>Delete</button></td>   
+                <td width="10%"><button onClick={this.onDeleteClick.bind(this, bus._id)} className='btn btn-danger'>Delete</button></td>   
             </tr>
 
         ))

@@ -18,11 +18,8 @@ const ProfileActions = () => {
         <Link to="/add-business" className="btn btn-light">
         <i className="fab fa-black-tie text-royal mr-1"></i>
         Add Business</Link>
-
-    </div>
-    <div>
-    <Link to="/add-hiring" className="btn btn-success btn-hiring">
-        <i className="text-royal mr-1"></i>
+        <Link to="/add-hiring" className="btn btn-light">
+        <i className="fab fa-black-tie text-royal mr-1"></i>
         Hiring For...</Link>
     </div>
     

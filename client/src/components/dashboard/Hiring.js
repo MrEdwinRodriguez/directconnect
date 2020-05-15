@@ -15,14 +15,14 @@ class Hiring extends Component {
     if (this.props.hiring && this.props.hiring.length !== 0) {
         hiring = this.props.hiring.map(hire => (
             <tr key={hire._id}>
-                <td>{hire.position}</td>
-                <td>{hire.company}</td>
-                <td>{hire.location}</td>
-                <td>{hire.pay}</td>
-                <td><Link to={`/profile/edit-hiring/${hire._id}`} className="btn btn-primary">
+                <td width="25%">{hire.position}</td>
+                <td width="25%">{hire.company}</td>
+                <td width="15%">{hire.location}</td>
+                <td width="15%">{hire.pay}</td>
+                <td width="10%"><Link to={`/profile/edit-hiring/${hire._id}`} className="btn btn-primary">
                 Edit</Link>
                 </td>
-                <td><button onClick={this.onDeleteClick.bind(this, hire._id)} className='btn btn-danger'>Delete</button></td>   
+                <td width="10%"><button onClick={this.onDeleteClick.bind(this, hire._id)} className='btn btn-danger'>Delete</button></td>   
             </tr>
 
         ))

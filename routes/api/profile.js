@@ -365,7 +365,6 @@ router.put('/delete/experience/:exp_id', passport.authenticate('jwt', {session: 
 					.indexOf(req.params.exp_id);
 			profile.experience.splice(removeIndex, 1);
 			let experience = profile.experience;
-			console.log('line 368', experience)
 			Profile.updateOne({user: authUser}, { $set: { experience: experience }})
 			.then(() => {
 				getProfileWithAttributes(authUser)
@@ -478,19 +477,10 @@ router.put('/education/delete/:edu_id', passport.authenticate('jwt', {session: f
 			var education = profile.education;
 			Profile.updateOne({user: req.user.id}, { $set: { education: education }})
 			.then(() => {
-				return Profile.findOne({user: authUser}).lean().exec()
-			})
-			.then(profile => {
-				profileFound = profile
-				return Hire.find({user: authUser}).lean().exec()
-			})
-			.then(positions => {
-				profileFound.hiringFor = positions;
-				return Business.find({user: authUser}).lean().exec()
-			})
-			.then(businesses => {
-				profileFound.business = businesses;
-				res.json(profileFound)
+				getProfileWithAttributes(authUser)
+				.then((oProfile) => {
+					res.json(oProfile)
+				})
 			})	
 	})
 		.catch(err => res.status(404).json(err))

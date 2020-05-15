@@ -16,17 +16,17 @@ class Experience extends Component {
     if (this.props.experience && this.props.experience.length > 0) {
         experience = this.props.experience.map(exp => (
             <tr key={exp._id}>
-                <td>{exp.company}</td>
-                <td>{exp.title}</td>
-                <td>
+                <td width="30%">{exp.company}</td>
+                <td width="30%">{exp.title}</td>
+                <td width="20%">
                 <Moment format="YYYY/MM/DD">{exp.from}</Moment> -
                 {exp.to === null ? (' Now') : <Moment format="YYYY/MM/DD">{exp.to}</Moment>}
 
                 </td>
-                <td><Link to={`/profile/experience/${exp._id}`} className="btn btn-primary">
+                <td width="10%"><Link to={`/profile/experience/${exp._id}`} className="btn btn-primary">
                 Edit</Link>
                 </td>
-                <td><button onClick={this.onDeleteClick.bind(this, exp._id)} className='btn btn-danger'>Delete</button></td>
+                <td width="10%"><button onClick={this.onDeleteClick.bind(this, exp._id)} className='btn btn-danger'>Delete</button></td>
             </tr>
 
         ))
