@@ -274,9 +274,9 @@ router.post('/', passport.authenticate('jwt', {session: false }), (req, res) => 
 router.post('/experience', passport.authenticate('jwt', {session: false }), (req, res) => {
 	const { errors, isValid } = validateBusinessInput(req.body);
 
-	if(!isValid) {
-		return res.status(400).json(errors);
-	};
+	// if(!isValid) {
+	// 	return res.status(400).json(errors);
+	// };
 
 	Profile.findOne({user: req.user.id})
 		.then(profile => {
@@ -294,11 +294,13 @@ router.post('/experience', passport.authenticate('jwt', {session: false }), (req
 				description: req.body.description
 			}
 			profile.experience.unshift(newExp);
-			profile.save()
-				.then(profile => res.json(profile))
+			var experience = profile.experience;
+			Profile.updateOne({user: req.user.id}, { $set: { experience: experience }})
+			.then(() => {
+				 res.json(profile)
+			  });
 	})
 })
-
 
 //GET API/profile/experience/:exp_id
 //GET  one experience 
@@ -350,24 +352,31 @@ router.put('/experience/:exp_id', passport.authenticate('jwt', {session: false }
 	})
 })
 
-//DELETE API/profile/experience/:exp_id
+//DELETE API/profile/delete/experience/:exp_id
 //Delete expereince from profile
 //private
-
-router.delete('/experience/:exp_id', passport.authenticate('jwt', {session: false }), (req, res) => {
-
-	Profile.findOne({user: req.user.id})
+router.put('/delete/experience/:exp_id', passport.authenticate('jwt', {session: false }), (req, res) => {
+	const authUser = req.user.id;
+	let profileFound = null;
+	Profile.findOne({user: authUser})
 		.then(profile => {
 			const removeIndex = profile.experience
 				.map(item => item.id)
 					.indexOf(req.params.exp_id);
-
 			profile.experience.splice(removeIndex, 1);
-			profile.save()
-				.then(profile => res.json(profile))		
+			let experience = profile.experience;
+			console.log('line 368', experience)
+			Profile.updateOne({user: authUser}, { $set: { experience: experience }})
+			.then(() => {
+				getProfileWithAttributes(authUser)
+			.then((oProfile) => {
+				res.json(oProfile)
+			})		
+			})		
 	})
 		.catch(err => res.status(404).json(err))
 });
+
 
 //POST API/profile/education
 //Add education to profile
@@ -396,8 +405,11 @@ router.post('/education', passport.authenticate('jwt', {session: false }), (req,
 				description: req.body.description
 			}
 			profile.education.unshift(newEdu);
-			profile.save()
-				.then(profile => res.json(profile))
+			var education = profile.education;
+			Profile.updateOne({user: req.user.id}, { $set: { education: education }})
+			.then(() => {
+				 res.json(profile)
+			  });
 	})
 })
 
@@ -451,20 +463,35 @@ router.put('/education/:exp_id', passport.authenticate('jwt', {session: false })
 	})
 })
 
-//DELETE API/profile/education/:exp_id
+//DELETE API/profile/education/delete/:edu_id
 //Delete education from profile
 //private
-router.delete('/education/:edu_id', passport.authenticate('jwt', {session: false }), (req, res) => {
-
-	Profile.findOne({user: req.user.id})
+router.put('/education/delete/:edu_id', passport.authenticate('jwt', {session: false }), (req, res) => {
+	let profileFound = null;
+	const authUser = req.user.id;
+	Profile.findOne({user: req.user.id}).populate()
 		.then(profile => {
 			const removeIndex = profile.education
 				.map(item => item.id)
 					.indexOf(req.params.edu_id);
-
 			profile.education.splice(removeIndex, 1);
-			profile.save()
-				.then(profile => res.json(profile))		
+			var education = profile.education;
+			Profile.updateOne({user: req.user.id}, { $set: { education: education }})
+			.then(() => {
+				return Profile.findOne({user: authUser}).lean().exec()
+			})
+			.then(profile => {
+				profileFound = profile
+				return Hire.find({user: authUser}).lean().exec()
+			})
+			.then(positions => {
+				profileFound.hiringFor = positions;
+				return Business.find({user: authUser}).lean().exec()
+			})
+			.then(businesses => {
+				profileFound.business = businesses;
+				res.json(profileFound)
+			})	
 	})
 		.catch(err => res.status(404).json(err))
 });
@@ -627,5 +654,25 @@ router.post('/upload', passport.authenticate('jwt', {session: false }), (req, re
 
 	})
 })
+
+function getProfileWithAttributes(userId) {
+	return new Promise(function(resolve, reject){
+		let profileFound = null
+		Profile.findOne({user: userId}).lean().exec()
+		.then(profile => {
+			profileFound = profile
+			return Hire.find({user: userId}).lean().exec()
+		})
+		.then(positions => {
+			profileFound.hiringFor = positions;
+			return Business.find({user: userId}).lean().exec()
+		})
+		.then(businesses => {
+			profileFound.business = businesses;
+			console.log('returning profileFound', profileFound)
+			return resolve(profileFound)
+		})
+	})
+}
 
 module.exports = router;

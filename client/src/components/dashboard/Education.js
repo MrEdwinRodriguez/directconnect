@@ -11,22 +11,30 @@ class Education extends Component {
     }
 
   render() {
+    let education = null;
+    if (this.props.education && this.props.education.length > 0) {
+        education = this.props.education.map(edu => (
+            <tr key={edu._id}>
+                <td>{edu.school}</td>
+                <td>{edu.degree}</td>
+                <td>
+                <Moment format="YYYY/MM/DD">{edu.from}</Moment> -
+                {edu.to === null ? (' Now') : <Moment format="YYYY/MM/DD">{edu.to}</Moment>}
+                </td>
+                <td><Link to={`/profile/education/${edu._id}`} className="btn btn-primary">
+                Edit</Link>
+                </td>
+                <td><button onClick={this.onDeleteClick.bind(this, edu._id)} className='btn btn-danger'>Delete</button></td>   
+            </tr>
 
-    const education = this.props.education.map(edu => (
-        <tr key={edu._id}>
-            <td>{edu.school}</td>
-            <td>{edu.degree}</td>
-            <td>
-            <Moment format="YYYY/MM/DD">{edu.from}</Moment> -
-            {edu.to === null ? (' Now') : <Moment format="YYYY/MM/DD">{edu.to}</Moment>}
-            </td>
-            <td><Link to={`/profile/education/${edu._id}`} className="btn btn-primary">
-              Edit</Link>
-            </td>
-            <td><button onClick={this.onDeleteClick.bind(this, edu._id)} className='btn btn-danger'>Delete</button></td>   
-        </tr>
-
-    ))
+        ))
+    } else {
+            education = 
+            <tr>
+                <td>You have not added any experience</td>
+            </tr>
+        }
+    
     return (
       <div>
           <h4 className='mb-4'>Education Credentials</h4>

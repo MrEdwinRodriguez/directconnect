@@ -103,7 +103,7 @@ export const updateExperience = (id, experienceData, history) => dispatch => {
 //delete experience
 export const  deleteExperience = (id) => dispatch => {
     axios
-        .delete(`/api/profile/experience/${id}`)
+        .put(`/api/profile/delete/experience/${id}`)
         .then(res => 
             dispatch({
                 type: GET_PROFILE,
@@ -164,7 +164,7 @@ export const updateEducation = (id, educationData, history) => dispatch => {
 //delete education
 export const  deleteEducation = (id) => dispatch => {
     axios
-        .delete(`/api/profile/education/${id}`)
+        .put(`/api/profile/education/delete/${id}`)
         .then(res => 
             dispatch({
                 type: GET_PROFILE,
