@@ -61,3 +61,7 @@ li .profile {
     border-right: 5px solid;
     border-image:   linear-gradient(to right, white 50%, black 50%) 2;
    }
+
+   .navbar-dark .navbar-nav .nav-link {
+       color: white !important;
+   }

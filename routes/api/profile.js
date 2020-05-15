@@ -466,7 +466,6 @@ router.put('/education/:exp_id', passport.authenticate('jwt', {session: false })
 //Delete education from profile
 //private
 router.put('/education/delete/:edu_id', passport.authenticate('jwt', {session: false }), (req, res) => {
-	let profileFound = null;
 	const authUser = req.user.id;
 	Profile.findOne({user: req.user.id}).populate()
 		.then(profile => {
