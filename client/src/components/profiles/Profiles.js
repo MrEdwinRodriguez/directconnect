@@ -8,8 +8,11 @@ import { getProfiles, getProfilesByOrginization } from '../../actions/profileAct
 
 class Profiles extends Component {
     componentDidMount () {
-        if(this.props.match.params.orginization) {
-            this.props.getProfilesByOrginization(this.props.match.params.orginization)
+        let path = window.location.pathname.split("/")
+        let index = path.length -1;
+        let org = path[index]
+        if(org == 'phi_beta_sigma' || org =='zeta_phi_beta') {
+            this.props.getProfilesByOrginization(org)
         } else {
             this.props.getProfiles();
         }
