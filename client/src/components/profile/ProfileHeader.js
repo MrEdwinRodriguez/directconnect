@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import isEmpty from '../../validation/is-empty';
+import {connect} from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import '../../css/style.css';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { uploadProfileImage, getProfileByHandle  } from "../../actions/profileActions";
 class ProfileHeader extends Component {
 
     state = {
@@ -23,7 +26,9 @@ class ProfileHeader extends Component {
                 'content-type': 'multipart/form-data'
             }
         }
-        axios.post('/api/profile/upload', fd, config)
+        console.log(this.props.history)
+        // axios.post('/api/profile/upload', fd, config)
+        this.props.uploadProfileImage(fd, config, this.props.history)
 
     }
 
@@ -60,7 +65,7 @@ class ProfileHeader extends Component {
                 <div className="card card-body bg-royal text-white mb-3">
                 <div className="row">
                     <div className="col-4 col-md-3 m-auto">
-                        {profile.profileImage ? <img className="rounded-circle"  src={process.env.PUBLIC_URL + '/uploads/'+profile.profileImage} alt="profile image" /> :  <img className="rounded-circle" src={profile.user.avatar} alt="no image" /> }
+                        {profile.profileImage ? <img className="rounded-circle"  src={profile.profileImage} alt="profile image" /> :  <img className="rounded-circle" src={profile.user.avatar} alt="no image" /> }
                     </div>
                 </div>
                 <div className='row'>
@@ -164,4 +169,9 @@ class ProfileHeader extends Component {
   }
 }
 
-export default  ProfileHeader;
+
+const mapStateToProops = state => ({
+
+})
+
+export default connect(mapStateToProops, {uploadProfileImage})(withRouter(ProfileHeader));

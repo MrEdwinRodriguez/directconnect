@@ -12,15 +12,21 @@ const validateExperienceInput = require('../../validation/experience');
 const validateEducationInput = require('../../validation/education');
 const validateBusinessInput = require('../../validation/business');
 const validateHiringInput = require('../../validation/hiring');
-var multer  = require('multer')
-var upload = multer({ dest: 'uploads/' })
+const gcs = require('../../middlewares/google-cloud-storage');
+var Multer  = require('multer')
+// var upload = multer({ dest: 'uploads/' })
 // // const storage = multer.diskStorage({
 // //     destination: function (req, res, cb) {
 // //         cb(null, 'uploads/')
 // //     }
 // // });
 
-// // const upload = multer({ storage: storage });
+const multer = Multer({ 
+    storage: Multer.MemoryStorage,
+    // limits: {
+    //   fileSize: 10 * 1024 * 1024, // Maximum file size is 10MB
+    // },
+});
 
 
 //GET API/profile
@@ -618,30 +624,27 @@ router.delete('/', passport.authenticate('jwt', { session: false }), (req, res) 
 //POST API/profile/upload
 //Add experience to profile
 //private
-router.post('/upload', passport.authenticate('jwt', {session: false }), (req, res) => {
+router.post('/upload',  multer.single('image'), passport.authenticate('jwt', {session: false }),  gcs.sendUploadToGCS, (req, res, next) => {
 	if(req.files === null) {
 		return res.status(400).json({ msg: "No File Uploaded"});
 	}
-	const file = req.files.file;
-	file.mv(`${__dirname}/../../client/public/uploads/${file.name}`, err => {
-		if (err) {
-		  console.error(err);
-		  return res.status(500).send(err);
+	if ( req.file.cloudStorageError) {
+		return res.status(400).json({ msg: "An Error occuered uploaded your file"});
+	}
+	const file = req.file;
+	Profile.findOne({ user: req.user.id })
+	.then(profile => {
+		if(!profile) {
+			errors.noprofile = "There is no profile found for this user";
+			res.status(400). json(errors)
 		}
+		profile.profileImage = req.file.gcsUrl;
+		console.log('saving profile image')
+		profile.save()
+			.then(profile => res.json(profile))
+	})		
 
-		Profile.findOne({ user: req.user.id })
-		.then(profile => {
-			if(!profile) {
-				errors.noprofile = "There is no profile found for this user";
-				res.status(400). json(errors)
-			}
-			
-			profile.profileImage = req.files.file.name;
-			profile.save()
-				.then(profile => res.json({ fileName: file.name, filePath: `/uploads/${file.name}` }))
-		})		
-
-	})
+	// })
 })
 
 function getProfileWithAttributes(userId) {

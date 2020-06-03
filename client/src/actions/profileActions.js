@@ -55,6 +55,19 @@ export const createProfile = (profileData, history) => dispatch => {
             )
 }
 
+//create profile
+export const uploadProfileImage = (file, config, history) => dispatch => {
+    axios
+        .post("/api/profile/upload", file, config)
+        .then(res => history.push('/dashboard'))
+        .catch(err => 
+            dispatch({
+                type: GET_ERRORS,
+                payload: err.response.data
+            })
+            )
+}
+
 //add experience
 export const  addExperience = (expData, history) => dispatch => {
     axios
