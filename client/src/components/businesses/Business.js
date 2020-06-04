@@ -34,10 +34,10 @@ class Business extends Component {
                 <p>Location: {business.location}</p>
                 <p>website: {business.website}</p>
                 <hr></hr>
-                <p>Contact: </p>
-                <p>{business.contactName? 'Name: ' + business.contactName : ''}</p>
-                <p>{business.contactName? 'Email: ' + business.email : ''}</p>
-                <p>{business.contactName? 'Phone Number: ' + business.phoneNumber : ''}</p>
+                <p><strong>Contact</strong></p>
+                <p>{business.contactName ? 'Name: ' + business.contactName : ''}</p>
+                <p>{business.email ? 'Email: ' + business.email : ''}</p>
+                <p>{business.phoneNumber ? 'Phone Number: ' + business.phoneNumber : ''}</p>
               </div>
               <div className='col-md-6 d-none d-md-block'>
                 <h4>Description</h4>

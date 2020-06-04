@@ -35,10 +35,10 @@ class Profiles extends Component {
                 <p>Location: {position.location}</p>
                 <p>Pay: {position.pay} {position.frequency}</p>
                 <hr></hr>
-                <p>Contact: </p>
+                <p><strong>Contact</strong> </p>
                 <p>{position.contactName? 'Name: ' + position.contactName : ''}</p>
-                <p>{position.contactName? 'Email: ' + position.email : ''}</p>
-                <p>{position.contactName? 'Phone Number: ' + position.phoneNumber : ''}</p>
+                <p>{position.email ? 'Email: ' + position.email : ''}</p>
+                <p>{position.phoneNumber ? 'Phone Number: ' + position.phoneNumber : ''}</p>
               </div>
               <div className='col-md-6 d-none d-md-block'>
                 <h4>Description</h4>

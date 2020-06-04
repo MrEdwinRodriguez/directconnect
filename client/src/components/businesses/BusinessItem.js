@@ -11,7 +11,6 @@ class BusinessItem extends Component {
           <div className='row'>
             <div className='col-lg-6 cold-md-4 col-8'>
               <h3>{business.name}</h3>
-              <p>Company: {business.company}</p>
               <p>Location: {business.location}</p>
               <p>Website: {business.website}</p>
               <p>Contact: {business.contactName} / {business.contactEmail} / {business.contactPhone } </p>
