@@ -57,9 +57,9 @@ export const createProfile = (profileData, history) => dispatch => {
 
 //create profile
 export const uploadProfileImage = (file, config, history) => dispatch => {
-    axios
+    return axios
         .post("/api/profile/upload", file, config)
-        .then(res => history.push('/dashboard'))
+        // .then(res => history.push('/dashboard'))
         .catch(err => 
             dispatch({
                 type: GET_ERRORS,

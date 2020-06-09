@@ -20,15 +20,19 @@ class ProfileHeader extends Component {
 
     fileUploadHandler = () => {
         const fd = new FormData;
+        if (!this.state.selectedFile) {
+            return false;
+        }
         fd.append('file', this.state.selectedFile, this.state.selectedFile.name)
         const config = {
             headers: {
                 'content-type': 'multipart/form-data'
             }
         }
-        console.log(this.props.history)
-        // axios.post('/api/profile/upload', fd, config)
         this.props.uploadProfileImage(fd, config, this.props.history)
+        .then(() => {this.setState({
+            selectedFile: null
+        })})
 
     }
 
@@ -72,7 +76,7 @@ class ProfileHeader extends Component {
                 <div className="col-4 col-md-4 m-auto">
                     <div className="input-group mb-3">
                             <div className="custom-file">
-                                <input type="file" className="custom-file-input"  id="inputGroupFile01" onChange={this.fileSelectedHandler} />
+                                <input type="file" multiple accept='image/*' className="custom-file-input"  id="inputGroupFile01" onChange={this.fileSelectedHandler} />
                                 <label className="custom-file-label" >{fileName}</label>
                             </div>
                             <div className='input-group-append'>
