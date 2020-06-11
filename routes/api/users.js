@@ -9,7 +9,7 @@ const passport = require('passport');
 const validateRegistrationInput = require('../../validation/register');
 const validateLoginInput = require('../../validation/login');
 const User = require('../../models/User');
-
+const mailer = require('../../controllers/emails');
 
 router.get('/test', (req,res) => res.json({msg: "Users works"}));
 
@@ -54,7 +54,10 @@ router.post('/register', (req, res) => {
 					if (err) throw err;
 					newUser.password = hash;
 					newUser.save()
-						.then(user => res.json(user))
+						.then(user => {
+							mailer.welcomeEmail(user)
+							res.json(user)
+						})
 						.catch(err => console.log(err));
 				})
 			})
@@ -66,7 +69,6 @@ router.post('/register', (req, res) => {
 //login user / return JWT token
 //public
 router.post('/login', (req, res) => {
-
 	const { errors, isValid } = validateLoginInput(req.body);
 
 	if(!isValid) {

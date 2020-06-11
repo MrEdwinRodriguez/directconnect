@@ -3,9 +3,8 @@ import isEmpty from '../../validation/is-empty';
 import {connect} from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import '../../css/style.css';
-import axios from 'axios';
 import { Link } from 'react-router-dom';
-import { uploadProfileImage, getProfileByHandle  } from "../../actions/profileActions";
+import { uploadProfileImage } from "../../actions/profileActions";
 class ProfileHeader extends Component {
 
     state = {
@@ -19,7 +18,7 @@ class ProfileHeader extends Component {
     }
 
     fileUploadHandler = () => {
-        const fd = new FormData;
+        const fd = new FormData();
         if (!this.state.selectedFile) {
             return false;
         }
