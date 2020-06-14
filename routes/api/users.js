@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const gravatar = require('gravatar');
 const bcrypt = require('bcryptjs');
+var crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 const keys = require('../../config/keys');
 const passport = require('passport');
@@ -10,6 +11,7 @@ const validateRegistrationInput = require('../../validation/register');
 const validateLoginInput = require('../../validation/login');
 const User = require('../../models/User');
 const mailer = require('../../controllers/emails');
+const authController = require('../../controllers/auth-controller');
 
 router.get('/test', (req,res) => res.json({msg: "Users works"}));
 
@@ -128,17 +130,35 @@ router.get('/current', passport.authenticate('jwt', { session: false }), (req, r
 //GET API/users/current
 //reset password
 //public
-router.post('/reset_password', (req, res) => {
-	console.log('in reset_password')
-	res.json({'message': 'success'})
+router.post('/forgot_password', (req, res) => {
+	const userEmail = req.body.email;
+	authController.getToken()
+	.then((token) => {
+		return User.findOne({email : userEmail }).exec()
+	.then((oUser) => {
+		console.log(oUser)
+		if (!oUser) {
+			return req.json({'error': 'We do not have an account with this email'})
+			// return res.redirect('/forgot_password')
+		}
+       	oUser.resetPasswordToken = token;
+		oUser.resetPasswordExpires = Date.now() + 3600000;   
+		oUser.save((err, user) => {
+			const host = req.headers['x-forwarded-host'];
+			mailer.forgotPassword(user, host)
+			.then((message) =>{
+			console.log('in forgot_password', user)
+			res.json(message)
+			})
+			.catch((error) => {
+				return res.status(500).send(error)
+			})
+		})
+	})
+
+	})
+
 })
-
-
-
-
-
-
-
 
 
 

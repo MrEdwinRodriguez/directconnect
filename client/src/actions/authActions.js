@@ -53,7 +53,7 @@ export const logoutUser = () => dispatch => {
   };
 
   export const resetPassword = (email, history) => dispatch => {
-      axios.post('api/users/reset_password', email)
+      axios.post('api/users/forgot_password', email)
       .then(res => console.log('reset request sent'))
       .catch(err => dispatch({
         type: GET_ERRORS,

@@ -25,7 +25,7 @@ class ResetPassword extends Component {
 
     onSubmit (e) {
         e.preventDefault();
-        this.props.resetPassword(this.state.email)
+        this.props.resetPassword({email: this.state.email})
         this.setState({ sent: true})
 
     }

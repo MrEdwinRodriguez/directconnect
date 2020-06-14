@@ -79,7 +79,7 @@ class Login extends Component {
               <input type="submit" className="btn btn-royal btn-block text-white mt-4" />
             </form>
             <div>
-              <p className='forgot-password'><Link to={`/reset_password`}>
+              <p className='forgot-password'><Link to={`/forgot_password`}>
                 Forgot Password</Link>
               </p>
             </div>
