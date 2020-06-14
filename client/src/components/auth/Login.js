@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { loginUser } from '../../actions/authActions';
 import TextFieldGroup from '../common/TextFieldGroup';
+import { Link } from 'react-router-dom';
 import '../../css/style.css';
-
 
 class Login extends Component {
   constructor() {
@@ -51,6 +51,7 @@ class Login extends Component {
   render() {
     const { errors } = this.state;
 
+
     return (
       <div className="login">
       <div className="container">
@@ -77,6 +78,11 @@ class Login extends Component {
             />
               <input type="submit" className="btn btn-royal btn-block text-white mt-4" />
             </form>
+            <div>
+              <p className='forgot-password'><Link to={`/reset_password`}>
+                Forgot Password</Link>
+              </p>
+            </div>
           </div>
         </div>
       </div>

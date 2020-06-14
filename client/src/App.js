@@ -32,6 +32,7 @@ import Busineseses from './components/businesses/Businesses';
 import Business from './components/businesses/Business';
 import Position from './components/positions/Position';
 import Post from './components/post/Post';
+import Reset from './components/auth/ResetPassword';
  
 import './App.css';
  
@@ -67,6 +68,7 @@ class App extends Component {
             <div className="container">
               <Route exact path="/register" component={Register} />
               <Route exact path="/login" component={Login} />
+              <Route exact path="/reset_password" component={Reset} />
               <Switch>
                 <PrivateRoute exact path="/dashboard" component={Dashboard} />
               </Switch>

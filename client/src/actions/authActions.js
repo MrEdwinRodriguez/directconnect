@@ -51,3 +51,13 @@ export const logoutUser = () => dispatch => {
     // Set current user to {} which will set isAuthenticated to false
     dispatch(setCurrentUser({}));
   };
+
+  export const resetPassword = (email, history) => dispatch => {
+      axios.post('api/users/reset_password', email)
+      .then(res => console.log('reset request sent'))
+      .catch(err => dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+      );
+  }

@@ -125,7 +125,13 @@ router.get('/current', passport.authenticate('jwt', { session: false }), (req, r
 	});
 });
 
-
+//GET API/users/current
+//reset password
+//public
+router.post('/reset_password', (req, res) => {
+	console.log('in reset_password')
+	res.json({'message': 'success'})
+})
 
 
 

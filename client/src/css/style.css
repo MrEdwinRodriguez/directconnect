@@ -65,3 +65,7 @@ li .profile {
    .navbar-dark .navbar-nav .nav-link {
        color: white !important;
    }
+
+   .forgot-password {
+    text-align: Center
+   }
