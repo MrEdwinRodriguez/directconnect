@@ -52,7 +52,7 @@ export const logoutUser = () => dispatch => {
     dispatch(setCurrentUser({}));
   };
 
-  export const resetPassword = (email, history) => dispatch => {
+  export const forgotPassword = (email, history) => dispatch => {
       axios.post('api/users/forgot_password', email)
       .then(res => console.log('reset request sent'))
       .catch(err => dispatch({
@@ -60,4 +60,14 @@ export const logoutUser = () => dispatch => {
         payload: err.response.data
       })
       );
+  }
+
+
+  export const resetPassword = (email, token, history) => dispatch => {
+      axios.post('api/users/reset', email, token)
+      .then(res => history.push('/login'))
+      .catch(err => dispatch({
+          type: GET_ERRORS,
+          payload: err.response.data
+      }))
   }

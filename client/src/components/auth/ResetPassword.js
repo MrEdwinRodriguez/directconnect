@@ -1,18 +1,18 @@
-import React,{ Component } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { resetPassword  } from '../../actions/authActions';
 import TextFieldGroup from '../common/TextFieldGroup';
+import { resetPassword } from '../../actions/authActions';
 import '../../css/style.css';
-
 
 class ResetPassword extends Component {
     constructor() {
         super();
         this.state = {
             email: "",
-            sent: "",
+            password: "",
+            password2: "",
             errors: {}
         }
         this.onChange = this.onChange.bind(this);
@@ -20,61 +20,23 @@ class ResetPassword extends Component {
     }
 
     onChange(e) {
-        this.setState({ [e.target.name]: e.target.value})
+        console.log('changing')
     }
 
-    onSubmit (e) {
-        e.preventDefault();
-        this.props.resetPassword({email: this.state.email})
-        this.setState({ sent: true})
-
+    onSubmit(e) {
+        console.log('submitting')
     }
 
     render() {
-        const { errors } = this.state
-
-        if (this.state.sent) {
-            var resetPageDisplay =  
-                <div className="col-md-8 m-auto">
-                    <p className="lead text-center">An email has been sent to {this.state.email} to reset your password</p>
-                </div>
-        } else {
-            var resetPageDisplay =  
-            <div className="col-md-8 m-auto">
-                <h1 className='reset-4 text-center'>Reset Passwods</h1>
-                <p className="lead text-center">
-                    Enter User Email
-                </p>
-                <form noValidate onSubmit={this.onSubmit}>
-                    <TextFieldGroup
-                        placeholder='Email Address'
-                        name='email'
-                        type='email'
-                        value={this.state.email}
-                        onChange={this.onChange}
-                        error={errors.email}
-                    />
-                    <input type="submit" className="btn btn-royal text-white btn-block mt-4" />
-                </form>
-            </div>
-
-        }
-
         return (
-            <div className="resetPassword">
-                <div className='container'>
-                    <div className='row'>
-                        {resetPageDisplay}
-                    </div>
-                </div>
-            </div>
-
+            <div>Test</div>
         )
+        
     }
 }
 
 ResetPassword.propTypes = {
-    ResetPassword: PropTypes.func.isRequired,
+    ResetPassword : PropTypes.func.isRequired,
     errors: PropTypes.object.isRequired
 }
 
@@ -83,4 +45,3 @@ const mapStateToProps = state => ({
 })
 
 export default connect(mapStateToProps, {resetPassword})(withRouter(ResetPassword));
-

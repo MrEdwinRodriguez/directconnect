@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const gravatar = require('gravatar');
 const bcrypt = require('bcryptjs');
-var crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 const keys = require('../../config/keys');
 const passport = require('passport');
@@ -158,6 +157,11 @@ router.post('/forgot_password', (req, res) => {
 
 	})
 
+})
+
+router.post('/reset/:token', (req, res) => {
+	console.log('in reset endpoint')
+	res.json({succesfull: 'password has been reset'})
 })
 
 
