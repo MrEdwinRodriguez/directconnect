@@ -16,21 +16,25 @@ class Navbar extends Component {
     this.props.clearCurrentProfile();
     this.props.logoutUser();
   }
-  onOpenProfile(e) {
-    console.log('open profile')
-  }
 
   render() {
     const { isAuthenticated, user } = this.props.auth;
     const { profile } = this.props.profile;
     console.log(profile)
-    let profileImage = "#";
+    let profileImage = "";
     let nameDisplay = "";
     if (profile && profile.user) {
       nameDisplay = profile.user.name;
     }
     if (profile && profile.profileImage) {
-      profileImage = profile.profileImage;
+      console.log('hi')
+      profileImage = 
+        <img
+        className="rounded-circle"
+        src={profile.profileImage}
+        alt={user.name}
+        style={{ width: '25px', marginRight: '5px' }}
+      />
     }
 
     const authLinks = (
@@ -57,12 +61,8 @@ class Navbar extends Component {
         </li>
         <li className="nav-item">
           <Link className="nav-link" to="/dashboard">
-            <img
-              className="rounded-circle"
-              src={profileImage}
-              alt={user.name}
-              style={{ width: '25px', marginRight: '5px' }}
-            />{' '}
+          {profileImage}
+            {/* {' '} */}
               {nameDisplay}
             </Link>
         </li>

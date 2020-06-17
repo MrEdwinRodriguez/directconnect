@@ -19,6 +19,7 @@ router.get('/test', (req,res) => res.json({msg: "Users works"}));
 //public
 
 router.post('/register', (req, res) => {
+	console.log('in /register')
 	const { errors, isValid } = validateRegistrationInput(req.body);
 
 	//check Validation
@@ -43,7 +44,9 @@ router.post('/register', (req, res) => {
 				d: 'mm', //Default
 			});
 			const newUser = new User({
-				name: req.body.name,
+				first_name: req.body.first_name,
+				last_name: req.body.last_name,
+				name: req.body.first_name + " " + req.body.last_name,
 				email: req.body.email,
 				inviteCode: req.body.inviteCode,
 				avatar,
@@ -90,8 +93,8 @@ router.post('/login', (req, res) => {
 					//user Matched
 					const payload = { 
 						id: user.id, 
-						name: user.name, 
-						avatar: user.avatar,
+						first_name: user.first_name,
+						last_name: user.last_name,
 						inviteCode: user.inviteCode
 					};
 					//Sign Token
