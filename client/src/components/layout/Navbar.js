@@ -3,18 +3,35 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { logoutUser } from '../../actions/authActions';
-import { clearCurrentProfile } from '../../actions/profileActions';
+import { clearCurrentProfile,  getCurrentProfile } from '../../actions/profileActions';
 import '../../css/style.css';
  
 class Navbar extends Component {
+  componentDidMount(){
+    this.props.getCurrentProfile();
+}
+
   onLogoutClick(e) {
     e.preventDefault();
     this.props.clearCurrentProfile();
     this.props.logoutUser();
   }
+  onOpenProfile(e) {
+    console.log('open profile')
+  }
 
   render() {
     const { isAuthenticated, user } = this.props.auth;
+    const { profile } = this.props.profile;
+    console.log(profile)
+    let profileImage = "#";
+    let nameDisplay = "";
+    if (profile && profile.user) {
+      nameDisplay = profile.user.name;
+    }
+    if (profile && profile.profileImage) {
+      profileImage = profile.profileImage;
+    }
 
     const authLinks = (
       <ul className="navbar-nav ml-auto">
@@ -39,18 +56,22 @@ class Navbar extends Component {
           </Link>
         </li>
         <li className="nav-item">
+          <Link className="nav-link" to="/dashboard">
+            <img
+              className="rounded-circle"
+              src={profileImage}
+              alt={user.name}
+              style={{ width: '25px', marginRight: '5px' }}
+            />{' '}
+              {nameDisplay}
+            </Link>
+        </li>
+        <li className="nav-item">
           <a
             href=""
             onClick={this.onLogoutClick.bind(this)}
             className="nav-link"
           >
-            <img
-              className="rounded-circle"
-              src={user.avatar}
-              alt={user.name}
-              style={{ width: '25px', marginRight: '5px' }}
-              title="You must have a Gravatar connected to your email to display an image"
-            />{' '}
             Logout
           </a>
         </li>
@@ -118,12 +139,14 @@ class Navbar extends Component {
 }
  
 Navbar.propTypes = {
+  getCurrentProfile: PropTypes.func.isRequired,
   logoutUser: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired
 };
  
 const mapStateToProps = state => ({
-  auth: state.auth
+  auth: state.auth,
+  profile: state.profile,
 });
  
-export default connect(mapStateToProps, { logoutUser, clearCurrentProfile })(Navbar);
+export default connect(mapStateToProps, { logoutUser, clearCurrentProfile, getCurrentProfile })(Navbar);
