@@ -41,7 +41,7 @@ class ForgotPassword extends Component {
         } else {
             var resetPageDisplay =  
             <div className="col-md-8 m-auto">
-                <h1 className='reset-4 text-center'>Reset Passwods</h1>
+                <h1 className='reset-4 text-center'>Forgot Password</h1>
                 <p className="lead text-center">
                     Enter User Email
                 </p>

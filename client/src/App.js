@@ -70,7 +70,7 @@ class App extends Component {
               <Route exact path="/register" component={Register} />
               <Route exact path="/login" component={Login} />
               <Route exact path="/forgot_password" component={ForgotPassword} />
-              <Route exact path="/reset/:toekn" component={ResetPassword} />
+              <Route exact path="/reset/:token" component={ResetPassword} />
               <Switch>
                 <PrivateRoute exact path="/dashboard" component={Dashboard} />
               </Switch>

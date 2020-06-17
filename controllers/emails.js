@@ -61,7 +61,7 @@ function forgotPassword (user, host) {
         const mailOptions = {
             from: '"BlueAndWhiteConnect"'+ mailerCredentials.email,
             to: user.email,
-            subject: 'Welcom to Blue and White Connect',
+            subject: 'Forgot Password',
             text:  emailBody,
         }
         console.log('sending email now to: ', user.email)
@@ -77,3 +77,42 @@ function forgotPassword (user, host) {
 }
 
 exports.forgotPassword = forgotPassword;
+
+function passwordReset (user) {
+    return new Promise(function (resolve, reject) {
+        console.log('sending password reset email')
+        const transporter = nodemailer.createTransport({
+            host: "smtp.gmail.com",
+            port: 465,
+            secure: false,
+            service: 'gmail',
+            host: 'gmail.com',
+            auth: {
+                user: mailerCredentials.email,
+                pass: mailerCredentials.password
+            },
+            debug: false,
+            logger: true
+        });
+        console.log('break')
+        const emailBody = 'Your password has been reset';
+
+        const mailOptions = {
+            from: '"BlueAndWhiteConnect"'+ mailerCredentials.email,
+            to: user.email,
+            subject: 'Password has been reset',
+            text:  emailBody,
+        }
+        console.log('sending email now to: ', user.email)
+        transporter.sendMail(mailOptions, function(err, res) {
+            console.log('sent')
+            if (err) {
+                return reject(err);
+            } else {
+                return resolve({'success': 'Password has been reset'})
+            }
+        })
+    })
+}
+
+exports.passwordReset = passwordReset;

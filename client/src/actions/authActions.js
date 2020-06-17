@@ -61,13 +61,15 @@ export const logoutUser = () => dispatch => {
       })
       );
   }
+        
 
-
-  export const resetPassword = (email, token, history) => dispatch => {
-      axios.post('api/users/reset', email, token)
+  export const resetPassword = (resetData, token, history) => dispatch => {
+      console.log('here', resetData)
+      axios.put('../api/users/reset/'+token, resetData)
       .then(res => history.push('/login'))
       .catch(err => dispatch({
           type: GET_ERRORS,
-          payload: err.response.data
+          payload: {}
+        //   payload: {err.response.data}
       }))
   }

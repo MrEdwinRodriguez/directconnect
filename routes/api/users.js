@@ -138,7 +138,6 @@ router.post('/forgot_password', (req, res) => {
 		console.log(oUser)
 		if (!oUser) {
 			return req.json({'error': 'We do not have an account with this email'})
-			// return res.redirect('/forgot_password')
 		}
        	oUser.resetPasswordToken = token;
 		oUser.resetPasswordExpires = Date.now() + 3600000;   
@@ -159,12 +158,45 @@ router.post('/forgot_password', (req, res) => {
 
 })
 
-router.post('/reset/:token', (req, res) => {
-	console.log('in reset endpoint')
-	res.json({succesfull: 'password has been reset'})
+router.put('/reset/:token', (req, res) => {
+	console.log('in reset endpoint', req.body)
+	const token = req.params.token;
+	const password = req.body.password;
+	const password2 = req.body.password2
+	try {
+		if (password != password2 ) {
+			req.json({'error': 'passwords do no match'})
+		}
+		User.findOne({resetPasswordToken: token})
+		.then(user => {
+			if (!user) {
+				return res.json({'error': 'This token is not valid'})
+			}
+			const currentTime = new Date();
+			if (currentTime > user.resetPasswordExpires) {
+				console.log('token is expired')
+				return res.json({'error': 'Token has expired'})
+			} else {
+				bcrypt.genSalt(10, (err, salt) => {
+					bcrypt.hash(password, salt, (err, hash) => {
+						if (err) throw err;
+						user.password = hash;
+						user.save()
+							.then(user => {
+								if (err) throw err;
+								mailer.passwordReset(user)
+								console.log('succesfully changed password')
+								res.json({succesfull: 'password has been reset'})
+							})
+							.catch(err => console.log(err));
+					})
+				})
+			}
+		})
+	}
+	catch (error) {
+		res.status(500).send(error+"")
+	}
 })
-
-
-
 
 module.exports = router;
