@@ -12,6 +12,7 @@ class ProfileHeader extends Component {
     }
 
     fileSelectedHandler = event => {
+        console.log(event.target.files[0])
         this.setState({
             selectedFile: event.target.files[0]
         })
@@ -36,6 +37,7 @@ class ProfileHeader extends Component {
     }
 
         render() {
+            console.log(window.location.origin)
             const { profile } = this.props;
             let fileName = "Update Profile Image";
             let lookginFor = "";
@@ -66,9 +68,9 @@ class ProfileHeader extends Component {
             <div className="row">
             <div className="col-md-12">
                 <div className="card card-body bg-royal text-white mb-3">
-                <div className="row">
+                <div className="row pad-10">
                     <div className="col-4 col-md-3 m-auto">
-                        {profile.profileImage ? <img className="rounded-circle"  src={profile.profileImage} alt="profile image" /> :  <img className="rounded-circle" src={profile.user.avatar} alt="no image" /> }
+                        {profile.profileImage ? <img className="rounded-circle"  src={profile.profileImage} alt="profile image" /> :  <img className="rounded-circle" src="/blank.png" alt="no image" /> }
                     </div>
                 </div>
                 <div className='row'>
