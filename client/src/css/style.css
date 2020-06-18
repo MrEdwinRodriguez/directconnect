@@ -1,14 +1,13 @@
 .bg-royal {
-    /* background-color:#002366; */
-    background-color: #0000FF;
+    background-color: #0855a3;
 }
 
 .text-royal {
-    color: #0000FF;
+    color: #0855a3;
 }
 
 .btn-royal {
-    background-color: #0000FF;
+    background-color:#0855a3;
 }
 
 .text-white {
@@ -16,9 +15,9 @@
 }
 
 .footer {
-    backgroundColor: #F8F8F8;
-     borderTop: 1px solid #E7E7E7;
-    textAlign: center;
+    background-color: #0855a3;
+     border-top: 1px solid #E7E7E7;
+    text-align: center;
      padding: 20px;
     position: fixed;
     left: 0;
