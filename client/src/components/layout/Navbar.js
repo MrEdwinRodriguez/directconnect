@@ -2,13 +2,14 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { logoutUser } from '../../actions/authActions';
+import { logoutUser, getCurrentUser } from '../../actions/authActions';
 import { clearCurrentProfile,  getCurrentProfile } from '../../actions/profileActions';
 import '../../css/style.css';
  
 class Navbar extends Component {
   componentDidMount(){
     this.props.getCurrentProfile();
+    this.props.getCurrentUser();
 }
 
   onLogoutClick(e) {
@@ -20,14 +21,15 @@ class Navbar extends Component {
   render() {
     const { isAuthenticated, user } = this.props.auth;
     const { profile } = this.props.profile;
-    console.log(profile)
     let profileImage = "";
     let nameDisplay = "";
-    if (profile && profile.user) {
+    if (user && user.first_name) {
+      nameDisplay = user.first_name + " " + user.last_name;
+    } else if (profile && profile.user) {
       nameDisplay = profile.user.name;
     }
+
     if (profile && profile.profileImage) {
-      console.log('hi')
       profileImage = 
         <img
         className="rounded-circle"
@@ -140,6 +142,7 @@ class Navbar extends Component {
  
 Navbar.propTypes = {
   getCurrentProfile: PropTypes.func.isRequired,
+  getCurrentUser: PropTypes.func.isRequired,
   logoutUser: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired
 };
@@ -147,6 +150,7 @@ Navbar.propTypes = {
 const mapStateToProps = state => ({
   auth: state.auth,
   profile: state.profile,
+  user: state.user,
 });
  
-export default connect(mapStateToProps, { logoutUser, clearCurrentProfile, getCurrentProfile })(Navbar);
+export default connect(mapStateToProps, { logoutUser, clearCurrentProfile, getCurrentProfile, getCurrentUser })(Navbar);

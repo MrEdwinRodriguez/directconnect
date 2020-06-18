@@ -2,7 +2,7 @@
 import axios from 'axios';
 import setAuthToken from '../utils/setAuthToken';
 import jwt_decode from 'jwt-decode';
-import { GET_ERRORS, SET_CURRENT_USER } from './types';
+import { GET_ERRORS, SET_CURRENT_USER, GET_USER } from './types';
 
 export const registerUser = (userData, history) => dispatch => {
     axios.post('/api/users/register', userData)
@@ -42,6 +42,20 @@ export const setCurrentUser = (decoded) => {
         payload: decoded
     }
 }
+
+export const getCurrentUser = () => dispatch => {
+     axios.get('api/users/current')
+     .then(res => 
+        dispatch({
+            type: GET_USER,
+            payload: res.data
+        })) 
+        .catch(err => 
+            dispatch({
+                type: GET_ERRORS,
+                payload: err.response.data
+            }))
+ }
 
 export const logoutUser = () => dispatch => {
     // Remove token from localStorage

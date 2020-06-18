@@ -1,13 +1,14 @@
 .bg-royal {
-    background-color: royalblue;
+    /* background-color:#002366; */
+    background-color: #0000FF;
 }
 
 .text-royal {
-    color: royalblue;
+    color: #0000FF;
 }
 
 .btn-royal {
-    background-color: royalblue;
+    background-color: #0000FF;
 }
 
 .text-white {

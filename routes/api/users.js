@@ -69,10 +69,11 @@ router.post('/register', (req, res) => {
 	})
 });
 
-//GET API/users/login
+//POST API/users/login
 //login user / return JWT token
 //public
 router.post('/login', (req, res) => {
+	
 	const { errors, isValid } = validateLoginInput(req.body);
 
 	if(!isValid) {
@@ -122,9 +123,18 @@ router.post('/login', (req, res) => {
 //return current user
 //private
 router.get('/current', passport.authenticate('jwt', { session: false }), (req, res) => {
+	let first_name = null;
+	let last_name = null;
+	if (req.user.name && !req.user.first_name) {
+		let splitName = req.user.name.split(" ");
+		first_name = splitName[0];
+		last_name = splitName[1];
+	}
 	res.json({
 		id: req.user.id,
 		name: req.user.name,
+		first_name: req.user.first_name ? req.user.first_name : first_name,
+		last_name: req.user.last_name ? req.user.last_name : last_name,
 		email: req.user.email
 	});
 });
