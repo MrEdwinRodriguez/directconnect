@@ -14,6 +14,11 @@
     color:#fff;
 }
 
+.btn-bw-blue {
+    background-color: #0855a3;
+    color: white;
+   }
+
 .footer {
     background-color: #0855a3;
      border-top: 1px solid #E7E7E7;
@@ -82,4 +87,8 @@ li .profile {
 
    .pad-10 {
     padding-bottom: 10px;
+   }
+
+   .pad-top-10 {
+       padding-top: 10px !important;
    }

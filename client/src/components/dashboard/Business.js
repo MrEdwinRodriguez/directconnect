@@ -19,10 +19,10 @@ class Business extends Component {
                 <td width="25%">{bus.title}</td>
                 <td width="15%">{bus.website}</td>
                 <td width="15%">{bus.location}</td>
-                <td width="10%"><Link to={`/profile/business/${bus._id}`} className="btn btn-primary">
+                <td width="10%"><Link to={`/profile/business/${bus._id}`} className="btn btn-bw-blue">
                 Edit</Link>
                 </td>
-                <td width="10%"><button onClick={this.onDeleteClick.bind(this, bus._id)} className='btn btn-danger'>Delete</button></td>   
+                <td width="10%"><span onClick={this.onDeleteClick.bind(this, bus._id)}><i className="fa fa-trash fa-lg pad-top-10" aria-hidden="true"></i></span></td>  
             </tr>
 
         ))

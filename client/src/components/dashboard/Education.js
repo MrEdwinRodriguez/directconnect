@@ -21,10 +21,10 @@ class Education extends Component {
                 <Moment format="YYYY/MM/DD">{edu.from}</Moment> -
                 {edu.to === null ? (' Now') : <Moment format="YYYY/MM/DD">{edu.to}</Moment>}
                 </td>
-                <td width="10%"><Link to={`/profile/education/${edu._id}`} className="btn btn-primary">
+                <td width="10%"><Link to={`/profile/education/${edu._id}`} className="btn btn-bw-blue">
                 Edit</Link>
-                </td>
-                <td width="10%"><button onClick={this.onDeleteClick.bind(this, edu._id)} className='btn btn-danger'>Delete</button></td>   
+                </td>  
+                <td width="10%"><span onClick={this.onDeleteClick.bind(this, edu._id)}><i className="fa fa-trash fa-lg pad-top-10" aria-hidden="true"></i></span></td>
             </tr>
 
         ))

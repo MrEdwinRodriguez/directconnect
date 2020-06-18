@@ -19,10 +19,10 @@ class Hiring extends Component {
                 <td width="25%">{hire.company}</td>
                 <td width="15%">{hire.location}</td>
                 <td width="15%">{hire.pay}</td>
-                <td width="10%"><Link to={`/profile/edit-hiring/${hire._id}`} className="btn btn-primary">
+                <td width="10%"><Link to={`/profile/edit-hiring/${hire._id}`} className="btn btn-bw-blue">
                 Edit</Link>
                 </td>
-                <td width="10%"><button onClick={this.onDeleteClick.bind(this, hire._id)} className='btn btn-danger'>Delete</button></td>   
+                <td width="10%"><span onClick={this.onDeleteClick.bind(this, hire._id)}><i className="fa fa-trash fa-lg pad-top-10" aria-hidden="true"></i></span></td> 
             </tr>
 
         ))
