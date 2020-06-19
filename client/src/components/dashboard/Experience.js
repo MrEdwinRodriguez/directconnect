@@ -7,10 +7,31 @@ import { Link } from 'react-router-dom';
 
 
 class Experience extends Component {
-    onDeleteClick (id) {
-        this.props.deleteExperience(id);
-    }
+    constructor(props) {
+        super(props);
+        this.state = {
+            showModal: false,
+            deleteId: "",
+            errors: {},
+        };
+        this.onDelete = this.onDelete.bind(this);
+        this.onCancel = this.onCancel.bind(this);
 
+      }
+
+    onOpenModal (id) {
+        this.setState({showModal: true});
+        this.setState({deleteId: id});
+    }
+    onDelete () {
+        this.props.deleteExperience(this.state.deleteId);
+        this.setState({showModal: false});
+        this.setState({deleteId: ""});
+    }
+    onCancel () {
+        this.setState({showModal: false});
+        this.setState({deleteId: ""});
+    }
   render() {
     let experience = null;
     if (this.props.experience && this.props.experience.length > 0) {
@@ -26,7 +47,7 @@ class Experience extends Component {
                 <td width="10%"><Link to={`/profile/experience/${exp._id}`} className="btn btn-bw-blue">
                 Edit</Link>
                 </td>
-                <td width="10%"><span onClick={this.onDeleteClick.bind(this, exp._id)}><i className="fa fa-trash fa-lg pad-top-10" aria-hidden="true"></i></span></td>
+                <td width="10%"><span onClick={this.onOpenModal.bind(this, exp._id)}><i className="fa fa-trash fa-lg pad-top-10" aria-hidden="true"></i></span></td>
             </tr>
 
         ))
@@ -36,8 +57,39 @@ class Experience extends Component {
                 <td>You have not added any experience</td>
             </tr>
         }
+    let modal = ""
+    if (this.state.showModal && this.props.experience) {
+        let experiences = this.props.experience;
+        let deleteExperience = null;
+        experiences .forEach(experience => {
+            if(experience._id == this.state.deleteId) {
+                deleteExperience = experience;
+            }
+        });
+        modal = 
+        <div className="" id="businessModal" role="dialog">
+            <div className="modal-dialog" role="document">
+                <div className="modal-content">
+                    <div className="modal-header">
+                        <h5 className="modal-title">Are you sure you want to delete this Experience?</h5>
+                        <button type="button" className="close" data-dismiss="modal" aria-label="Close" onClick={this.onCancel}>
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div className="modal-body">
+                        <p>You are deleting <strong>{deleteExperience.title}</strong> at <strong>{deleteExperience.company}</strong> from your profile.</p>
+                    </div>
+                    <div className="modal-footer">
+                        <button type="button" className="btn btn-primary" onClick={this.onDelete}>Delete Business</button>
+                        <button type="button" className="btn btn-secondary"  onClick={this.onCancel} data-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
     return (
       <div>
+          {modal}
           <h4 className='mb-4'>Experience Credentials</h4>
           <table className='table'>
             <thead>

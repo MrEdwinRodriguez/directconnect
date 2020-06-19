@@ -6,10 +6,31 @@ import { deleteEducation } from "../../actions/profileActions";
 import { Link } from 'react-router-dom';
 
 class Education extends Component {
-    onDeleteClick (id) {
-        this.props.deleteEducation(id);
-    }
+    constructor(props) {
+        super(props);
+        this.state = {
+            showModal: false,
+            deleteId: "",
+            errors: {},
+        };
+        this.onDelete = this.onDelete.bind(this);
+        this.onCancel = this.onCancel.bind(this);
 
+      }
+
+    onOpenModal (id) {
+        this.setState({showModal: true});
+        this.setState({deleteId: id});
+    }
+    onDelete () {
+        this.props.deleteEducation(this.state.deleteId);
+        this.setState({showModal: false});
+        this.setState({deleteId: ""});
+    }
+    onCancel () {
+        this.setState({showModal: false});
+        this.setState({deleteId: ""});
+    }
   render() {
     let education = null;
     if (this.props.education && this.props.education.length > 0) {
@@ -24,7 +45,7 @@ class Education extends Component {
                 <td width="10%"><Link to={`/profile/education/${edu._id}`} className="btn btn-bw-blue">
                 Edit</Link>
                 </td>  
-                <td width="10%"><span onClick={this.onDeleteClick.bind(this, edu._id)}><i className="fa fa-trash fa-lg pad-top-10" aria-hidden="true"></i></span></td>
+                <td width="10%"><span onClick={this.onOpenModal.bind(this, edu._id)}><i className="fa fa-trash fa-lg pad-top-10" aria-hidden="true"></i></span></td>
             </tr>
 
         ))
@@ -34,9 +55,39 @@ class Education extends Component {
                 <td>You have not added any experience</td>
             </tr>
         }
-    
+    let modal = ""
+    if (this.state.showModal && this.props.education) {
+        let educations = this.props.education;
+        let deleteEducation = null;
+        educations .forEach(education => {
+            if(education._id == this.state.deleteId) {
+                deleteEducation = education;
+            }
+        });
+        modal = 
+        <div className="" id="businessModal" role="dialog">
+            <div className="modal-dialog" role="document">
+                <div className="modal-content">
+                    <div className="modal-header">
+                        <h5 className="modal-title">Are you sure you want to delete this Education?</h5>
+                        <button type="button" className="close" data-dismiss="modal" aria-label="Close" onClick={this.onCancel}>
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div className="modal-body">
+                        <p>You are deleting <strong>{deleteEducation.degree}</strong> in <strong>{deleteEducation.fieldofstudy}</strong> from <strong>{deleteEducation.school}</strong>  from your profile.</p>
+                    </div>
+                    <div className="modal-footer">
+                        <button type="button" className="btn btn-primary" onClick={this.onDelete}>Delete Business</button>
+                        <button type="button" className="btn btn-secondary"  onClick={this.onCancel} data-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
     return (
       <div>
+          {modal}
           <h4 className='mb-4'>Education Credentials</h4>
           <table className='table'>
             <thead>

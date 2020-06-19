@@ -69,7 +69,7 @@ class Business extends Component {
             <div className="modal-dialog" role="document">
                 <div className="modal-content">
                     <div className="modal-header">
-                        <h5 className="modal-title">Are you sure you want to delete this Business</h5>
+                        <h5 className="modal-title">Are you sure you want to delete this Business?</h5>
                         <button type="button" className="close" data-dismiss="modal" aria-label="Close" onClick={this.onCancel}>
                         <span aria-hidden="true">&times;</span>
                         </button>
