@@ -78,7 +78,7 @@ class Education extends Component {
                         <p>You are deleting <strong>{deleteEducation.degree}</strong> in <strong>{deleteEducation.fieldofstudy}</strong> from <strong>{deleteEducation.school}</strong>  from your profile.</p>
                     </div>
                     <div className="modal-footer">
-                        <button type="button" className="btn btn-primary" onClick={this.onDelete}>Delete Business</button>
+                        <button type="button" className="btn btn-danger" onClick={this.onDelete}>Delete Business</button>
                         <button type="button" className="btn btn-secondary"  onClick={this.onCancel} data-dismiss="modal">Cancel</button>
                     </div>
                 </div>

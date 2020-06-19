@@ -80,7 +80,7 @@ class Experience extends Component {
                         <p>You are deleting <strong>{deleteExperience.title}</strong> at <strong>{deleteExperience.company}</strong> from your profile.</p>
                     </div>
                     <div className="modal-footer">
-                        <button type="button" className="btn btn-primary" onClick={this.onDelete}>Delete Business</button>
+                        <button type="button" className="btn btn-danger" onClick={this.onDelete}>Delete Business</button>
                         <button type="button" className="btn btn-secondary"  onClick={this.onCancel} data-dismiss="modal">Cancel</button>
                     </div>
                 </div>
@@ -89,7 +89,6 @@ class Experience extends Component {
     }
     return (
       <div>
-          {modal}
           <h4 className='mb-4'>Experience Credentials</h4>
           <table className='table'>
             <thead>
@@ -103,7 +102,7 @@ class Experience extends Component {
                 {experience}
             </tbody>
           </table>
-        
+          {modal}
       </div>
     )
   }
