@@ -3,11 +3,34 @@ import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import { deleteBusiness } from "../../actions/businessActions";
 import { Link } from "react-router-dom";
+import '../../css/style.css';
 
 
 class Business extends Component {
-    onDeleteClick (id) {
-        this.props.deleteBusiness(id);
+    constructor(props) {
+        super(props);
+        this.state = {
+            showModal: false,
+            deleteId: "",
+            errors: {},
+        };
+        this.onDelete = this.onDelete.bind(this);
+        this.onCancel = this.onCancel.bind(this);
+
+      }
+
+    onOpenModal (id) {
+        this.setState({showModal: true});
+        this.setState({deleteId: id});
+    }
+    onDelete () {
+        this.props.deleteBusiness(this.state.deleteId);
+        this.setState({showModal: false});
+        this.setState({deleteId: ""});
+    }
+    onCancel () {
+        this.setState({showModal: false});
+        this.setState({deleteId: ""});
     }
 
   render() {
@@ -22,7 +45,7 @@ class Business extends Component {
                 <td width="10%"><Link to={`/profile/business/${bus._id}`} className="btn btn-bw-blue">
                 Edit</Link>
                 </td>
-                <td width="10%"><span onClick={this.onDeleteClick.bind(this, bus._id)}><i className="fa fa-trash fa-lg pad-top-10" aria-hidden="true"></i></span></td>  
+                <td width="10%"><span onClick={this.onOpenModal.bind(this, bus._id)}><i className="fa fa-trash fa-lg pad-top-10" aria-hidden="true"></i></span></td>  
             </tr>
 
         ))
@@ -32,9 +55,39 @@ class Business extends Component {
             <td>You have not added a business</td>
         </tr>
     }
-    console.log(business)
+    let modal = ""
+    if (this.state.showModal && this.props.business) {
+        let businesses = this.props.business;
+        let deleteBusiness = null;
+        businesses.forEach(business => {
+            if(business._id == this.state.deleteId) {
+                deleteBusiness = business;
+            }
+        });
+        modal = 
+        <div className="" id="businessModal" role="dialog">
+            <div className="modal-dialog" role="document">
+                <div className="modal-content">
+                    <div className="modal-header">
+                        <h5 className="modal-title">Are you sure you want to delete this Business</h5>
+                        <button type="button" className="close" data-dismiss="modal" aria-label="Close" onClick={this.onCancel}>
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div className="modal-body">
+                        <p>You are deleting <strong>{deleteBusiness.name}</strong> from your profile.</p>
+                    </div>
+                    <div className="modal-footer">
+                        <button type="button" className="btn btn-primary" onClick={this.onDelete}>Delete Business</button>
+                        <button type="button" className="btn btn-secondary"  onClick={this.onCancel} data-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
     return (
-      <div>
+        <div>
+            {modal}
           <h4 className='mb-4'>Businesses</h4>
           <table className='table'>
             <thead>
