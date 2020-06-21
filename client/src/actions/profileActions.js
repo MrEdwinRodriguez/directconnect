@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { GET_PROFILE, PROFILE_LOADING, CLEAR_CURRENT_PROFILE, GET_ERRORS, SET_CURRENT_USER, GET_PROFILES, GET_EXPERIENCE, GET_EDUCATION, GET_BUSINESS, GET_BUSINESSES, GET_BUSINESSES_CRITERIA,  GET_HIRE } from './types';
+import { GET_PROFILE, PROFILE_LOADING, CLEAR_CURRENT_PROFILE, GET_ERRORS, SET_CURRENT_USER, GET_PROFILES, GET_EXPERIENCE, GET_EDUCATION, GET_PROFILES_CRITERIA } from './types';
 
 
 //Get current profile
@@ -242,6 +242,24 @@ export const getProfilesByOrginization = (orginization) => dispatch => {
                 );
      
 }
+
+//get profiles by search criteria
+export const getProfilesBySearchCriteria = (criteria) => dispatch => {
+    dispatch(setProfileLoading());
+    axios.get(`/api/profile/search/${criteria}`)
+    .then(res => 
+        dispatch({
+                type: GET_PROFILES_CRITERIA,
+                payload: res.data
+        }))
+        .catch(err => 
+            dispatch({
+                type: GET_PROFILES_CRITERIA,
+                payload: null
+            }))
+
+}
+
 
 //Delete account & profile
 export const deleteAccount = () => dispatch => {

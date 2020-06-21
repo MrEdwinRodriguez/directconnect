@@ -3,6 +3,8 @@ import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import { deleteHiring } from "../../actions/hiringActions";
 import { Link } from 'react-router-dom';
+import { FaEdit} from 'react-icons/fa';
+import { BsTrashFill} from 'react-icons/bs';
 
 
 class Hiring extends Component {
@@ -15,6 +17,10 @@ class Hiring extends Component {
         };
         this.onDelete = this.onDelete.bind(this);
         this.onCancel = this.onCancel.bind(this);
+        this.onHover = this.onHover.bind(this);
+        this.onExitHover = this.onExitHover.bind(this);
+        this.onHoverEdit = this.onHoverEdit.bind(this);
+        this.onExitEditHover = this.onExitEditHover.bind(this);
 
       }
 
@@ -31,8 +37,30 @@ class Hiring extends Component {
         this.setState({showModal: false});
         this.setState({deleteId: ""});
     }
+    onHover (e) {
+        this.setState(prevState => ({
+            deleteIsHover: true
+        }));
+    }
+    onExitHover (e) {
+        this.setState(prevState => ({
+            deleteIsHover: false
+        }));
+    }
+    onHoverEdit (e) {
+        this.setState(prevState => ({
+            editIsHover: true
+        }));
+    }
+    onExitEditHover (e) {
+        this.setState(prevState => ({
+            editIsHover: false
+        }));
+    }
   render() {
     let hiring = null;
+    const deleteHover = this.state.deleteIsHover ? 24 : 20;
+    const editHover = this.state.editIsHover ? 24 : 20;
     if (this.props.hiring && this.props.hiring.length !== 0) {
         hiring = this.props.hiring.map(hire => (
             <tr key={hire._id}>
@@ -40,10 +68,10 @@ class Hiring extends Component {
                 <td width="25%">{hire.company}</td>
                 <td width="15%">{hire.location}</td>
                 <td width="15%">{hire.pay}</td>
-                <td width="10%"><Link to={`/profile/edit-hiring/${hire._id}`} className="btn btn-bw-blue">
-                Edit</Link>
+                <td width="10%"><Link to={`/profile/edit-hiring/${hire._id}`} className='text-black' onMouseEnter={this. onHoverEdit} onMouseLeave={this.onExitEditHover}>
+                <FaEdit size={editHover}/></Link>
                 </td>
-                <td width="10%"><span onClick={this.onOpenModal.bind(this, hire._id)}><i className="fa fa-trash fa-lg pad-top-10" aria-hidden="true"></i></span></td> 
+                <td width="10%"><span onMouseEnter={this.onHover} onMouseLeave={this.onExitHover} onClick={this.onOpenModal.bind(this, hire._id)}><BsTrashFill size={deleteHover}/></span></td> 
             </tr>
 
         ))

@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import Moment from 'react-moment';
 import { deleteEducation } from "../../actions/profileActions";
 import { Link } from 'react-router-dom';
+import { FaEdit} from 'react-icons/fa';
+import { BsTrashFill} from 'react-icons/bs';
 
 class Education extends Component {
     constructor(props) {
@@ -15,6 +17,10 @@ class Education extends Component {
         };
         this.onDelete = this.onDelete.bind(this);
         this.onCancel = this.onCancel.bind(this);
+        this.onHover = this.onHover.bind(this);
+        this.onExitHover = this.onExitHover.bind(this);
+        this.onHoverEdit = this.onHoverEdit.bind(this);
+        this.onExitEditHover = this.onExitEditHover.bind(this);
 
       }
 
@@ -31,8 +37,30 @@ class Education extends Component {
         this.setState({showModal: false});
         this.setState({deleteId: ""});
     }
+    onHover (e) {
+        this.setState(prevState => ({
+            deleteIsHover: true
+        }));
+    }
+    onExitHover (e) {
+        this.setState(prevState => ({
+            deleteIsHover: false
+        }));
+    }
+    onHoverEdit (e) {
+        this.setState(prevState => ({
+            editIsHover: true
+        }));
+    }
+    onExitEditHover (e) {
+        this.setState(prevState => ({
+            editIsHover: false
+        }));
+    }
   render() {
     let education = null;
+    const deleteHover = this.state.deleteIsHover ? 24 : 20;
+    const editHover = this.state.editIsHover ? 24 : 20;
     if (this.props.education && this.props.education.length > 0) {
         education = this.props.education.map(edu => (
             <tr key={edu._id}>
@@ -42,10 +70,10 @@ class Education extends Component {
                 <Moment format="YYYY/MM/DD">{edu.from}</Moment> -
                 {edu.to === null ? (' Now') : <Moment format="YYYY/MM/DD">{edu.to}</Moment>}
                 </td>
-                <td width="10%"><Link to={`/profile/education/${edu._id}`} className="btn btn-bw-blue">
-                Edit</Link>
+                <td width="10%"><Link to={`/profile/education/${edu._id}`} className='text-black' onMouseEnter={this. onHoverEdit} onMouseLeave={this.onExitEditHover}>
+                <FaEdit size={editHover}/></Link>
                 </td>  
-                <td width="10%"><span onClick={this.onOpenModal.bind(this, edu._id)}><i className="fa fa-trash fa-lg pad-top-10" aria-hidden="true"></i></span></td>
+                <td width="10%"><span onMouseEnter={this.onHover} onMouseLeave={this.onExitHover} onClick={this.onOpenModal.bind(this, edu._id)}><BsTrashFill size={deleteHover}/></span></td>
             </tr>
 
         ))

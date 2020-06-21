@@ -114,6 +114,9 @@ class App extends Component {
                 <PrivateRoute exact path="/profiles/orginization/zeta_phi_beta" component={Profiles} />
               </Switch>
               <Switch>
+                <PrivateRoute exact path="/profile/search/:criteria" component={Positions} />
+              </Switch>
+              <Switch>
                 <PrivateRoute exact path="/profile/:handle" component={Profile} />
               </Switch>
               <Route exact path="/not-found" component={NotFound} />

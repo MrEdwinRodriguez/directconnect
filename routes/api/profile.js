@@ -96,7 +96,49 @@ router.get('/orginization/:orginization', (req, res) => {
 
 });
 
-//GET API/hiring/search/:criteria
+//GET API/profile/search/:criteria
+//GET  all profiles that meet criteria
+//private
+router.get('/search/:criteria', passport.authenticate('jwt', {session: false }), (req, res) => {
+	const errors = {};
+    const criteria = req.params.criteria;
+    var search_parameter = {};
+	if (criteria == null || criteria == undefined) {
+		return res.send(400)
+    }
+    if (criteria != "") {
+        search_parameter = {
+            $or: [{
+                handle : {$regex: criteria, $options: 'i'}
+            },
+            {
+                bio : {$regex: criteria, $options: 'i'}
+            }, 
+            {
+                company : {$regex: criteria, $options: 'i'}
+            },            
+            {
+                location : {$regex: criteria, $options: 'i'}
+			},
+			{
+                skills : {$regex: criteria, $options: 'i'}
+            }
+            ]
+        }
+    }
+	Profile.find(search_parameter)
+		.populate('user', ['name', 'avatar'])
+		.lean()
+		.then(profiles => {
+			if(!profiles || profiles == null) {
+				errors.noprofiles = "There were no profiles found for "+criteria;
+				res.status(400).json(errors)
+            }
+
+			res.json(profiles)
+		})
+		.catch(err => res.status(404).json(err));
+});
 
 
 //POST API/profile/hiring

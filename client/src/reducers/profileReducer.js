@@ -1,4 +1,4 @@
-import { GET_PROFILE, PROFILE_LOADING, CLEAR_CURRENT_PROFILE, GET_PROFILES, DELETE_HIRE, DELETE_BUSINESS } from '../actions/types'
+import { GET_PROFILE, PROFILE_LOADING, CLEAR_CURRENT_PROFILE, GET_PROFILES, DELETE_HIRE, DELETE_BUSINESS, GET_PROFILES_CRITERIA } from '../actions/types'
 
 const initialState = {
     profile: null,
@@ -29,6 +29,12 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 profile: null
+            }
+        case GET_PROFILES_CRITERIA:
+            return {
+                ...state,
+                profiles: action.payload,
+                loading: false
             }
         case DELETE_HIRE:
         return {

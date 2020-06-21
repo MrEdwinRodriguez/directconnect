@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import Moment from 'react-moment';
 import { deleteExperience } from "../../actions/profileActions";
 import { Link } from 'react-router-dom';
+import { FaEdit} from 'react-icons/fa';
+import { BsTrashFill} from 'react-icons/bs';
 
 
 class Experience extends Component {
@@ -16,7 +18,10 @@ class Experience extends Component {
         };
         this.onDelete = this.onDelete.bind(this);
         this.onCancel = this.onCancel.bind(this);
-
+        this.onHover = this.onHover.bind(this);
+        this.onExitHover = this.onExitHover.bind(this);
+        this.onHoverEdit = this.onHoverEdit.bind(this);
+        this.onExitEditHover = this.onExitEditHover.bind(this);
       }
 
     onOpenModal (id) {
@@ -32,8 +37,30 @@ class Experience extends Component {
         this.setState({showModal: false});
         this.setState({deleteId: ""});
     }
+    onHover (e) {
+        this.setState(prevState => ({
+            deleteIsHover: true
+        }));
+    }
+    onExitHover (e) {
+        this.setState(prevState => ({
+            deleteIsHover: false
+        }));
+    }
+    onHoverEdit (e) {
+        this.setState(prevState => ({
+            editIsHover: true
+        }));
+    }
+    onExitEditHover (e) {
+        this.setState(prevState => ({
+            editIsHover: false
+        }));
+    }
   render() {
     let experience = null;
+    const deleteHover = this.state.deleteIsHover ? 24 : 20;
+    const editHover = this.state.editIsHover ? 24 : 20;
     if (this.props.experience && this.props.experience.length > 0) {
         experience = this.props.experience.map(exp => (
             <tr key={exp._id}>
@@ -44,10 +71,10 @@ class Experience extends Component {
                 {exp.to === null ? (' Now') : <Moment format="YYYY/MM/DD">{exp.to}</Moment>}
 
                 </td>
-                <td width="10%"><Link to={`/profile/experience/${exp._id}`} className="btn btn-bw-blue">
-                Edit</Link>
+                <td width="10%"><Link to={`/profile/experience/${exp._id}`} className='text-black' onMouseEnter={this. onHoverEdit} onMouseLeave={this.onExitEditHover}>
+                <FaEdit size={editHover}/></Link>
                 </td>
-                <td width="10%"><span onClick={this.onOpenModal.bind(this, exp._id)}><i className="fa fa-trash fa-lg pad-top-10" aria-hidden="true"></i></span></td>
+                <td width="10%"><span onMouseEnter={this.onHover} onMouseLeave={this.onExitHover} onClick={this.onOpenModal.bind(this, exp._id)}><BsTrashFill size={deleteHover}/></span></td>
             </tr>
 
         ))
