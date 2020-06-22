@@ -17,11 +17,6 @@ class Education extends Component {
         };
         this.onDelete = this.onDelete.bind(this);
         this.onCancel = this.onCancel.bind(this);
-        this.onHover = this.onHover.bind(this);
-        this.onExitHover = this.onExitHover.bind(this);
-        this.onHoverEdit = this.onHoverEdit.bind(this);
-        this.onExitEditHover = this.onExitEditHover.bind(this);
-
       }
 
     onOpenModal (id) {
@@ -37,30 +32,28 @@ class Education extends Component {
         this.setState({showModal: false});
         this.setState({deleteId: ""});
     }
-    onHover (e) {
-        this.setState(prevState => ({
-            deleteIsHover: true
-        }));
+    onHoverDelete (id) {
+        document.getElementById('delete-'+id).setAttribute("size", 24)
+        document.getElementById('delete-'+id).setAttribute("height", 24)
+        document.getElementById('delete-'+id).setAttribute("width", 24)
     }
-    onExitHover (e) {
-        this.setState(prevState => ({
-            deleteIsHover: false
-        }));
+    onExitHoverDelete (id) {
+        document.getElementById('delete-'+id).setAttribute("size", 20)
+        document.getElementById('delete-'+id).setAttribute("height", 20)
+        document.getElementById('delete-'+id).setAttribute("width", 20)
     }
-    onHoverEdit (e) {
-        this.setState(prevState => ({
-            editIsHover: true
-        }));
+    onHoverEdit (id) {
+        document.getElementById('edit-'+id).setAttribute("size", 24)
+        document.getElementById('edit-'+id).setAttribute("height", 24)
+        document.getElementById('edit-'+id).setAttribute("width", 24)
     }
-    onExitEditHover (e) {
-        this.setState(prevState => ({
-            editIsHover: false
-        }));
+    onExitEditHover (id) {
+        document.getElementById('edit-'+id).setAttribute("size", 20)
+        document.getElementById('edit-'+id).setAttribute("height", 20)
+        document.getElementById('edit-'+id).setAttribute("width", 20)
     }
   render() {
     let education = null;
-    const deleteHover = this.state.deleteIsHover ? 24 : 20;
-    const editHover = this.state.editIsHover ? 24 : 20;
     if (this.props.education && this.props.education.length > 0) {
         education = this.props.education.map(edu => (
             <tr key={edu._id}>
@@ -70,10 +63,10 @@ class Education extends Component {
                 <Moment format="YYYY/MM/DD">{edu.from}</Moment> -
                 {edu.to === null ? (' Now') : <Moment format="YYYY/MM/DD">{edu.to}</Moment>}
                 </td>
-                <td width="10%"><Link to={`/profile/education/${edu._id}`} className='text-black' onMouseEnter={this. onHoverEdit} onMouseLeave={this.onExitEditHover}>
-                <FaEdit size={editHover}/></Link>
+                <td width="10%" ><Link onMouseEnter={this.onHoverEdit.bind(this, edu._id)} onMouseLeave={this.onExitEditHover.bind(this, edu._id)} to={`/profile/education/${edu._id}`} className='text-black'>
+                <FaEdit id={`edit-${edu._id}`} size={20}/></Link>
                 </td>  
-                <td width="10%"><span onMouseEnter={this.onHover} onMouseLeave={this.onExitHover} onClick={this.onOpenModal.bind(this, edu._id)}><BsTrashFill size={deleteHover}/></span></td>
+                <td width="10%"><span onMouseEnter={this.onHoverDelete.bind(this, edu._id)} onMouseLeave={this.onExitHoverDelete.bind(this, edu._id)} onClick={this.onOpenModal.bind(this, edu._id)}><BsTrashFill id={`delete-${edu._id}`} className='zoom' size={20}/></span></td>
             </tr>
 
         ))

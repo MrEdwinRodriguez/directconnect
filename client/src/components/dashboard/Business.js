@@ -14,17 +14,10 @@ class Business extends Component {
         this.state = {
             showModal: false,
             deleteId: "",
-            deleteIsHover: false,
-            editIsHover: false,
             errors: {},
         };
         this.onDelete = this.onDelete.bind(this);
         this.onCancel = this.onCancel.bind(this);
-        this.onHover = this.onHover.bind(this);
-        this.onExitHover = this.onExitHover.bind(this);
-        this.onHoverEdit = this.onHoverEdit.bind(this);
-        this.onExitEditHover = this.onExitEditHover.bind(this);
-
       }
 
     onOpenModal (id) {
@@ -40,31 +33,29 @@ class Business extends Component {
         this.setState({showModal: false});
         this.setState({deleteId: ""});
     }
-    onHover (e) {
-        this.setState(prevState => ({
-            deleteIsHover: true
-        }));
+    onHoverDelete (id) {
+        document.getElementById('delete-'+id).setAttribute("size", 24)
+        document.getElementById('delete-'+id).setAttribute("height", 24)
+        document.getElementById('delete-'+id).setAttribute("width", 24)
     }
-    onExitHover (e) {
-        this.setState(prevState => ({
-            deleteIsHover: false
-        }));
+    onExitHoverDelete (id) {
+        document.getElementById('delete-'+id).setAttribute("size", 20)
+        document.getElementById('delete-'+id).setAttribute("height", 20)
+        document.getElementById('delete-'+id).setAttribute("width", 20)
     }
-    onHoverEdit (e) {
-        this.setState(prevState => ({
-            editIsHover: true
-        }));
+    onHoverEdit (id) {
+        document.getElementById('edit-'+id).setAttribute("size", 24)
+        document.getElementById('edit-'+id).setAttribute("height", 24)
+        document.getElementById('edit-'+id).setAttribute("width", 24)
     }
-    onExitEditHover (e) {
-        this.setState(prevState => ({
-            editIsHover: false
-        }));
+    onExitEditHover (id) {
+        document.getElementById('edit-'+id).setAttribute("size", 20)
+        document.getElementById('edit-'+id).setAttribute("height", 20)
+        document.getElementById('edit-'+id).setAttribute("width", 20)
     }
 
   render() {
     var  business = null;
-    const deleteHover = this.state.deleteIsHover ? 24 : 20;
-    const editHover = this.state.editIsHover ? 24 : 20;
     if (this.props.business && this.props.business.length !== 0) {
         business = this.props.business.map(bus => (
             <tr key={bus._id}>
@@ -72,10 +63,10 @@ class Business extends Component {
                 <td width="25%">{bus.title}</td>
                 <td width="15%">{bus.website}</td>
                 <td width="15%">{bus.location}</td>
-                <td width="10%"><Link to={`/profile/business/${bus._id}`} className='text-black' onMouseEnter={this. onHoverEdit} onMouseLeave={this.onExitEditHover}>
-                <FaEdit size={editHover}/></Link>
+                <td width="10%"><Link to={`/profile/business/${bus._id}`} className='text-black' onMouseEnter={this.onHoverEdit.bind(this, bus._id)} onMouseLeave={this.onExitEditHover.bind(this, bus._id)}>
+                <FaEdit id={`edit-${bus._id}`} size={20}/></Link>
                 </td>
-                <td width="10%"><span onMouseEnter={this.onHover} onMouseLeave={this.onExitHover} onClick={this.onOpenModal.bind(this, bus._id)}><BsTrashFill size={deleteHover}/></span></td>  
+                <td width="10%"><span onMouseEnter={this.onHoverDelete.bind(this, bus._id)} onMouseLeave={this.onExitHoverDelete.bind(this, bus._id)} onClick={this.onOpenModal.bind(this, bus._id)}><BsTrashFill id={`delete-${bus._id}`} size={20}/></span></td>  
             </tr>
 
         ))

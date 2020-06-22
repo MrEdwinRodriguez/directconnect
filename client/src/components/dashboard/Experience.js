@@ -18,10 +18,6 @@ class Experience extends Component {
         };
         this.onDelete = this.onDelete.bind(this);
         this.onCancel = this.onCancel.bind(this);
-        this.onHover = this.onHover.bind(this);
-        this.onExitHover = this.onExitHover.bind(this);
-        this.onHoverEdit = this.onHoverEdit.bind(this);
-        this.onExitEditHover = this.onExitEditHover.bind(this);
       }
 
     onOpenModal (id) {
@@ -37,30 +33,28 @@ class Experience extends Component {
         this.setState({showModal: false});
         this.setState({deleteId: ""});
     }
-    onHover (e) {
-        this.setState(prevState => ({
-            deleteIsHover: true
-        }));
+    onHoverDelete (id) {
+        document.getElementById('delete-'+id).setAttribute("size", 24)
+        document.getElementById('delete-'+id).setAttribute("height", 24)
+        document.getElementById('delete-'+id).setAttribute("width", 24)
     }
-    onExitHover (e) {
-        this.setState(prevState => ({
-            deleteIsHover: false
-        }));
+    onExitHoverDelete (id) {
+        document.getElementById('delete-'+id).setAttribute("size", 20)
+        document.getElementById('delete-'+id).setAttribute("height", 20)
+        document.getElementById('delete-'+id).setAttribute("width", 20)
     }
-    onHoverEdit (e) {
-        this.setState(prevState => ({
-            editIsHover: true
-        }));
+    onHoverEdit (id) {
+        document.getElementById('edit-'+id).setAttribute("size", 24)
+        document.getElementById('edit-'+id).setAttribute("height", 24)
+        document.getElementById('edit-'+id).setAttribute("width", 24)
     }
-    onExitEditHover (e) {
-        this.setState(prevState => ({
-            editIsHover: false
-        }));
+    onExitEditHover (id) {
+        document.getElementById('edit-'+id).setAttribute("size", 20)
+        document.getElementById('edit-'+id).setAttribute("height", 20)
+        document.getElementById('edit-'+id).setAttribute("width", 20)
     }
   render() {
     let experience = null;
-    const deleteHover = this.state.deleteIsHover ? 24 : 20;
-    const editHover = this.state.editIsHover ? 24 : 20;
     if (this.props.experience && this.props.experience.length > 0) {
         experience = this.props.experience.map(exp => (
             <tr key={exp._id}>
@@ -71,10 +65,10 @@ class Experience extends Component {
                 {exp.to === null ? (' Now') : <Moment format="YYYY/MM/DD">{exp.to}</Moment>}
 
                 </td>
-                <td width="10%"><Link to={`/profile/experience/${exp._id}`} className='text-black' onMouseEnter={this. onHoverEdit} onMouseLeave={this.onExitEditHover}>
-                <FaEdit size={editHover}/></Link>
+                <td width="10%"><Link to={`/profile/experience/${exp._id}`} className='text-black' onMouseEnter={this.onHoverEdit.bind(this, exp._id)} onMouseLeave={this.onExitEditHover.bind(this, exp._id)}>
+                <FaEdit id={`edit-${exp._id}`} size={20}/></Link>
                 </td>
-                <td width="10%"><span onMouseEnter={this.onHover} onMouseLeave={this.onExitHover} onClick={this.onOpenModal.bind(this, exp._id)}><BsTrashFill size={deleteHover}/></span></td>
+                <td width="10%"><span onMouseEnter={this.onHoverDelete.bind(this, exp._id)} onMouseLeave={this.onExitHoverDelete.bind(this, exp._id)} onClick={this.onOpenModal.bind(this, exp._id)}><BsTrashFill id={`delete-${exp._id}`} size={20}/></span></td>
             </tr>
 
         ))
