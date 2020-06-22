@@ -40,3 +40,11 @@
     console.log('here', req.files.file.buffer)
     stream.end(req.file.data);
   };
+
+  async function deleteFileGCS(filename) {
+    console.log('in delete')
+    const bucketName =  DEFAULT_BUCKET_NAME;
+    await storage.bucket(bucketName).file(filename).delete();
+    console.log(`gs://${bucketName}/${filename} deleted.`);
+  }
+  exports.deleteFileGCS = deleteFileGCS;

@@ -703,10 +703,24 @@ router.post('/upload',  multer.single('image'), passport.authenticate('jwt', {se
 			errors.noprofile = "There is no profile found for this user";
 			res.status(400). json(errors)
 		}
+		let oldimage = null;
+		if (profile.profileImage) {
+			imagePath = profile.profileImage.split('/');
+			oldimage = imagePath[imagePath.length -1]
+
+		}
 		profile.profileImage = req.file.gcsUrl;
+		if (oldimage != null) {
+			console.log('oldimage', oldimage)
+			gcs.deleteFileGCS(oldimage)
+		}
 		console.log('saving profile image')
 		profile.save()
 			.then(profile => res.json(profile))
+	})
+	.catch(error => {
+		console.error(error)
+		res.status(404).json(error)
 	})		
 
 	// })
