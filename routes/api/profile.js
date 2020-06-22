@@ -100,14 +100,33 @@ router.get('/orginization/:orginization', (req, res) => {
 //GET  all profiles that meet criteria
 //private
 router.get('/search/:criteria', passport.authenticate('jwt', {session: false }), (req, res) => {
-	const errors = {};
-    const criteria = req.params.criteria;
-    var search_parameter = {};
+	const criteria = req.params.criteria;
+	var profile_parameters = {};
 	if (criteria == null || criteria == undefined) {
 		return res.send(400)
     }
-    if (criteria != "") {
-        search_parameter = {
+	let user_parameters = {
+		$or: [{
+			first_name : {$regex: criteria, $options: 'i'}
+		},
+		{
+			last_name: {$regex: criteria, $options: 'i'}
+		}, 
+		{
+			email : {$regex: criteria, $options: 'i'}
+		}, 
+		{
+			name : {$regex: criteria, $options: 'i'}
+		}
+		]
+	}
+	return User.find(user_parameters).lean().exec()
+	.then(users => {
+		let included_user_ids = users.map(user => {
+			return user._id;
+		})	
+		//search profile with parameters	
+		profile_parameters = {
             $or: [{
                 handle : {$regex: criteria, $options: 'i'}
             },
@@ -122,22 +141,26 @@ router.get('/search/:criteria', passport.authenticate('jwt', {session: false }),
 			},
 			{
                 skills : {$regex: criteria, $options: 'i'}
-            }
+			}
             ]
-        }
-    }
-	Profile.find(search_parameter)
-		.populate('user', ['name', 'avatar'])
-		.lean()
+		}
+		let reqLink = req.headers.referer.split('/')
+		if (reqLink[reqLink.length -1] != 'profiles') {
+			profile_parameters.orginization = reqLink[reqLink.length -1]; 
+		}
+		//include users that were found by name match
+		if (included_user_ids.length > 0) {
+			profile_parameters.$or.push({user: {$in: included_user_ids}})
+		}
+		return Profile.find(profile_parameters).populate('user', ['name']).lean().exec()
 		.then(profiles => {
 			if(!profiles || profiles == null) {
-				errors.noprofiles = "There were no profiles found for "+criteria;
-				res.status(400).json(errors)
-            }
-
+				res.json({noprofiles: "There were no profiles found for "+criteria})
+			}
 			res.json(profiles)
 		})
-		.catch(err => res.status(404).json(err));
+	})
+	.catch(err => res.status(404).json(err));
 });
 
 
