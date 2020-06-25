@@ -57,6 +57,20 @@ export const getCurrentUser = () => dispatch => {
             }))
  }
 
+ export const updateCurrentUser = ( accountData) => dispatch => {
+    axios.put('api/users/update', accountData)
+    .then(res => 
+       dispatch({
+           type: GET_USER,
+           payload: res.data
+       })) 
+       .catch(err => 
+           dispatch({
+               type: GET_ERRORS,
+               payload: err.response.data
+           }))
+}
+
 export const logoutUser = () => dispatch => {
     // Remove token from localStorage
     localStorage.removeItem('jwtToken');
