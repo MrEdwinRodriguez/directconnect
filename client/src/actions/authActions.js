@@ -2,7 +2,7 @@
 import axios from 'axios';
 import setAuthToken from '../utils/setAuthToken';
 import jwt_decode from 'jwt-decode';
-import { GET_ERRORS, SET_CURRENT_USER, GET_USER } from './types';
+import { GET_ERRORS, SET_CURRENT_USER, GET_USER, UPDATE_USER, GET_PROFILE_UPDATE, GET_PROFILE } from './types';
 
 export const registerUser = (userData, history) => dispatch => {
     axios.post('/api/users/register', userData)
@@ -61,7 +61,7 @@ export const getCurrentUser = () => dispatch => {
     axios.put('api/users/update', accountData)
     .then(res => 
        dispatch({
-           type: GET_USER,
+           type: UPDATE_USER,
            payload: res.data
        })) 
        .catch(err => 

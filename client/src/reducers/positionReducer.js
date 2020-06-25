@@ -1,4 +1,4 @@
-import { GET_POSITIONS, DELETE_POSISITION, POSITION_LOADING, GET_POSITION, GET_POSITIONS_CRITERIA} from '../actions/types';
+import { GET_POSITIONS, POSITION_LOADING, GET_POSITION, GET_POSITIONS_CRITERIA} from '../actions/types';
 
 const initialState = {
     positions: [],

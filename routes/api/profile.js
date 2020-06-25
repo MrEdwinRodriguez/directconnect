@@ -37,7 +37,7 @@ router.get('/', passport.authenticate('jwt', {session: false }), (req, res) => {
 	var profileFound = null;
 	var authUser = null;
 	Profile.findOne({ user: req.user.id })
-		.populate('user', ['name', 'avatar'])
+		.populate('user', ['name', 'first_name', 'last_name', 'avatar'])
 		.lean()
 		.then(profile => {
 			if(!profile){

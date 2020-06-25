@@ -3,8 +3,8 @@ import { Link, withRouter } from 'react-router-dom';
 import TextFieldGroup from '../../common/TextFieldGroup';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { getCurrentProfile, deleteAccount } from '../../../actions/profileActions';
-import { updateCurrentUser } from '../../../actions/authActions';
+import { deleteAccount } from '../../../actions/profileActions';
+import { updateCurrentUser, getCurrentUser } from '../../../actions/authActions';
 
 
 
@@ -24,19 +24,15 @@ class EditAccount extends Component {
     }
   
     componentDidMount() {
-      if (this.props.match.params.bus) {
-        this.props.getBusiness(this.props.match.params.bus);
-      }
-      this.props.getCurrentProfile();
+      this.props.getCurrentUser();
     }
   
     componentWillReceiveProps(nextProps) {
       if (nextProps.errors || !nextProps.education) {
           this.setState({ errors: nextProps.errors });
       }
-      if(nextProps && nextProps.profile && nextProps.profile.profile ) {
-          let user = nextProps.profile.profile.user
-          console.log(user)
+      if(nextProps && nextProps.auth && nextProps.auth.user) {
+          let user = nextProps.auth.user;
           this.setState({
               first_name: user.first_name,
               last_name: user.last_name,
@@ -54,12 +50,14 @@ class EditAccount extends Component {
           name: this.state.first_name + " " + this.state.last_name,
           id: this.state.id
       }
-      console.log('line 56', accountData)
   
       this.props.updateCurrentUser(accountData);
     }
   
     onChange(e) {
+      if (this.props.auth.success) {
+        this.props.auth.success = false;
+      }
       this.setState({ [e.target.name]: e.target.value });
     }
   
@@ -71,9 +69,7 @@ class EditAccount extends Component {
     }
   
     render() {
-      // same as const errors = this.state.errors
       const { errors } = this.state;
-  
       return (
         <div className="add-business">
           <div className="container">
@@ -82,6 +78,7 @@ class EditAccount extends Component {
                 <Link to="/dashboard" className="btn btn-light">
                   Go Back
                 </Link>
+                { this.props.auth.success ? <div className= "alert alert-success">Name has been updated.</div> : <div></div>}
                 <h1 className="display-4 text-center">Account</h1>
                 <small className="d-block pb-3">* = required fields</small>
                 <form onSubmit={this.onSubmit}>
@@ -114,18 +111,20 @@ class EditAccount extends Component {
   }
   
   EditAccount.propTypes = {
-    getCurrentProfile: PropTypes.func.isRequired,
     deleteAccount: PropTypes.func.isRequired,
+    getCurrentUser: PropTypes.func.isRequired,
     updateCurrentUser: PropTypes.func.isRequired,
+    auth: PropTypes.object.isRequired,
     profile: PropTypes.object.isRequired,
     errors: PropTypes.object.isRequired
   };
   
   const mapStateToProps = state => ({
     profile: state.profile,
+    auth: state.auth,
     errors: state.errors
   });
   
-  export default connect(mapStateToProps, {getCurrentProfile, deleteAccount, updateCurrentUser})(
+  export default connect(mapStateToProps, { deleteAccount, updateCurrentUser, getCurrentUser})(
     withRouter(EditAccount )
   );

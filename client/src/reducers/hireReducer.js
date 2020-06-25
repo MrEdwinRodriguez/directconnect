@@ -1,4 +1,4 @@
-import { PROFILE_LOADING, GET_HIRE, DELETE_HIRE } from '../actions/types'
+import { PROFILE_LOADING, GET_HIRE} from '../actions/types'
 
 const initialState = {
     hire: null,

@@ -9,6 +9,7 @@ const passport = require('passport');
 const validateRegistrationInput = require('../../validation/register');
 const validateLoginInput = require('../../validation/login');
 const User = require('../../models/User');
+const Profile = require('../../models/Profile');
 const mailer = require('../../controllers/emails');
 const authController = require('../../controllers/auth-controller');
 
@@ -118,6 +119,35 @@ router.post('/login', (req, res) => {
 	})
 })
 
+//PUT API/users/update
+//put user profiles
+//private
+router.put('/update', passport.authenticate('jwt', { session: false }), (req, res) => {
+	console.log(req.user)
+	
+	try {
+		User.findOne({_id: req.user._id})
+		.then(user => {
+			if(!user) {
+				errors.nouser = "There is no user found.";
+				res.status(400). json(errors)
+			}
+			user.first_name = req.body.first_name;
+			user.last_name = req.body.last_name;
+			user.name = req.body.name;
+			console.log('saving user account update')
+			user.save()
+			// .then(user => {
+				.then(user => res.json(user))
+			// 	return Profile.findOne({user: user._id}).populate('user').exec()
+			// })
+			// .then(profile => res.json(profile))
+		})
+	}
+	catch (err) {
+		res.status(500).send(err+"")
+	}
+});
 
 //GET API/users/current
 //return current user
