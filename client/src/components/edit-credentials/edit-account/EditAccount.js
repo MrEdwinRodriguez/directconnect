@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { deleteAccount } from '../../../actions/profileActions';
 import { updateCurrentUser, getCurrentUser } from '../../../actions/authActions';
+import '../../../css/style.css';
 
 
 
@@ -15,12 +16,16 @@ class EditAccount extends Component {
           first_name: '',
           last_name: '',
           id: '',
+          showDeleteModal: false,
+          deleteId: "",
           errors: {},
       };
   
       this.onChange = this.onChange.bind(this);
       this.onSubmit = this.onSubmit.bind(this);
       this.onCheck = this.onCheck.bind(this);
+      this.onDelete = this.onDelete.bind(this);
+      this.onCancel = this.onCancel.bind(this);
     }
   
     componentDidMount() {
@@ -67,9 +72,50 @@ class EditAccount extends Component {
         current: !this.state.current
       });
     }
+    onOpenModal (id) {
+      this.setState({showDeleteModal: true});
+      this.setState({deleteId: id});
+    }
+
+    onDelete () {
+      this.setState({showDeleteModal: false});
+      this.setState({deleteId: ""});
+      console.log('deleting')
+    }
+
+    onCancel () {
+      console.log(this)
+        this.setState({showDeleteModal: false});
+        this.setState({deleteId: ""});
+    }
+
   
     render() {
       const { errors } = this.state;
+
+      let modal = ""
+      if (this.state.showDeleteModal ) {
+          modal = 
+          <div className="" id="businessModal" role="dialog">
+              <div className="modal-dialog" role="document">
+                  <div className="modal-content">
+                      <div className="modal-header">
+                          <h5 className="modal-title">Are you sure you want to delete your Account?</h5>
+                          <button type="button" className="close" data-dismiss="modal" aria-label="Close" onClick={this.onCancel}>
+                          <span aria-hidden="true">&times;</span>
+                          </button>
+                      </div>
+                      <div className="modal-body">
+                          <p>This will permanently delete your account.</p>
+                      </div>
+                      <div className="modal-footer">
+                          <button type="button" className="btn btn-danger" onClick={this.onDelete}>Delete Business</button>
+                          <button type="button" className="btn btn-secondary"  onClick={this.onCancel} data-dismiss="modal">Cancel</button>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      }
       return (
         <div className="add-business">
           <div className="container">
@@ -104,6 +150,12 @@ class EditAccount extends Component {
                 </form>
               </div>
             </div>
+          </div>
+          {modal}
+          <div className='center' style={{marginTop: '100px'}} >
+            <button onClick={this.onOpenModal.bind(this, this.props.auth.user.id)} className='btn  btn-info'>
+                Delete My Account
+            </button>
           </div>
         </div>
       );

@@ -67,18 +67,19 @@ li .profile {
 
   .navbar-brand {
     text-align: center;
-    width: 250px;
+    width: 350px;
     height: 50px;
     display: flex;
     justify-content: center;
     align-items: center;
     text-align:center;
     color: white;
-    border-top: 5px solid;
+    left: 100px;
+    /* border-top: 5px solid;
     border-bottom: 5px solid;
     border-left: 5px solid;
-    border-right: 5px solid;
-    border-image:   linear-gradient(to right, white 50%, black 50%) 2;
+    border-right: 5px solid; */
+    /* border-image:   linear-gradient(to right, white 50%, black 50%) 2; */
    }
 
    .navbar-dark .navbar-nav .nav-link {
@@ -96,3 +97,11 @@ li .profile {
    .pad-top-10 {
        padding-top: 10px !important;
    }
+
+
+   .center {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+
+  }

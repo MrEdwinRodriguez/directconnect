@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { logoutUser, getCurrentUser } from '../../actions/authActions';
 import { clearCurrentProfile,  getCurrentProfile } from '../../actions/profileActions';
+import logo from './../../img/logo-transparent.png'
 import '../../css/style.css';
  
 class Navbar extends Component {
@@ -100,7 +101,7 @@ class Navbar extends Component {
         <div className="container fancy-border">
         
             <Link className="navbar-brand" to="/">
-            Blue and White Connect
+            <img src={logo} alt="Logo" />
             </Link>
           <button
             className="navbar-toggler"
