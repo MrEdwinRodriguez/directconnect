@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
+import logo from './../../img/logo-transparent.png'
 import '../../css/style.css';
  
 class Landing extends Component {
@@ -18,7 +19,9 @@ class Landing extends Component {
           <div className="container">
             <div className="row">
               <div className="col-md-12 text-center">
-                <h1 className="display-3 mb-4">Blue and White Connect</h1>
+                <div className="display-3 mb-4 landing-logo">
+                  <img src={logo} alt="Logo" />
+                </div>
                 <p className="lead">
                   {' '}
                   Create a profile.... then Network, become a mentor, become a mentee, support other Zetas and Sigmas.

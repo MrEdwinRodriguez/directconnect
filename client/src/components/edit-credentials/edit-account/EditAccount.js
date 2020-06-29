@@ -80,7 +80,7 @@ class EditAccount extends Component {
     onDelete () {
       this.setState({showDeleteModal: false});
       this.setState({deleteId: ""});
-      console.log('deleting')
+      deleteAccount();
     }
 
     onCancel () {
