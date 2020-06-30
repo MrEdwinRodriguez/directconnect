@@ -35,6 +35,10 @@
     width: 100%;
 }
 
+.small-text {
+    font-size: 12px;
+}
+
 .phantom {
     display: block;
     padding: 20px;

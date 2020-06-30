@@ -42,6 +42,16 @@ class Dashboard extends Component {
             <Education education={profile.education}/>
             <Business business={profile.business}/>
             <Hiring hiring={profile.hiringFor}/>
+            <div className='mt-5 p-4 text-center small-text'>
+              <p className='mb-0'>Blue and White Connect was created out of the Love for Blue and White.</p>
+              <p> Please consider making a small donation to help with server and storage cost to maintain the site.</p>
+              <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+                <input type="hidden" name="cmd" value="_s-xclick" />
+                <input type="hidden" name="hosted_button_id" value="Y2Z75S945U8VE" />
+                <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />
+                <img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1" />
+              </form>
+            </div>
           </div>
         );
       } else {
@@ -51,6 +61,16 @@ class Dashboard extends Component {
             <p className='lead text-muted'>Welcome {user.first_name} {user.last_name} </p>
             <p>You have not yet set up a profile, please add some info.</p>
             <Link to="/create-profile" className="btn btn-lg btn-royal text-white">Create Profile</Link>
+            <div className='mt-5 p-4 text-center small-text'>
+              <p className='mb-0'>Blue and White Connect was created out of the Love for Blue and White.</p>
+              <p> Please consider making a small donation to help with server and storage cost to maintain the site.</p>
+              <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+                <input type="hidden" name="cmd" value="_s-xclick" />
+                <input type="hidden" name="hosted_button_id" value="Y2Z75S945U8VE" />
+                <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />
+                <img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1" />
+              </form>
+            </div>
           </div>
         )
       }
