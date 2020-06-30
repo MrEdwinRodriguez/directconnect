@@ -16,24 +16,17 @@ class ProfileHeader extends Component {
         this.setState({
             selectedFile: event.target.files[0]
         })
-    }
-
-    fileUploadHandler = () => {
         const fd = new FormData();
-        if (!this.state.selectedFile) {
-            return false;
-        }
-        fd.append('file', this.state.selectedFile, this.state.selectedFile.name)
+        fd.append('file', event.target.files[0], event.target.files[0].name)
         const config = {
             headers: {
                 'content-type': 'multipart/form-data'
             }
         }
         this.props.uploadProfileImage(fd, config, this.props.history)
-        .then(() => {this.setState({
+        this.setState({
             selectedFile: null
-        })})
-
+        })
     }
 
         render() {
@@ -79,9 +72,6 @@ class ProfileHeader extends Component {
                             <div className="custom-file">
                                 <input type="file" multiple accept='image/*' className="custom-file-input"  id="inputGroupFile01" onChange={this.fileSelectedHandler} />
                                 <label className="custom-file-label" >{fileName}</label>
-                            </div>
-                            <div className='input-group-append'>
-                                <span className="input-group-text" onClick={this.fileUploadHandler}>Upload</span>
                             </div>
                         </div>
                     </div>

@@ -716,7 +716,13 @@ router.post('/upload',  multer.single('image'), passport.authenticate('jwt', {se
 		}
 		console.log('saving profile image')
 		profile.save()
-			.then(profile => res.json(profile))
+			.then(profile => 
+			getProfileWithAttributes(profile.user)
+			.then((oProfile) => {
+				res.json(oProfile)
+			})
+				// res.json(profile)
+				)
 	})
 	.catch(error => {
 		console.error(error)

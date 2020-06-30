@@ -57,15 +57,20 @@ export const createProfile = (profileData, history) => dispatch => {
 
 //create profile
 export const uploadProfileImage = (file, config, history) => dispatch => {
-    return axios
+    axios
         .post("/api/profile/upload", file, config)
-        // .then(res => history.push('/dashboard'))
+        .then(res =>             
+            dispatch({
+                type: GET_PROFILE,
+                payload: res.data
+        })
+        )
         .catch(err => 
             dispatch({
                 type: GET_ERRORS,
-                payload: err.response.data
+                payload: err
             })
-            )
+        )
 }
 
 //add experience
