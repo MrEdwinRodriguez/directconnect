@@ -80,7 +80,7 @@ class EditAccount extends Component {
     onDelete () {
       this.setState({showDeleteModal: false});
       this.setState({deleteId: ""});
-      deleteAccount();
+      this.props.deleteAccount();
     }
 
     onCancel () {
@@ -109,7 +109,7 @@ class EditAccount extends Component {
                           <p>This will permanently delete your account.</p>
                       </div>
                       <div className="modal-footer">
-                          <button type="button" className="btn btn-danger" onClick={this.onDelete}>Delete Business</button>
+                          <button type="button" className="btn btn-danger" onClick={this.onDelete}>Delete Account</button>
                           <button type="button" className="btn btn-secondary"  onClick={this.onCancel} data-dismiss="modal">Cancel</button>
                       </div>
                   </div>
