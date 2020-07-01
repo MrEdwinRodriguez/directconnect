@@ -8,7 +8,7 @@ class ProfileAbout extends Component {
       const { profile } = this.props;
 
         //Get First Name
-        let firstName = "";
+        let firstName = null;
         if (profile.user && profile.user.first_name) {
           firstName = profile.user.first_name;
         }
@@ -24,7 +24,7 @@ class ProfileAbout extends Component {
         <div className="row">
         <div className="col-md-12">
           <div className="card card-body bg-light mb-3">
-            <h3 className="text-center text-royal">{firstName} 's Bio</h3>
+            <h3 className="text-center text-royal">Bio</h3>
             <p className="lead">{isEmpty(profile.bio) ? <span>{firstName} does not have a bio set up.</span> : (<span>{profile.bio}</span>)}
             </p>
             <hr />

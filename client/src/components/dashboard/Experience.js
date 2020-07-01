@@ -6,6 +6,8 @@ import { deleteExperience } from "../../actions/profileActions";
 import { Link } from 'react-router-dom';
 import { FaEdit} from 'react-icons/fa';
 import { BsTrashFill} from 'react-icons/bs';
+import { GrFormAdd } from 'react-icons/gr'
+import '../../css/style.css';
 
 
 class Experience extends Component {
@@ -110,7 +112,18 @@ class Experience extends Component {
     }
     return (
       <div>
-          <h4 className='mb-4'>Experience Credentials</h4>
+          <div className='container'>
+              <div className='row'>
+                    <div className="col-6 col-sm-4">
+                        <h4 className='mb-4'>Experience Credentials</h4>
+                    </div>
+                    <div className="col-6 col-sm-3">
+                        <Link to="/add-experience" type="button" className="btn">
+                         <GrFormAdd className="raise_add" size={24}/>
+                        Add Experience</Link>
+                    </div>
+              </div>
+          </div>
           <table className='table'>
             <thead>
                 <tr>

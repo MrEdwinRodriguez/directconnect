@@ -6,6 +6,8 @@ import { deleteEducation } from "../../actions/profileActions";
 import { Link } from 'react-router-dom';
 import { FaEdit} from 'react-icons/fa';
 import { BsTrashFill} from 'react-icons/bs';
+import { GrFormAdd } from 'react-icons/gr'
+import '../../css/style.css';
 
 class Education extends Component {
     constructor(props) {
@@ -109,7 +111,18 @@ class Education extends Component {
     return (
       <div>
           {modal}
-          <h4 className='mb-4'>Education Credentials</h4>
+          <div className='container'>
+              <div className='row'>
+                    <div className="col-6 col-sm-4">
+                        <h4 className='mb-4'>Education Credentials</h4>
+                    </div>
+                    <div className="col-6 col-sm-3">
+                        <Link to="/add-education" type="button" className="btn">
+                        <GrFormAdd className="raise_add" size={24}/>
+                        Add Education</Link>
+                    </div>
+              </div>
+          </div>
           <table className='table'>
             <thead>
                 <tr>

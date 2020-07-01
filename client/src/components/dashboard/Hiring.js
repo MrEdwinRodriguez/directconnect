@@ -5,6 +5,8 @@ import { deleteHiring } from "../../actions/hiringActions";
 import { Link } from 'react-router-dom';
 import { FaEdit} from 'react-icons/fa';
 import { BsTrashFill} from 'react-icons/bs';
+import { GrFormAdd } from 'react-icons/gr'
+import '../../css/style.css';
 
 
 class Hiring extends Component {
@@ -109,7 +111,18 @@ class Hiring extends Component {
     return (
       <div>
           {modal}
-          <h4 className='mb-4'>I am Hiring for....</h4>
+          <div className='container'>
+              <div className='row'>
+                    <div className="col-6 col-sm-4">
+                        <h4 className='mb-4'>I am Hiring for...</h4>
+                    </div>
+                    <div className="col-6 col-sm-3">
+                        <Link to="/add-hiring" type="button" className="btn">
+                        <GrFormAdd className="raise_add" size={24}/>
+                        Add Hiring For</Link>
+                    </div>
+              </div>
+            </div>
           <table className='table'>
             <thead>
                 <tr>

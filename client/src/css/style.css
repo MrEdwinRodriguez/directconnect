@@ -110,3 +110,7 @@ li .profile {
     align-items: center !important;
 
   }
+
+  .raise_add {
+      padding-bottom: 5px;
+  }

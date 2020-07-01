@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import { getCurrentProfile } from '../../actions/profileActions';
 import Spinner from '../common/Spinner';
-import ProfileActions from './ProfileActions';
 import Experience from './Experience';
 import Education from './Education';
 import Business from './Business';
@@ -37,7 +36,6 @@ class Dashboard extends Component {
             <p className='lead text-muted'>Welcome <Link to={`/profile/${profile.handle}`}>
             {user.first_name} {user.last_name}</Link>
             </p>
-            <ProfileActions />
             <Experience experience={profile.experience}/>
             <Education education={profile.education}/>
             <Business business={profile.business}/>

@@ -62,12 +62,19 @@ class Navbar extends Component {
             Dashboard
           </Link>
         </li>
-        <li className="nav-item">
-          <Link className="nav-link" to="/dashboard">
-          {profileImage}
-            {/* {' '} */}
-              {nameDisplay}
+        <li className="nav-item dropdown">
+          <a className="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          {profileImage} {nameDisplay}
+          </a>
+          <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+            <Link to="/account" className="dropdown-item ">
+              <i className="fas fa-user-circle text-royal mr-1"></i>
+            Account
             </Link>
+            <Link to="/edit-profile" className="dropdown-item">
+              <i className="fas fa-id-card text-royal mr-1"></i> Edit Profile
+            </Link>
+          </div>
         </li>
         <li className="nav-item">
           <a
