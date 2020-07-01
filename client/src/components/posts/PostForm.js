@@ -27,15 +27,13 @@ class PostForm extends Component {
 
     onSubmit(e) {
         e.preventDefault();
-
-        const { user } = this.props.auth;
-
+        const { user} = this.props.auth;
+        const { profile } = this.props.profile;
         const newPost = {
             text: this.state.text,
             name: user.name,
-            avatar: user.avatar
+            avatar: profile.profileImage ? profile.profileImag : "/blank.png",
         };
-
         this.props.addPost(newPost);
         this.setState({ text: ""})
     }
@@ -77,11 +75,13 @@ class PostForm extends Component {
 PostForm.propTypes = {
     addPost: PropTypes.func.isRequired,
     auth: PropTypes.object.isRequired,
+    profile: PropTypes.object.isRequired,
     errors: PropTypes.object.isRequired
 }
 
 const mapStateToProps = state => ({
     auth: state.auth,
+    profile: state.profile,
     errors: state.errors
 })
 
