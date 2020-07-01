@@ -114,3 +114,17 @@ li .profile {
   .raise_add {
       padding-bottom: 5px;
   }
+
+  .no-padding {
+      padding-left: 0px !important;
+      padding-right: 0px !important;
+  }
+
+  .custom-button-size {
+    height: 30px;
+    font-size : 12px;
+  }
+
+  .height-35 {
+    height: 35px;;
+  }

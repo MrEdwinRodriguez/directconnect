@@ -11,6 +11,10 @@ class ProfileHeader extends Component {
         selectedFile: null
     }
 
+    upload() {
+        document.getElementById("inputGroupFile01").click()
+      }
+
     fileSelectedHandler = event => {
         console.log(event.target.files[0])
         this.setState({
@@ -35,7 +39,6 @@ class ProfileHeader extends Component {
             let fileName = "Update Profile Image";
             let lookginFor = "";
             let hiringFor = "";
-
         
             if (this.state.selectedFile) {
                 fileName = this.state.selectedFile.name;
@@ -67,11 +70,11 @@ class ProfileHeader extends Component {
                     </div>
                 </div>
                 <div className='row'>
-                <div className="col-4 col-md-4 m-auto">
-                    <div className="input-group mb-3">
-                            <div className="custom-file">
-                                <input type="file" multiple accept='image/*' className="custom-file-input"  id="inputGroupFile01" onChange={this.fileSelectedHandler} />
-                                <label className="custom-file-label" >{fileName}</label>
+                <div className="col-8 col-md-4 m-auto height-35">
+                    <div className="input-group mb-3 text-center">
+                            <div className="col text-center no-padding">
+                            <button id='uploadImage' className="btn btn-light custom-button-size"  onClick={this.upload}>Update Profile Image</button>
+                            <input id="inputGroupFile01" hidden type="file" onChange={this.fileSelectedHandler} />
                             </div>
                         </div>
                     </div>
