@@ -9,6 +9,7 @@ const profile = require('./routes/api/profile');
 const posts = require('./routes/api/posts');
 const hire = require('./routes/api/hire');
 const business = require('./routes/api/business');
+const path = require('path');
 
 const app = express();
 
@@ -25,6 +26,8 @@ mongoose
 //passport middleware
 app.use(passport.initialize());
 
+
+
 //passpord Config
 require('./config/passport')(passport);
 app.use(fileUpload());
@@ -33,6 +36,14 @@ app.use('/api/profile', profile);
 app.use('/api/posts', posts);
 app.use('/api/hire', hire);
 app.use('/api/business', business);
+
+//serve static assets in production
+if (process.env.NODE_ENV === 'production') {
+	app.use(express.static('client/build'));
+	app.get('*', (req, res) => {
+		res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+	})
+}
 
 
 const port = process.env.PORT || 5000;
