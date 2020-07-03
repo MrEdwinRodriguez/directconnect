@@ -1,6 +1,9 @@
 {
   "name": "directory",
   "version": "1.0.0",
+  "engines": {
+    "node": "v10.11.0"
+  },
   "description": "social network",
   "main": "server.js",
   "scripts": {
