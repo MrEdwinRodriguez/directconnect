@@ -1,6 +1,6 @@
 /node_modules
 /config/starlit-summit-277516-2b89f0a902a8.json
-/congig/keys_dev.js
-/congig/nodemailer_dev.js
+/config/keys_dev.js
+/config/nodemailer_dev.js
 /client/node_modules
 package-lock.json
