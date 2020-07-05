@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Moment from 'react-moment';
+import isEmpty from '../../validation/is-empty';
 
 class ProfileCreds extends Component {
   render() {
@@ -22,23 +23,27 @@ class ProfileCreds extends Component {
      </li>
   ))
 
-  const eduItems = education.map( edu => (
-    <li key={edu._id} className="list-group-item">
-     <h4>{edu.school}</h4>
-     <p>
-       <Moment format="YYYY/MM/DD">{edu.from}</Moment> - 
-       {edu.to === null ? (' Now') : <Moment format="YYYY/MM/DD">{edu.to}</Moment>}
-     </p>
-     <p><strong>Degree:</strong> {edu.degree}</p>
-     <p><strong>Field Of Stufy:</strong> {edu.fieldofstudy}</p>
-     <p>
-       {edu.description=== "" ? null : (<span><strong>Description: </strong>{edu.description}</span>)}
-     </p>
-    </li>
- ))
+  let eduItems ="";
+  if (!isEmpty(education)) {
+    eduItems = education.map( edu => (
+      <li key={edu._id} className="list-group-item">
+       <h4>{edu.school}</h4>
+       <p>
+         <Moment format="YYYY/MM/DD">{edu.from}</Moment> - 
+         {edu.to === null ? (' Now') : <Moment format="YYYY/MM/DD">{edu.to}</Moment>}
+       </p>
+       <p><strong>Degree:</strong> {edu.degree}</p>
+       <p><strong>Field Of Stufy:</strong> {edu.fieldofstudy}</p>
+       <p>
+         {edu.description=== "" ? null : (<span><strong>Description: </strong>{edu.description}</span>)}
+       </p>
+      </li>
+   ))
+  }
+
   
  let busiItems = [];
-  if(business && business.length > 0) {
+  if(!isEmpty(business)) {
     busiItems = business.map( busi => (
       <li key={busi._id} className="list-group-item">
       <h4>{busi.name}</h4>
