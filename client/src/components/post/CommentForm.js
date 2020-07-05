@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import TextAreaFieldGroup from '../common/TextAreaFieldGroup';
 import { addComment } from '../../actions/postActions';
+import isEmpty from '../../validation/is-empty';
 import '../../css/style.css';
 
 
@@ -16,7 +17,7 @@ class CommentForm extends Component {
         }
 
         this.onChange = this.onChange.bind(this);
-        this.onSubmit = this.onSubmit.bind(this);
+        this.onSubmitComment = this.onSubmitComment.bind(this);
     }
 
     componentWillReceiveProps(newProps) {
@@ -25,16 +26,16 @@ class CommentForm extends Component {
         }
     }
 
-    onSubmit(e) {
+    onSubmitComment(e) {
         e.preventDefault();
 
         const { user } = this.props.auth;
         const { postId } = this.props;
-
+        const { profile } = this.props.profile;
         const newComment = {
             text: this.state.text,
             name: user.name,
-            avatar: user.avatar
+            avatar: isEmpty(profile.profileImage) ? "/blank.png" : profile.profileImage
         };
 
         this.props.addComment(postId, newComment);
@@ -56,7 +57,7 @@ class CommentForm extends Component {
             Comment...
           </div>
           <div className="card-body">
-            <form onSubmit={this.onSubmit}>
+            <form onSubmit={this.onSubmitComment}>
               <div className="form-group">
                 <TextAreaFieldGroup 
                 placeholder="Reply to post"
@@ -78,12 +79,14 @@ class CommentForm extends Component {
 CommentForm.propTypes = {
     addComment: PropTypes.func.isRequired,
     auth: PropTypes.object.isRequired,
+    profile: PropTypes.object.isRequired,
     postId: PropTypes.string.isRequired,
     errors: PropTypes.object.isRequired
 }
 
 const mapStateToProps = state => ({
     auth: state.auth,
+    profile: state.profile, 
     errors: state.errors
 })
 

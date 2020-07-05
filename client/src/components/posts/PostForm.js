@@ -16,7 +16,7 @@ class PostForm extends Component {
         }
 
         this.onChange = this.onChange.bind(this);
-        this.onSubmit = this.onSubmit.bind(this);
+        this.onSubmitPost = this.onSubmitPost.bind(this);
     }
 
     componentWillReceiveProps(newProps) {
@@ -25,14 +25,14 @@ class PostForm extends Component {
         }
     }
 
-    onSubmit(e) {
+    onSubmitPost(e) {
         e.preventDefault();
         const { user} = this.props.auth;
         const { profile } = this.props.profile;
         const newPost = {
             text: this.state.text,
             name: user.name,
-            avatar: profile.profileImage ? profile.profileImag : "/blank.png",
+            avatar: profile.profileImage ? profile.profileImage : "/blank.png",
         };
         this.props.addPost(newPost);
         this.setState({ text: ""})
@@ -53,7 +53,7 @@ class PostForm extends Component {
             Say Somthing...
           </div>
           <div className="card-body">
-            <form onSubmit={this.onSubmit}>
+            <form onSubmit={this.onSubmitPost}>
               <div className="form-group">
                 <TextAreaFieldGroup 
                 placeholder="Create a post"
