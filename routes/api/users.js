@@ -33,7 +33,8 @@ router.post('/register', (req, res) => {
 		return res.status(400).json(errors.name = "Enter a Valid Invite Code")
 	}
 
-	User.findOne({email : req.body.email })
+	let email = req.body.email.toLowerCase()
+	User.findOne({email : email })
 	.then(user => {
 		if (user) {
 			errors.email = "Email already exists";
@@ -48,7 +49,7 @@ router.post('/register', (req, res) => {
 				first_name: req.body.first_name,
 				last_name: req.body.last_name,
 				name: req.body.first_name + " " + req.body.last_name,
-				email: req.body.email,
+				email: email,
 				inviteCode: req.body.inviteCode,
 				avatar,
 				password: req.body.password
@@ -81,7 +82,7 @@ router.post('/login', (req, res) => {
 		return res.status(400).json(errors);
 	};
 
-	const email = req.body.email;
+	const email = req.body.email.toLowerCase();
 	const password = req.body.password;
 	User.findOne({email})
 	.then(user => {
