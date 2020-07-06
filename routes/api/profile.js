@@ -397,6 +397,7 @@ router.get('/experience/:exp_id', passport.authenticate('jwt', {session: false }
 //PUT  one experience 
 //private
 router.put('/experience/:exp_id', passport.authenticate('jwt', {session: false }), (req, res) => {
+	const authUser = req.user.id;
 	// const { errors, isValid } = validateExperienceInput(req.body);
 	// if(!isValid) {
 	// 	return res.status(400).json(errors);
@@ -418,9 +419,18 @@ router.put('/experience/:exp_id', passport.authenticate('jwt', {session: false }
 					exp.current = req.body.current;
 				}	
 			})
-			console.log('Saving profile: ', profile)
-			profile.save()
-				.then(profile => res.json(profile))
+			console.log('updating profile: ', profile)
+			let experience = profile.experience;
+			Profile.updateOne({user: authUser}, { $set: { experience: experience }})
+			.then(() => {
+				getProfileWithAttributes(authUser)
+			.then((oProfile) => {
+				res.json(oProfile)
+			})		
+			})
+			// profile.save()
+			// 	.then(profile => res.json(profile))
+				
 	})
 	.catch(err => res.status(404).json(err))
 })
