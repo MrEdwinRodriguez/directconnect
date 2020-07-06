@@ -292,18 +292,6 @@ class CreateProfile extends Component {
                             type='button'
                             onClick={() => {
                             this.setState(prevState => ({
-                                displaySocialInputs: !prevState.displaySocialInputs
-                            }))
-                        }}
-                        className="btn btn-light">Add Business</button>
-                        <span className='text-muted'>  Optional</span>
-                    </div>
-                    {socialInputs}
-                    <div className="mb-3">
-                        <button 
-                            type='button'
-                            onClick={() => {
-                            this.setState(prevState => ({
                                 displayLooking: !prevState.displayLooking
                             }))
                         }}
