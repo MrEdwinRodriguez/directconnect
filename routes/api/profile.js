@@ -418,6 +418,7 @@ router.put('/experience/:exp_id', passport.authenticate('jwt', {session: false }
 					exp.current = req.body.current;
 				}	
 			})
+			console.log('Saving profile: ', profile)
 			profile.save()
 				.then(profile => res.json(profile))
 	})
