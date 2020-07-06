@@ -421,6 +421,7 @@ router.put('/experience/:exp_id', passport.authenticate('jwt', {session: false }
 			profile.save()
 				.then(profile => res.json(profile))
 	})
+	.catch(err => res.status(404).json(err))
 })
 
 //DELETE API/profile/delete/experience/:exp_id
@@ -481,6 +482,7 @@ router.post('/education', passport.authenticate('jwt', {session: false }), (req,
 				 res.json(profile)
 			  });
 	})
+	.catch(err => res.status(404).json(err))
 })
 
 //GET API/profile/education/:edu_id
@@ -501,6 +503,7 @@ router.get('/education/:edu_id', passport.authenticate('jwt', {session: false })
 			})
 			res.json(education)
 	})
+	.catch(err => res.status(404).json(err))
 })
 
 //PUT API/profile/education/:exp_id
@@ -531,6 +534,7 @@ router.put('/education/:exp_id', passport.authenticate('jwt', {session: false })
 			profile.save()
 				.then(profile => res.json(profile))
 	})
+	.catch(err => res.status(404).json(err))
 })
 
 //DELETE API/profile/education/delete/:edu_id
