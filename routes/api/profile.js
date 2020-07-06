@@ -518,10 +518,7 @@ router.get('/education/:edu_id', passport.authenticate('jwt', {session: false })
 //PUT  one education 
 //private
 router.put('/education/:exp_id', passport.authenticate('jwt', {session: false }), (req, res) => {
-	// const { errors, isValid } = validateExperienceInput(req.body);
-	// if(!isValid) {
-	// 	return res.status(400).json(errors);
-	// };
+	const authUser = req.user.id;
 	Profile.findOne({user: req.user.id})
 		.then(profile => {
 			if(!profile) {
