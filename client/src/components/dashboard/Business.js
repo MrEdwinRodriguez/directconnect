@@ -59,6 +59,7 @@ class Business extends Component {
   render() {
     var  business = null;
     if (this.props.business && this.props.business.length !== 0) {
+        console.log(this.props.business)
         business = this.props.business.map(bus => (
             <tr key={bus._id}>
                 <td width="25%">{bus.name}</td>
