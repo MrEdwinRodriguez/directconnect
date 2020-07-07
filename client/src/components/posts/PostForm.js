@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import TextAreaFieldGroup from '../common/TextAreaFieldGroup';
 import { addPost } from '../../actions/postActions';
 import '../../css/style.css';
+import isEmpty from '../../validation/is-empty';
 
 
 class PostForm extends Component {
@@ -29,13 +30,22 @@ class PostForm extends Component {
         e.preventDefault();
         const { user} = this.props.auth;
         const { profile } = this.props.profile;
+
+
         const newPost = {
             text: this.state.text,
             name: user.name,
             avatar: profile.profileImage ? profile.profileImage : "/blank.png",
         };
         this.props.addPost(newPost);
-        this.setState({ text: ""})
+        if (this.state.text.length < 10) {
+            this.state.errors = 'Post must be between 10';
+        } else if (isEmpty(this.state.text)) {
+         this.state.errors = 'Text field is required';
+         } else {
+            this.setState({ text: ""})
+         }
+
     }
 
     onChange(e) {

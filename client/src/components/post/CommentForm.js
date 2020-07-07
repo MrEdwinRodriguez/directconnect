@@ -39,7 +39,13 @@ class CommentForm extends Component {
         };
 
         this.props.addComment(postId, newComment);
-        this.setState({ text: ""})
+        if (this.state.text.length < 5) {
+            this.state.errors = 'Post must be between 5';
+        } else if (isEmpty(this.state.text)) {
+         this.state.errors = 'Text field is required';
+         } else {
+            this.setState({ text: ""})
+         }
     }
 
     onChange(e) {
