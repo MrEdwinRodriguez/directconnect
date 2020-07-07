@@ -38,8 +38,8 @@ class PostForm extends Component {
             avatar: profile.profileImage ? profile.profileImage : "/blank.png",
         };
         this.props.addPost(newPost);
-        if (this.state.text.length < 10) {
-            this.state.errors = 'Post must be between 10';
+        if (this.state.text.length < 5) {
+            this.state.errors = 'Post must be between 5';
         } else if (isEmpty(this.state.text)) {
          this.state.errors = 'Text field is required';
          } else {

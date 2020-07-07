@@ -6,7 +6,8 @@ const passport = require('passport');
 const Profile = require('../../models/Profile');
 const User = require('../../models/User');
 const Hire = require('../../models/HiringFor');
-const Business = require('../../models/Business');
+const Business = require('../../models/Post');
+const Post = require('../../models/Business');
 const validateProfileInput = require('../../validation/profile');
 const validateExperienceInput = require('../../validation/experience');
 const validateEducationInput = require('../../validation/education');
@@ -647,9 +648,15 @@ router.get('/business/:bus_id', passport.authenticate('jwt', {session: false }),
 //private
 router.delete('/', passport.authenticate('jwt', { session: false }), (req, res) => {
     Profile.findOneAndRemove({ user: req.user.id }).then(() => {
-      User.findOneAndRemove({ _id: req.user.id }).then(() =>
-        res.json({ success: true })
-      );
+		Post.remove({ user: req.user.id }).then(() => {
+			Business.remove({ user: req.user.id }).then(() => {
+				Hire.remove({ user: req.user.id }).then(() => {
+					User.findOneAndRemove({ _id: req.user.id }).then(() =>
+						res.json({ success: true })
+					);
+				});
+			});
+		});
     });
   });
 
