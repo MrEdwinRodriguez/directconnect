@@ -63,8 +63,8 @@ class Experience extends Component {
                 <td width="30%">{exp.company}</td>
                 <td width="30%">{exp.title}</td>
                 <td width="20%">
-                <Moment format="YYYY/MM/DD">{exp.from}</Moment> -
-                {exp.to === null ? (' Now') : <Moment format="YYYY/MM/DD">{exp.to}</Moment>}
+                <Moment format="MM/YYYY">{exp.from}</Moment> -
+                {exp.to === null ? (' Now') : <Moment format="MM/YYYY">{exp.to}</Moment>}
 
                 </td>
                 <td width="10%"><Link to={`/profile/experience/${exp._id}`} className='text-black' onMouseEnter={this.onHoverEdit.bind(this, exp._id)} onMouseLeave={this.onExitEditHover.bind(this, exp._id)}>

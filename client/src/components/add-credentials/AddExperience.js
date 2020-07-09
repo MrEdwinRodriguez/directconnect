@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import TextFieldGroup from '../common/TextFieldGroup';
 import TextAreaFieldGroup from '../common/TextAreaFieldGroup';
+import DatePickerGroup from '../common/DatePickerGroup';
+import formatDate from '../../validation/formatDate';
+import Moment from 'react-moment';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { addExperience } from '../../actions/profileActions';
@@ -15,7 +18,9 @@ class AddExperience extends Component {
       title: '',
       location: '',
       from: '',
+      fromDate: '',
       to: '',
+      toDate: '',
       current: false,
       description: '',
       errors: {},
@@ -23,6 +28,8 @@ class AddExperience extends Component {
     };
 
     this.onChange = this.onChange.bind(this);
+    this.onChangeTo = this.onChangeTo.bind(this);
+    this.onChangeFrom = this.onChangeFrom.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.onCheck = this.onCheck.bind(this);
   }
@@ -35,24 +42,31 @@ class AddExperience extends Component {
 
   onSubmit(e) {
     e.preventDefault();
-
     const expData = {
         company: this.state.company,
         title: this.state.title,
         location: this.state.location,
-        from: this.state.from,
-        to: this.state.to,
+        from: this.state.fromDate,
+        to: this.state.toDate,
         current: this.state.current,
         description: this.state.description
       };
-
     this.props.addExperience(expData, this.props.history);
   }
 
   onChange(e) {
-    this.setState({ [e.target.name]: e.target.value });
+    if (e.target && e.target.name && e.target.value) {
+      this.setState({ [e.target.name]: e.target.value });
+    }
   }
-
+  onChangeFrom(e) {
+    this.setState({ from: formatDate(e) });
+    this.setState({ fromDate: new Date(e) });
+  }
+  onChangeTo(e) {
+    this.setState({ to: formatDate(e) });
+    this.setState({ toDate: new Date(e) });
+  }
   onCheck(e) {
     this.setState({
       disabled: !this.state.disabled,
@@ -100,21 +114,23 @@ class AddExperience extends Component {
                   error={errors.location}
                 />
                 <h6>From Date</h6>
-                <TextFieldGroup
+                <DatePickerGroup
                   name="from"
-                  type="date"
+                  placeholder="MM/YYYY"
                   value={this.state.from}
-                  onChange={this.onChange}
-                  error={errors.from}
+                  onChange={this.onChangeFrom}
+                  dateFormat="MM/yyyy"
+                  showMonthYearPicker
                 />
                 <h6>To Date</h6>
-                <TextFieldGroup
-                    name="to"
-                    type="date"
-                    value={this.state.to}
-                    onChange={this.onChange}
-                    error={errors.to}
-                    disabled={this.state.disabled ? 'disabled' : ''}
+                <DatePickerGroup
+                  name=""
+                  placeholder="MM/YYYY"
+                  value={this.state.to}
+                  onChange={this.onChangeTo}
+                  dateFormat="MM/yyyy"
+                  showMonthYearPicker
+                 
                 />
                 <div className="form-check mb-4">
                   <input

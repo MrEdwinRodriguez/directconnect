@@ -13,7 +13,7 @@ const ProfileScheme = new Schema({
 	orginization: {type: String},
 	chapter: {type: String},
 	status: { type: String, required: true},
-	skills: { type: [String], required: true},
+	skills: { type: [String]},
 	bio: {type: String },
 	lookingFor: {type: String },
 	githubusername: {type: String},

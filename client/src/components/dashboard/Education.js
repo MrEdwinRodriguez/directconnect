@@ -62,8 +62,8 @@ class Education extends Component {
                 <td width="30%">{edu.school}</td>
                 <td width="30%">{edu.degree}</td>
                 <td width="20%">
-                <Moment format="YYYY/MM/DD">{edu.from}</Moment> -
-                {edu.to === null ? (' Now') : <Moment format="YYYY/MM/DD">{edu.to}</Moment>}
+                <Moment format="MM/YYYY">{edu.from}</Moment> -
+                {edu.to === null ? (' Now') : <Moment format="MM/YYYY">{edu.to}</Moment>}
                 </td>
                 <td width="10%" ><Link onMouseEnter={this.onHoverEdit.bind(this, edu._id)} onMouseLeave={this.onExitEditHover.bind(this, edu._id)} to={`/profile/education/${edu._id}`} className='text-black'>
                 <FaEdit id={`edit-${edu._id}`} size={20}/></Link>

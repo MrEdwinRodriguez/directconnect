@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import TextFieldGroup from '../../common/TextFieldGroup';
-import InputGroup from '../../common/InputGroup';
+import DatePickerGroup from '../../common/DatePickerGroup';
+import formatDate from '../../../validation/formatDate';
 import TextAreaFieldGroup from '../../common/TextAreaFieldGroup';
-import SelectListGroup from '../../common/SelectListGroup';
 import { getCurrentProfile, getExperience, addExperience, updateExperience } from "../../../actions/profileActions";
 import isEmpty from '../../../validation/is-empty';
 import '../../../css/style.css';
@@ -18,7 +18,9 @@ class EditExperience extends Component {
         title: '',
         location: '',
         from: '',
+        fromDate: '',
         to: '',
+        toDate: '',
         current: false,
         description: '',
         errors: {},
@@ -26,6 +28,8 @@ class EditExperience extends Component {
       };
   
       this.onChange = this.onChange.bind(this);
+      this.onChangeTo = this.onChangeTo.bind(this);
+      this.onChangeFrom = this.onChangeFrom.bind(this);
       this.onSubmit = this.onSubmit.bind(this);
       this.onCheck = this.onCheck.bind(this);
     }
@@ -43,29 +47,15 @@ class EditExperience extends Component {
       }
       if(nextProps && nextProps.experience && nextProps.experience.experience) {
           const currentExperience = nextProps.experience.experience;
-         currentExperience.to = !isEmpty(currentExperience.to) ? formatDate(currentExperience.to) : "";
-         currentExperience.description = !isEmpty(currentExperience.description) ? currentExperience.description : "";
-
-         function formatDate(date) {
-          var d = new Date(date),
-              month = '' + (d.getMonth() + 1),
-              day = '' + d.getDate(),
-              year = d.getFullYear();
-      
-          if (month.length < 2) 
-              month = '0' + month;
-          if (day.length < 2) 
-              day = '0' + day;
-      
-          return [year, month, day].join('-');
-        }
+          currentExperience.to = !isEmpty(currentExperience.to) ? currentExperience.to : "";
+          currentExperience.description = !isEmpty(currentExperience.description) ? currentExperience.description : "";
 
           this.setState({
             company: currentExperience.company,
             title: currentExperience.title,
             location: currentExperience.location,
             from: formatDate(currentExperience.from),
-            to: currentExperience.to,
+            to: formatDate(currentExperience.to),
             current: currentExperience.current,
             description: currentExperience.description
         })
@@ -80,8 +70,8 @@ class EditExperience extends Component {
           company: this.state.company,
           title: this.state.title,
           location: this.state.location,
-          from: this.state.from,
-          to: this.state.to,
+          from: this.state.fromDate ? this.state.fromDate : this.state.from,
+          to: this.state.toDate ? this.state.toDate : this.state.to,
           current: this.state.current,
           description: this.state.description
         };
@@ -90,6 +80,14 @@ class EditExperience extends Component {
   
     onChange(e) {
       this.setState({ [e.target.name]: e.target.value });
+    }
+    onChangeFrom(e) {
+      this.setState({ from: formatDate(e) });
+      this.setState({ fromDate: new Date(e) });
+    }
+    onChangeTo(e) {
+      this.setState({ to: formatDate(e) });
+      this.setState({ toDate: new Date(e) });
     }
   
     onCheck(e) {
@@ -100,22 +98,21 @@ class EditExperience extends Component {
     }
   
     render() {
-      // same as const errors = this.state.errors
-      const { errors } = this.state;
+      const { errors, current } = this.state;
       let toDate = null;
       let displayToDate = this.state.current;
 
       if(!displayToDate) {
         toDate = (
             <div>
-                  <h6>To Date</h6>
-                  <TextFieldGroup
-                      name="to"
-                      type="date"
-                      value={this.state.to}
-                      onChange={this.onChange}
-                      error={errors.to}
-                      disabled={this.state.disabled ? 'disabled' : ''}
+                  <h6 className='toMargin'>To Date</h6>
+                  <DatePickerGroup
+                    name="to"
+                    placeholder="MM/YYYY"
+                    value={this.state.to}
+                    onChange={this.onChangeTo}
+                    dateFormat="MM/yyyy"
+                    showMonthYearPicker
                   />
             </div>
         )
@@ -157,13 +154,14 @@ class EditExperience extends Component {
                     error={errors.location}
                   />
                   <h6>From Date</h6>
-                  <TextFieldGroup
-                    name="from"
-                    type="date"
-                    value={this.state.from}
-                    onChange={this.onChange}
-                    error={errors.from}
-                  />
+                  <DatePickerGroup
+                      name="from"
+                      placeholder="MM/YYYY"
+                      value={this.state.from}
+                      onChange={this.onChangeFrom}
+                      dateFormat="MM/yyyy"
+                      showMonthYearPicker
+                    />
                   {toDate}
                   <div className="form-check mb-4">
                     <input

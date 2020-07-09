@@ -310,32 +310,36 @@ router.post('/', passport.authenticate('jwt', {session: false }), (req, res) => 
 	profileFields.lookingFor = req.body.lookingFor ? req.body.lookingFor : null;
 	if (typeof req.body.skills !== 'undefined') {
 		profileFields.skills = req.body.skills.split(',');
-	}
+	} 
 	profileFields.social = {}
 	profileFields.social.youtube = req.body.youtube ? req.body.youtube : null;
 	profileFields.social.facebook = req.body.facebook ? req.body.facebook : null;
 	profileFields.social.twitter = req.body.twitter ? req.body.twitter : null;
 	profileFields.social.linkedin = req.body.linkedin ? req.body.linkedin : null;
 	profileFields.social.instagram = req.body.instagram ? req.body.instagram : null;
-
-	Profile.findOne({user: req.user.id}).then(profile => {
-		if(profile) {
-			Profile.findOneAndUpdate(
-				{ user: req.user.id },
-				{ $set: profileFields },
-				{ new: true }
-				).then(profile => res.json(profile));
-		} else {
-			//create
-			Profile.findOne({handle: profileFields.handle}).then(profile => {
-				if(profile) {
-					errors.handle = "That handle already exists";
-					return res.status(400).json(errors);
-				}
-				new Profile(profileFields).save().then(profile => res.json(profile))
-			})
-		}
-	})
+	try {
+		Profile.findOne({user: req.user.id}).then(profile => {
+			if(profile) {
+				Profile.findOneAndUpdate(
+					{ user: req.user.id },
+					{ $set: profileFields },
+					{ new: true }
+					).then(profile => res.json(profile));
+			} else {
+				//create
+				Profile.findOne({handle: profileFields.handle}).then(profile => {
+					if(profile) {
+						errors.handle = "That handle already exists";
+						return res.status(400).json(errors);
+					}
+					console.log('line 338')
+					new Profile(profileFields).save().then(profile => res.json(profile))
+				})
+			}
+		})
+	} catch(err) {
+		res.status(404).json({err})
+	}
 
 });
 
@@ -416,7 +420,7 @@ router.put('/experience/:exp_id', passport.authenticate('jwt', {session: false }
 					exp.location = req.body.location;
 					exp.description = req.body.description;
 					exp.from = req.body.from;
-					exp.to = req.bodyto;
+					exp.to = req.body.to;
 					exp.current = req.body.current;
 				}	
 			})
@@ -533,7 +537,7 @@ router.put('/education/:exp_id', passport.authenticate('jwt', {session: false })
 					edu.location = req.body.location;
 					edu.description = req.body.description;
 					edu.from = req.body.from;
-					edu.to = req.bodyto;
+					edu.to = req.body.to;
 					edu.current = req.body.current;
 				}	
 			})

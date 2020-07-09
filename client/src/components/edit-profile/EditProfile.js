@@ -342,7 +342,7 @@ if(!this.state.lookingFor) {
                         error={errors.location}
                         info="City or City & State suggested (ex. Orlando, Fl"/>
                     <TextFieldGroup 
-                        placeholder="* Skills"
+                        placeholder="Skills"
                         name='skills'
                         value={this.state.skills}
                         onChange={this.onChange}
