@@ -42,22 +42,22 @@ class Navbar extends Component {
 
     const authLinks = (
       <ul className="navbar-nav ml-auto">
-        <li className="nav-item">
+        <li className="nav-item" data-toggle="collapse" data-target="#mobile-nav">
           <Link className="nav-link" to="/hiring">
             Jobs
           </Link>
         </li>
-        <li className="nav-item">
+        <li className="nav-item" data-toggle="collapse" data-target="#mobile-nav">
           <Link className="nav-link" to="/feed">
             Post
           </Link>
         </li>
-        <li className="nav-item">
+        <li className="nav-item" data-toggle="collapse" data-target="#mobile-nav">
           <Link className="nav-link" to="/businesses">
             Businesses
           </Link>
         </li>
-        <li className="nav-item">
+        <li className="nav-item" data-toggle="collapse" data-target="#mobile-nav">
           <Link className="nav-link" to="/dashboard">
             Dashboard
           </Link>
@@ -66,7 +66,7 @@ class Navbar extends Component {
           <a className="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           {profileImage} {nameDisplay}
           </a>
-          <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" data-toggle="collapse" data-target="#mobile-nav">
             <Link to="/account" className="dropdown-item ">
               <i className="fas fa-user-circle text-royal mr-1"></i>
             Account
@@ -90,12 +90,12 @@ class Navbar extends Component {
  
     const guestLinks = (
       <ul className="navbar-nav ml-auto">
-        <li className="nav-item">
+        <li className="nav-item" data-toggle="collapse" data-target="#mobile-nav">
           <Link className="nav-link" to="/register">
             Sign Up
           </Link>
         </li>
-        <li className="nav-item">
+        <li className="nav-item" data-toggle="collapse" data-target="#mobile-nav">
           <Link className="nav-link" to="/login">
             Login
           </Link>
@@ -124,8 +124,8 @@ class Navbar extends Component {
               <a className="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Find in Network
               </a>
-              <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                <Link className="dropdown-item" to="/profiles">
+              <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" data-toggle="collapse" data-target="#mobile-nav">
+                <Link className="dropdown-item" to="/profiles" >
                   {' '}
                   Zetas and Sigmas
                 </Link>

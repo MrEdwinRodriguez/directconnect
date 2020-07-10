@@ -22,15 +22,15 @@ class Landing extends Component {
                 <div className="display-3 mb-4 landing-logo">
                   <img src={logo} alt="Logo" />
                 </div>
-                <p className="lead">
+                <p className="lead lead-add-on">
                   {' '}
                   Create a profile.... then Network, become a mentor, become a mentee, support other Zetas and Sigmas.
                 </p>
                 <hr />
-                <Link to="/register" className="btn btn-lg btn-royal text-white mr-2">
+                <Link to="/register" className="btn btn-lg btn-royal text-white mr-2 lead-add-on">
                   Sign Up
                 </Link>
-                <Link to="/login" className="btn btn-lg btn-light">
+                <Link to="/login" className="btn btn-lg btn-light lead-add-on">
                   Login
                 </Link>
               </div>

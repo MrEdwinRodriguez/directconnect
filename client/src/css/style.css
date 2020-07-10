@@ -35,6 +35,12 @@
     width: 100%;
 }
 
+.lead-add-on {
+    position: relative; 
+    margin: auto;
+    /* bottom:100px; */
+}
+
 .small-text {
     font-size: 12px;
 }
@@ -86,6 +92,18 @@ li .profile {
        height: 300px;
        margin: auto;
    }
+   @media only screen and (max-width: 550px) {
+    .landing-logo {
+        max-width: 100%;
+        height: auto !important;
+    }
+    .lead-add-on {
+        position: relative; 
+        margin: auto;
+        bottom:100px;
+    }
+ 
+  }
 
    .navbar-dark .navbar-nav .nav-link {
        color: white !important;
