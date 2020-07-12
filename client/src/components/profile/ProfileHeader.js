@@ -62,7 +62,7 @@ class ProfileHeader extends Component {
             }
 
             let isProfileUser = <div></div>
-            if (profile.user._id+"" == auth.user.id+"") {
+            if (profile.user._id+"" == auth.user.id+"" || profile.user+"" == auth.user.id+"" ) {
                 isProfileUser = <button id='uploadImage' className="btn btn-light custom-button-size"  onClick={this.upload}>Update Profile Image</button>
             }
 
