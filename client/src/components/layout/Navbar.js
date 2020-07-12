@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { logoutUser, getCurrentUser } from '../../actions/authActions';
+import { logoutUser} from '../../actions/authActions';
 import { clearCurrentProfile,  getCurrentProfile } from '../../actions/profileActions';
 import logo from './../../img/logo-transparent.png'
 import '../../css/style.css';
@@ -10,7 +10,6 @@ import '../../css/style.css';
 class Navbar extends Component {
   componentDidMount(){
     this.props.getCurrentProfile();
-    this.props.getCurrentUser();
 }
 
   onLogoutClick(e) {
@@ -154,7 +153,6 @@ class Navbar extends Component {
  
 Navbar.propTypes = {
   getCurrentProfile: PropTypes.func.isRequired,
-  getCurrentUser: PropTypes.func.isRequired,
   logoutUser: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired
 };
@@ -165,4 +163,4 @@ const mapStateToProps = state => ({
   user: state.user,
 });
  
-export default connect(mapStateToProps, { logoutUser, clearCurrentProfile, getCurrentProfile, getCurrentUser })(Navbar);
+export default connect(mapStateToProps, { logoutUser, clearCurrentProfile, getCurrentProfile})(Navbar);

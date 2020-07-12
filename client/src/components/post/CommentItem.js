@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { deleteComment } from '../../actions/postActions';
+import correctStorageURL from '../../validation/correctStorageURL';
 
 class CommentItem extends Component {
   onDeleteClick(postId, commentId) {
@@ -16,6 +17,13 @@ class CommentItem extends Component {
     if ( comment.profile && comment.profile.handle ) {
      makeNameLink =  <p className="text-center"><Link to={`/profile/${comment.profile.handle}`}>{comment.user.name}</Link></p>
     }
+    let postImage =  "/blank.png"; 
+    if (comment.profile && comment.profile.profileImage ) {
+      if (comment.profile.profileImage) {
+        let newStringURL = correctStorageURL(comment.profile.profileImage);
+        postImage = newStringURL;
+      } 
+    } 
     return ( 
       <div className="card card-body mb-3">
         <div className="row">
@@ -23,7 +31,7 @@ class CommentItem extends Component {
             <a href="profile.html">
               <img
                 className="rounded-circle imageResize centerImage"
-                src={comment.profile && comment.profile.profileImage ? comment.profile.profileImage : "/blank.png"}
+                src={postImage}
                 alt=""
               />
             </a>

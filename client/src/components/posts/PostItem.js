@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import correctStorageURL from '../../validation/correctStorageURL';
 import { Link } from 'react-router-dom';
 import { deletePost, addLike, removeLike } from '../../actions/postActions';
 
@@ -33,7 +34,11 @@ class PostItem extends Component {
       const { post, auth, showActions } = this.props;
       let postImage = post.avatar ? post.avatar : "/blank.png"; 
       if (post.profile) {
-        postImage = post.profile.profileImage ? post.profile.profileImage : "/blank.png"; 
+        let newStringURL = "/blank.png";
+        if (post.profile.profileImage) {
+          newStringURL = correctStorageURL(post.profile.profileImage)
+        } 
+        postImage = newStringURL; 
       }
      let userId = post.user._id ? post.user._id : post.user;
      let makeNameLink =  <p className="text-center">{post.name}</p>

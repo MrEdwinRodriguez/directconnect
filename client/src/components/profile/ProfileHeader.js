@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import isEmpty from '../../validation/is-empty';
+import correctStorageURL from '../../validation/correctStorageURL';
 import {connect} from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import '../../css/style.css';
@@ -66,13 +67,18 @@ class ProfileHeader extends Component {
                 isProfileUser = <button id='uploadImage' className="btn btn-light custom-button-size"  onClick={this.upload}>Update Profile Image</button>
             }
 
+            let imageUrl = <img className="rounded-circle" src="/blank.png"  alt="no image" />;
+            if (profile.profileImage) {
+                let newStringURL = correctStorageURL(profile.profileImage)
+                imageUrl = <img src={newStringURL} className="rounded-circle"  alt="profile image" />
+            }
         return (
             <div className="row">
             <div className="col-md-12">
                 <div className="card card-body bg-royal text-white mb-3">
                 <div className="row pad-10">
                     <div className="col-4 col-md-3 m-auto">
-                        {profile.profileImage ? <img className="rounded-circle"  src={profile.profileImage} alt="profile image" /> :  <img className="rounded-circle" src="/blank.png" alt="no image" /> }
+                        {imageUrl}
                     </div>
                 </div>
                 <div className='row'>
