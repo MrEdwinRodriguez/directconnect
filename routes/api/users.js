@@ -156,11 +156,13 @@ router.put('/update', passport.authenticate('jwt', { session: false }), (req, re
 router.get('/current', passport.authenticate('jwt', { session: false }), (req, res) => {
 	let first_name = null;
 	let last_name = null;
+	console.log('line 164', req.user)
 	if (req.user.name && !req.user.first_name) {
 		let splitName = req.user.name.split(" ");
 		first_name = splitName[0];
 		last_name = splitName[1];
 	}
+	console.log('line 164', req.user)
 	res.json({
 		id: req.user.id,
 		name: req.user.name,

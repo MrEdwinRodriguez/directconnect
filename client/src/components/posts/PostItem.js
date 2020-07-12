@@ -37,9 +37,8 @@ class PostItem extends Component {
       }
      let userId = post.user._id ? post.user._id : post.user;
      let makeNameLink =  <p className="text-center">{post.name}</p>
-     console.log('line 40', post.name, post._id)
      if ( post.profile && post.profile.handle ) {
-      makeNameLink = <Link to={`/profile/${post.profile.handle}`}>{post.user.name}</Link>
+      makeNameLink = <p className="text-center"><Link to={`/profile/${post.profile.handle}`}>{post.user.name}</Link></p>
      }
     return (
         <div className="card card-body mb-3">

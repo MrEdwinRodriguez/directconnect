@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import { deleteComment } from '../../actions/postActions';
 
 class CommentItem extends Component {
@@ -11,6 +12,10 @@ class CommentItem extends Component {
   render() {
     const { comment, postId, auth } = this.props;
 
+    let makeNameLink =  <p className="text-center">{comment.user.name}</p>
+    if ( comment.profile && comment.profile.handle ) {
+     makeNameLink =  <p className="text-center"><Link to={`/profile/${comment.profile.handle}`}>{comment.user.name}</Link></p>
+    }
     return ( 
       <div className="card card-body mb-3">
         <div className="row">
@@ -23,7 +28,7 @@ class CommentItem extends Component {
               />
             </a>
             <br />
-            <p className="text-center">{comment.name}</p>
+            {makeNameLink}
           </div>
           <div className="col-md-10">
             <p className="lead">{comment.text}</p>

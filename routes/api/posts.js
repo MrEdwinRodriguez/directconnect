@@ -38,7 +38,6 @@ router.get('/', (req, res) => {
         let user = profile.user;
         userObject[user]= profile;
       })
-      console.log('line 34', userObject)
       postsFound.forEach(function(post) {
         if (userObject[post.user._id]) {
           post.profile = userObject[post.user._id];
@@ -53,10 +52,38 @@ router.get('/', (req, res) => {
 // Get post by id
 // Public
 router.get('/:id', (req, res) => {
+  console.log('in get post')
+  let postFound = null;
   Post.findById(req.params.id)
-    .then(post => res.json(post))
+    .populate('user')
+    .lean()
+    .then(post => {
+      postFound = post;
+      var userIds = [];
+      post.comments.forEach(function(comment){
+        if (userIds.indexOf(comment.user+"") == -1) {
+          userIds.push(comment.user+"");
+        }
+      })
+      console.log('searching for profiles with ids: ', userIds)
+      return Profile.find({user: {$in: userIds }}).populate('user').lean().exec()
+    })
+    .then(profiles => {
+      var userObject = {};
+      profiles.forEach(function(profile) {
+        let user = profile.user._id ? profile.user._id : profile.user;
+        userObject[user]= profile;
+      })
+      postFound.comments.forEach(function(comment) {
+        if (userObject[comment.user]) {
+          comment.profile = userObject[comment.user];
+          comment.user = userObject[comment.user].user;
+        }
+      })
+      res.json(postFound)
+    })
     .catch(err =>
-      res.status(404).json({ nopostfound: 'No post found with that ID' })
+      res.status(404).json(err)
     );
 });
 
