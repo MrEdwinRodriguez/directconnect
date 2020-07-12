@@ -124,18 +124,22 @@ class Experience extends Component {
                     </div>
               </div>
           </div>
-          <table className='table'>
-            <thead>
-                <tr>
-                    <th>Company</th>
-                    <th>Title</th>
-                    <th>Years</th>
-                </tr>
-            </thead>
-            <tbody>
-                {experience}
-            </tbody>
-          </table>
+          <div className='container'>
+            <div className='table-responsive'>
+                <table className='table'>
+                    <thead>
+                        <tr>
+                            <th>Company</th>
+                            <th>Title</th>
+                            <th>Years</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {experience}
+                    </tbody>
+                </table>
+            </div>  
+          </div>
           {modal}
       </div>
     )

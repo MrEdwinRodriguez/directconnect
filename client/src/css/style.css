@@ -189,3 +189,21 @@ li .profile {
        bottom:250px;
    } 
  }
+
+ .alternativeButton{
+     display: none;
+ }
+
+ /* xs in bootstrap is 768 */
+ @media only screen and (max-width: 768px) {
+    .alternativeButton{
+        display: block;
+    }
+    .imageResize{
+        width: 40%;
+        height: 60%;
+    }
+    .centerImage{
+        text-align: center
+    }
+ }

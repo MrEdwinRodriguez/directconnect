@@ -18,7 +18,12 @@ class PositionItem extends Component {
               <p>Location: {position.location}</p>
               <p>Pay: {position.pay}</p>
               <p>Contact: {position.contactName} / {position.contactEmail} / {position.contactPhone } </p>
-              {/* <Link to={`/profile/${profile.handle}`} className='btn btn-royal text-white'>View Profile</Link> */}
+              <div className="alternativeButton">
+              <Link to={`/position/${position._id}`} className="btn btn-info mr-1">
+              Read More
+              </Link>
+              </div>
+            
             </div>
             <div className='col-md-6 d-none d-md-block'>
               <h4>Description</h4>

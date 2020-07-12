@@ -14,6 +14,11 @@ class BusinessItem extends Component {
               <p>Location: {business.location}</p>
               <p>Website: {business.website}</p>
               <p>Contact: {business.contactName} / {business.contactEmail} / {business.contactPhone } </p>
+              <div className='alternativeButton'>
+                <Link to={`/business/${business._id}`} className="btn btn-info mr-1">
+                  Read More
+                </Link>
+              </div>
             </div>
             <div className='col-md-6 d-none d-md-block'>
               <h4>Description</h4>

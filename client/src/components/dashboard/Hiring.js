@@ -123,20 +123,25 @@ class Hiring extends Component {
                     </div>
               </div>
             </div>
-          <table className='table'>
-            <thead>
-                <tr>
-                    <th>Position</th>
-                    <th>Company</th>
-                    <th>Location</th>
-                    <th>Pay</th>
-                </tr>
-            </thead>
-            <tbody>
-                {hiring}
-            </tbody>
-          </table>
-        
+            <div className='container'>
+                <div className='table-responsive'>
+                    <table className='table'>
+                        <thead>
+                            <tr>
+                                <th width="25%">Position</th>
+                                <th width="25%">Company</th>
+                                <th width="15%">Location</th>
+                                <th width="15%">Pay</th>
+                                <th width="10%"></th>
+                                <th width="10%"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {hiring}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
       </div>
     )
   }

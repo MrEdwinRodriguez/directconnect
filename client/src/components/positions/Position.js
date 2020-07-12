@@ -40,7 +40,7 @@ class Profiles extends Component {
                 <p>{position.email ? 'Email: ' + position.email : ''}</p>
                 <p>{position.phoneNumber ? 'Phone Number: ' + position.phoneNumber : ''}</p>
               </div>
-              <div className='col-md-6 d-none d-md-block'>
+              <div className='col-md-6 cold-md-4 col-8'>
                 <h4>Description</h4>
                 <p>{position.description}</p>
               </div>

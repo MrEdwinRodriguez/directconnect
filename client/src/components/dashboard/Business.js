@@ -123,20 +123,25 @@ class Business extends Component {
                     </div>
               </div>
             </div>
-          <table className='table'>
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Title</th>
-                    <th>Website</th>
-                    <th>Location</th>
-                </tr>
-            </thead>
-            <tbody>
-                {business}
-            </tbody>
-          </table>
-        
+            <div className='container'>
+                <div className='table-responsive'>
+                <table className='table'>
+                    <thead>
+                        <tr>
+                            <th width="25%">Name</th>
+                            <th width="25%">Title</th>
+                            <th width="15%">Website</th>
+                            <th width="15%">Location</th>
+                            <th width="10%"></th>
+                            <th width="10%"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {business}
+                    </tbody>
+                </table>
+                </div>
+            </div>
       </div>
     )
   }

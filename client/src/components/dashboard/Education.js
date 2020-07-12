@@ -123,19 +123,22 @@ class Education extends Component {
                     </div>
               </div>
           </div>
-          <table className='table'>
-            <thead>
-                <tr>
-                    <th>School</th>
-                    <th>Degree</th>
-                    <th>Years</th>
-                </tr>
-            </thead>
-            <tbody>
-                {education}
-            </tbody>
-          </table>
-        
+          <div className='container'>
+            <div className='table-responsive'>
+                <table className='table'>
+                    <thead>
+                        <tr>
+                            <th>School</th>
+                            <th>Degree</th>
+                            <th>Years</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {education}
+                    </tbody>
+                </table>
+            </div>
+          </div>
       </div>
     )
   }
