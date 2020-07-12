@@ -36,6 +36,11 @@ class PostItem extends Component {
         postImage = post.profile.profileImage ? post.profile.profileImage : "/blank.png"; 
       }
      let userId = post.user._id ? post.user._id : post.user;
+     let makeNameLink =  <p className="text-center">{post.name}</p>
+     console.log('line 40', post.name, post._id)
+     if ( post.profile && post.profile.handle ) {
+      makeNameLink = <Link to={`/profile/${post.profile.handle}`}>{post.user.name}</Link>
+     }
     return (
         <div className="card card-body mb-3">
         <div className="row">
@@ -46,7 +51,7 @@ class PostItem extends Component {
                 alt="" />
             </a>
             <br />
-            <p className="text-center">{post.name}</p>
+            {makeNameLink}
           </div>
           <div className="col-md-10">
             <p className="lead">{post.text}</p>
