@@ -12,9 +12,40 @@ router.get('/test', (req,res) => res.json({msg: "Posts works"}));
 // Get posts
 // Public
 router.get('/', (req, res) => {
+  console.log('in get posts')
+  let postsFound = null;
   Post.find()
+    .populate('user')
     .sort({ date: -1 })
-    .then(posts => res.json(posts))
+    .lean()
+    .exec()
+    .then(posts => {
+      postsFound = posts;
+      var userIds = [];
+      posts.forEach(function(post){
+        if (userIds.indexOf(post.user._id+"") == -1) {
+          let userId = post.user && post.user._id ? post.user._id : post.user;
+          userIds.push(userId+"");
+        }
+      })
+      console.log('searching for user ids', userIds)
+      return Profile.find({user: {$in: userIds }}).lean().exec()
+    })
+    .then(profiles => {
+     
+      var userObject = {};
+      profiles.forEach(function(profile) {
+        let user = profile.user;
+        userObject[user]= profile;
+      })
+      console.log('line 34', userObject)
+      postsFound.forEach(function(post) {
+        if (userObject[post.user._id]) {
+          post.profile = userObject[post.user._id];
+        }
+      });
+      res.json(postsFound)
+    })
     .catch(err => res.status(404).json({ nopostsfound: 'No posts found' }));
 });
 
@@ -40,7 +71,7 @@ router.post('/', passport.authenticate('jwt', { session: false }), (req, res) =>
       // If any errors, send 400 with errors object
       return res.status(400).json(errors);
     }
-
+    console.log('line 72')
     const newPost = new Post({
       text: req.body.text,
       name: req.body.name,
@@ -48,6 +79,7 @@ router.post('/', passport.authenticate('jwt', { session: false }), (req, res) =>
       user: req.user.id
     });
 
+    console.log('line 80')
     newPost.save().then(post => res.json(post));
   }
 );

@@ -31,13 +31,18 @@ class PostItem extends Component {
 
   render() {
       const { post, auth, showActions } = this.props;
+      let postImage = post.avatar ? post.avatar : "/blank.png"; 
+      if (post.profile) {
+        postImage = post.profile.profileImage ? post.profile.profileImage : "/blank.png"; 
+      }
+     let userId = post.user._id ? post.user._id : post.user;
     return (
         <div className="card card-body mb-3">
         <div className="row">
           <div className="col-md-2">
             <a href="profile.html">
               <img className="rounded-circle d-none d-md-block" 
-                src={post.avatar}
+                src={postImage}
                 alt="" />
             </a>
             <br />
@@ -45,7 +50,7 @@ class PostItem extends Component {
           </div>
           <div className="col-md-10">
             <p className="lead">{post.text}</p>
-            {showActions ? (<span>            <button onClick={this.onLikeClick.bind(this, post._id)} type="button" className="btn btn-light mr-1">
+            {showActions ? (<span> <button onClick={this.onLikeClick.bind(this, post._id)} type="button" className="btn btn-light mr-1">
               <i className={classnames('fas fa-thumbs-up', {
                   'text-info': this.findUserLike(post.likes)
 
@@ -59,7 +64,7 @@ class PostItem extends Component {
             <Link to={`/post/${post._id}`} className="btn btn-info mr-1">
               Comment
             </Link>
-            {post.user === auth.user.id ? (
+            {userId === auth.user.id ? (
                 <button onClick={this.onDeleteClick.bind(this, post._id)} type='button' className="btn btn-danger mr-1"><i className='fas fa-times' /></button>
             ) : null}
               <p>          
