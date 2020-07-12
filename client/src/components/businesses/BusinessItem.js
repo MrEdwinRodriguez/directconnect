@@ -34,7 +34,6 @@ class BusinessItem extends Component {
 }
 
 BusinessItem.propTypes = {
-  position: PropTypes.object.isRequired
 }
 
 export default BusinessItem;
