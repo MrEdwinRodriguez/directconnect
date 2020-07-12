@@ -38,12 +38,13 @@ class Businesses extends Component {
       }
   render() {
     const { businesses } = this.props.businesses;
-   console.log('line 41', businesses)
     if(businesses){
       businesses.forEach(function(business) {
-          business.description = business.description.substring(0, 400);
-          if( business.description.length > 399) {
-            business.description = business.description + "..."
+          if (business.description) {
+            business.description = business.description.substring(0, 400);
+            if( business.description.length > 399) {
+              business.description = business.description + "..."
+            }
           }
       });
     }
