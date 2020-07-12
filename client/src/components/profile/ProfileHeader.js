@@ -35,7 +35,8 @@ class ProfileHeader extends Component {
 
         render() {
             console.log(window.location.origin)
-            const { profile } = this.props;
+            const { profile, auth } = this.props;
+      
             let fileName = "Update Profile Image";
             let lookginFor = "";
             let hiringFor = "";
@@ -60,6 +61,11 @@ class ProfileHeader extends Component {
                 ))
             }
 
+            let isProfileUser = <div></div>
+            if (profile.user._id+"" == auth.user.id+"") {
+                isProfileUser = <button id='uploadImage' className="btn btn-light custom-button-size"  onClick={this.upload}>Update Profile Image</button>
+            }
+
         return (
             <div className="row">
             <div className="col-md-12">
@@ -73,7 +79,7 @@ class ProfileHeader extends Component {
                 <div className="col-8 col-md-4 m-auto height-35">
                     <div className="input-group mb-3 text-center">
                             <div className="col text-center no-padding">
-                            <button id='uploadImage' className="btn btn-light custom-button-size"  onClick={this.upload}>Update Profile Image</button>
+                            {isProfileUser}
                             <input id="inputGroupFile01" hidden type="file" onChange={this.fileSelectedHandler} />
                             </div>
                         </div>
@@ -169,7 +175,7 @@ class ProfileHeader extends Component {
 
 
 const mapStateToProops = state => ({
-
+    auth: state.auth,
 })
 
 export default connect(mapStateToProops, {uploadProfileImage})(withRouter(ProfileHeader));
