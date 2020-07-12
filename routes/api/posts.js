@@ -59,7 +59,7 @@ router.get('/:id', (req, res) => {
     .lean()
     .then(post => {
       postFound = post;
-      var userIds = [];
+      let userIds = [post.user._id];
       post.comments.forEach(function(comment){
         if (userIds.indexOf(comment.user+"") == -1) {
           userIds.push(comment.user+"");
@@ -80,6 +80,9 @@ router.get('/:id', (req, res) => {
           comment.user = userObject[comment.user].user;
         }
       })
+      if(userObject[postFound.user._id]){
+        postFound.profile = userObject[postFound.user._id];
+      }
       res.json(postFound)
     })
     .catch(err =>
@@ -95,10 +98,8 @@ router.post('/', passport.authenticate('jwt', { session: false }), (req, res) =>
 
     // Check Validation
     if (!isValid) {
-      // If any errors, send 400 with errors object
       return res.status(400).json(errors);
     }
-    console.log('line 72')
     const newPost = new Post({
       text: req.body.text,
       name: req.body.name,
@@ -106,7 +107,6 @@ router.post('/', passport.authenticate('jwt', { session: false }), (req, res) =>
       user: req.user.id
     });
 
-    console.log('line 80')
     newPost.save().then(post => res.json(post));
   }
 );
@@ -181,16 +181,17 @@ router.post( '/unlike/:id', passport.authenticate('jwt', { session: false }), (r
 // Post api/posts/comment/:id
 // comment on a post
 // Private
-router.post( '/comment/:id', passport.authenticate('jwt', { session: false }), (req, res) => {
-	const { errors, isValid } = validatePostInput(req.body);
 
-    // Check Validation
+router.post( '/comment/:id', passport.authenticate('jwt', { session: false }), (req, res) => {
+  console.log('commenting on a post')
+  let postFound = null;
+	const { errors, isValid } = validatePostInput(req.body);
     if (!isValid) {
       // If any errors, send 400 with errors object
       return res.status(400).json(errors);
     }
 
-	Post.findById(req.params.id)
+  Post.findById(req.params.id)
 		.then(post => {
 			const newComment = {
 				text: req.body.text,
@@ -199,8 +200,40 @@ router.post( '/comment/:id', passport.authenticate('jwt', { session: false }), (
 				user: req.user.id
 			}
 			post.comments.unshift(newComment)
-			post.save().then(post => res.json(post))
-		})
+			post.save().then(post => {
+        return Post.findOne({_id: post._id}).populate('user').lean().exec()
+      })
+      .then(post => {
+        console.log('line 205')
+        postFound = post;
+        let userIds = [post.user._id];
+        post.comments.forEach(function(comment){
+          if (userIds.indexOf(comment.user+"") == -1) {
+            userIds.push(comment.user+"");
+          }
+        })
+        console.log('searching for profiles with ids: ', userIds)
+        return Profile.find({user: {$in: userIds }}).populate('user').lean().exec()
+      })
+      .then(profiles => {
+        var userObject = {};
+        profiles.forEach(function(profile) {
+          let user = profile.user._id ? profile.user._id : profile.user;
+          userObject[user]= profile;
+        })
+        postFound.comments.forEach(function(comment) {
+          if (userObject[comment.user]) {
+            comment.profile = userObject[comment.user];
+            comment.user = userObject[comment.user].user;
+          }
+        })
+        if(userObject[postFound.user._id]){
+          postFound.profile = userObject[postFound.user._id];
+        }
+        console.log('line 231', postFound)
+        res.json(postFound)
+      })
+    })
 		.catch(err => res.status(400).json({postnotfound: "No post found"}))
   
   });

@@ -32,7 +32,7 @@ class CommentItem extends Component {
           </div>
           <div className="col-md-10">
             <p className="lead">{comment.text}</p>
-            {comment.user === auth.user.id ? (
+            {comment.user._id === auth.user.id || comment.user === auth.user.id? (
               <button
                 onClick={this.onDeleteClick.bind(this, postId, comment._id)}
                 type="button"
