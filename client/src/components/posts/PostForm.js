@@ -30,8 +30,12 @@ class PostForm extends Component {
         e.preventDefault();
         const { user} = this.props.auth;
         const { profile } = this.props.profile;
-
-
+        if(!profile._id) {
+            console.log('no profile found')
+            this.state.errors = 'You must create a profile to create a post.  Visit your dashboard to create a profile';
+            this.setState({ errors: {text:  "You must create a profile to create a post.  Visit your dashboard to create a profile"} })
+            return false;
+        }
         const newPost = {
             text: this.state.text,
             name: user.name,

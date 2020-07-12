@@ -40,6 +40,30 @@ class Navbar extends Component {
       />
     }
 
+    const inNetworkLinks = (
+      <ul className="navbar-nav mr-auto">
+      <li className="nav-item dropdown">
+      <a className="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Find in Network
+      </a>
+      <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" data-toggle="collapse" data-target="#mobile-nav">
+        <Link className="dropdown-item" to="/profiles" >
+          {' '}
+          Zetas and Sigmas
+        </Link>
+        <Link className="dropdown-item" to="/profiles/orginization/phi_beta_sigma">
+          {' '}
+          Sigmas Only
+        </Link>
+        <Link className="dropdown-item" to="/profiles/orginization/zeta_phi_beta">
+          {' '}
+          Zetas Only
+        </Link>
+      </div>
+      </li>
+    </ul>
+    )
+
     const authLinks = (
       <ul className="navbar-nav ml-auto">
         <li className="nav-item" data-toggle="collapse" data-target="#mobile-nav">
@@ -119,27 +143,8 @@ class Navbar extends Component {
             <span className="navbar-toggler-icon" />
           </button>
           <div className="collapse navbar-collapse" id="mobile-nav">
-            <ul className="navbar-nav mr-auto">
-              <li className="nav-item dropdown">
-              <a className="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Find in Network
-              </a>
-              <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" data-toggle="collapse" data-target="#mobile-nav">
-                <Link className="dropdown-item" to="/profiles" >
-                  {' '}
-                  Zetas and Sigmas
-                </Link>
-                <Link className="dropdown-item" to="/profiles/orginization/phi_beta_sigma">
-                  {' '}
-                  Sigmas Only
-                </Link>
-                <Link className="dropdown-item" to="/profiles/orginization/zeta_phi_beta">
-                  {' '}
-                  Zetas Only
-                </Link>
-              </div>
-              </li>
-            </ul>
+
+            {isAuthenticated ? inNetworkLinks : <ul></ul>}
             {isAuthenticated ? authLinks : guestLinks}
           </div>
         </div>

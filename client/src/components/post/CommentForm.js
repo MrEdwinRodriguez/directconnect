@@ -28,10 +28,14 @@ class CommentForm extends Component {
 
     onSubmitComment(e) {
         e.preventDefault();
-
         const { user } = this.props.auth;
         const { postId } = this.props;
         const { profile } = this.props.profile;
+        if(!profile._id) {
+            console.log('no profile found')
+            this.setState({ errors: {text:  "You must create a profile post a comment.  Visit your dashboard to create a profile"} })
+            return false;
+        }
         const newComment = {
             text: this.state.text,
             name: user.name,
