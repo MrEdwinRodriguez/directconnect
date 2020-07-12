@@ -44,8 +44,10 @@ class Businesses extends Component {
             business.description = business.description.substring(0, 400);
             if( business.description.length > 399) {
               business.description = business.description + "..."
-            }
-          }
+            } 
+          } else {
+            business.description = "No description added yet"
+        }
       });
     }
 

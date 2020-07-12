@@ -39,9 +39,9 @@ class Business extends Component {
                 <p>{business.email ? 'Email: ' + business.email : ''}</p>
                 <p>{business.phoneNumber ? 'Phone Number: ' + business.phoneNumber : ''}</p>
               </div>
-              <div className='col-md-6 d-none d-md-block'>
+              <div className='col-md-6'>
                 <h4>Description</h4>
-                <p>{business.description}</p>
+                <p>{business.description ? business.description: "No description added yet"}</p>
               </div>
             </div>
         </div>      

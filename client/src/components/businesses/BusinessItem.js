@@ -22,7 +22,7 @@ class BusinessItem extends Component {
             </div>
             <div className='col-md-6 d-none d-md-block'>
               <h4>Description</h4>
-              <p>{business.description}</p>
+              <p>{business.description ? business.description : "No description added yet"}</p>
               <Link to={`/business/${business._id}`} className="btn btn-info mr-1">
               Read More
             </Link>
