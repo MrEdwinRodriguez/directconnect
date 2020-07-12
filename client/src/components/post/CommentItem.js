@@ -23,7 +23,7 @@ class CommentItem extends Component {
             <a href="profile.html">
               <img
                 className="rounded-circle imageResize centerImage"
-                src={comment.avatar}
+                src={comment.profile && comment.profile.profileImage ? comment.profile.profileImage : "/blank.png"}
                 alt=""
               />
             </a>
