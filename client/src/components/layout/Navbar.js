@@ -128,9 +128,8 @@ class Navbar extends Component {
     );
  
     return (
-      <nav className="navbar navbar-expand-sm navbar-dark bg-royal mb-4">
+      <nav className="navbar navbar-expand-lg navbar-dark bg-royal mb-4">
         <div className="container fancy-border">
-        
             <Link className="navbar-brand" to="/">
             <img src={logo} alt="Logo" />
             </Link>
