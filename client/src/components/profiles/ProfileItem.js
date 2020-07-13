@@ -13,7 +13,7 @@ class ProfileItem extends Component {
     return (
       <div className='card card-body bg-light mb-3'>
           <div className='row'>
-            <div className='col-4 col-sm-2'>
+            <div className='col-4 col-lg-2'>
               <span >
                 <img src={isEmpty(profile.profileImage) ? "/blank.png" : correctStorageURL(profile.profileImage)} alt="" className="rounded-circle" />
               </span>
