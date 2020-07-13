@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { logoutUser} from '../../actions/authActions';
+import correctStorageURL from '../../validation/correctStorageURL';
 import { clearCurrentProfile,  getCurrentProfile } from '../../actions/profileActions';
 import logo from './../../img/logo-transparent.png'
 import '../../css/style.css';
@@ -28,12 +29,11 @@ class Navbar extends Component {
     } else if (profile && profile.user) {
       nameDisplay = profile.user.name;
     }
-
     if (profile && profile.profileImage) {
       profileImage = 
         <img
         className="rounded-circle"
-        src={profile.profileImage}
+        src={correctStorageURL(profile.profileImage)}
         alt={user.name}
         style={{ width: '25px', marginRight: '5px' }}
       />

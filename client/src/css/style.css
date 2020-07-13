@@ -206,4 +206,8 @@ li .profile {
     .centerImage{
         text-align: center
     }
+
+    .profilesImages {
+        display: none;
+    }
  }

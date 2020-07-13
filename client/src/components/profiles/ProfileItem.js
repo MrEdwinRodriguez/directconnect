@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import isEmpty from '../../validation/is-empty';
+import correctStorageURL from '../../validation/correctStorageURL';
 import '../../css/style.css';
 
 class ProfileItem extends Component {
@@ -12,10 +13,12 @@ class ProfileItem extends Component {
     return (
       <div className='card card-body bg-light mb-3'>
           <div className='row'>
-            <div className='col-2'>
-              <img src={isEmpty(profile.profileImage) ? "/blank.png" : profile.profileImage} alt="" className="rounded-circle" />
+            <div className='col-4 col-sm-2'>
+              <span >
+                <img src={isEmpty(profile.profileImage) ? "/blank.png" : correctStorageURL(profile.profileImage)} alt="" className="rounded-circle" />
+              </span>
             </div>
-            <div className='col-lg-6 cold-md-4 col-8'>
+            <div className='col-lg-6 col-md-4 col-8'>
               <h3>{profile.user.name}</h3>
               <p>{profile.status} {isEmpty(profile.company) ? null : (<span>@ {profile.company}</span>)}</p>
               <p>{isEmpty(profile.location) ? null : (<span>@ {profile.location}</span>)}</p>
