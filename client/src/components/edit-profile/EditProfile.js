@@ -214,7 +214,7 @@ if(!this.state.lookingFor) {
 
     //select options for status
     const options = [
-        {label: "* Select Proffesional Status", value: 0},
+        {label: "* Select Professional Status", value: 0},
         {label: "Professional (8 + years experience)", value: "Professional-Senior"},
         {label: "Professional (3-7 years experience)", value: "Professional-Mid"},
         {label: "Professional (0-3 years experience)", value: "Professional-Junior"},
