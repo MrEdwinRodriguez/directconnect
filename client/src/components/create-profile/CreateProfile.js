@@ -48,7 +48,7 @@ class CreateProfile extends Component {
         e.preventDefault();
         
         const profileData = {
-            handle: this.state.handle,
+            handle: this.state.handle.replace(/\s/g, 'f/'),
             company: this.state.company,
             website: this.state.website,
             location: this.state.location,
@@ -178,7 +178,7 @@ class CreateProfile extends Component {
 
     //select options for status
     const options = [
-        {label: "* Select Proffesional Status", value: 0},
+        {label: "* Select Professional Status", value: 0},
         {label: "Professional (8 + years experience)", value: "Professional-Senior"},
         {label: "Professional (3-7 years experience)", value: "Professional-Mid"},
         {label: "Professional (0-3 years experience)", value: "Professional-Junior"},

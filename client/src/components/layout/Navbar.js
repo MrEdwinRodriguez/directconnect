@@ -39,6 +39,9 @@ class Navbar extends Component {
       />
     }
 
+    let profileLink = profile && profile.handle ? <Link to={`/profile/${profile.handle}`} className="dropdown-item "><i className="fas fa-id-card text-royal mr-1"></i>Profile</Link> : "";
+    let editProfileLink = profile && profile._id ?<Link to="/edit-profile" className="dropdown-item"> <i className="fas fa-user-edit text-royal mr-1"></i> Edit Profile</Link> : "";
+    let createProfileLink = !profile|| (profile && !profile._id) ? <Link to="/create-profile" className="dropdown-item"> <i className="fas fa-user-edit text-royal mr-1"></i> Create Profile</Link> : "";
     const inNetworkLinks = (
       <ul className="navbar-nav mr-auto">
       <li className="nav-item dropdown">
@@ -90,12 +93,12 @@ class Navbar extends Component {
           {profileImage} {nameDisplay}
           </a>
           <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" data-toggle="collapse" data-target="#mobile-nav">
+            {profileLink}
+            {editProfileLink}
+            {createProfileLink}
             <Link to="/account" className="dropdown-item ">
               <i className="fas fa-user-circle text-royal mr-1"></i>
             Account
-            </Link>
-            <Link to="/edit-profile" className="dropdown-item">
-              <i className="fas fa-id-card text-royal mr-1"></i> Edit Profile
             </Link>
           </div>
         </li>

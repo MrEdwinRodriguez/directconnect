@@ -89,9 +89,9 @@ class CreateProfile extends Component {
     }
     onSubmit(e) {
         e.preventDefault();
-        
+        console.log('line 92', this.state.handle.replace(/\s/g, '_'))
         const profileData = {
-            handle: this.state.handle,
+            handle: this.state.handle.replace(/\s/g, '_'),
             company: this.state.company,
             title: this.state.title,
             orginization: this.state.orginization,
