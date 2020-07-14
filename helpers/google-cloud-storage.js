@@ -13,7 +13,4 @@ exports.storage = storage;
 
 
 
-exports.getPublicUrl = (bucketName, fileName) => `https://storage.cloud.google.com/${bucketName}/${fileName}`;
-
-
-
+exports.getPublicUrl = (bucketName, fileName) => `http://storage.googleapis.com/${bucketName}/${fileName}`;

@@ -1,8 +1,9 @@
-import { GET_PROFILE, PROFILE_LOADING, CLEAR_CURRENT_PROFILE, GET_PROFILES, DELETE_HIRE, DELETE_BUSINESS, GET_PROFILES_CRITERIA } from '../actions/types'
+import { GET_PROFILE, PROFILE_LOADING, CLEAR_CURRENT_PROFILE, GET_PROFILES, DELETE_HIRE, DELETE_BUSINESS, GET_PROFILES_CRITERIA, GET_IMAGE_URL } from '../actions/types'
 
 const initialState = {
     profile: null,
     profiles: null,
+    imageURL: null,
     loading: false
 }
 
@@ -48,6 +49,12 @@ export default function(state = initialState, action) {
             profile: action.payload,
             loading: false
         };
+        case GET_IMAGE_URL:
+        return {
+            ...state,
+            imageURL: action.payload.imageURL,
+            loading: false
+        }
         default:
             return state;
     }

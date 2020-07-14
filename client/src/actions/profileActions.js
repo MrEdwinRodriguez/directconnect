@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { GET_PROFILE, PROFILE_LOADING, CLEAR_CURRENT_PROFILE, GET_ERRORS, SET_CURRENT_USER, GET_PROFILES, GET_EXPERIENCE, GET_EDUCATION, GET_PROFILES_CRITERIA } from './types';
+import { GET_PROFILE, PROFILE_LOADING, CLEAR_CURRENT_PROFILE, GET_ERRORS, SET_CURRENT_USER, GET_PROFILES, GET_EXPERIENCE, GET_EDUCATION, GET_PROFILES_CRITERIA, GET_IMAGE_URL } from './types';
 
 
 //Get current profile
@@ -62,6 +62,24 @@ export const uploadProfileImage = (file, config, history) => dispatch => {
         .then(res =>             
             dispatch({
                 type: GET_PROFILE,
+                payload: res.data
+        })
+        )
+        .catch(err => 
+            dispatch({
+                type: GET_ERRORS,
+                payload: err
+            })
+        )
+}
+
+//create profile
+export const uploadCreateProfileImage = (file, config, history) => dispatch => {
+    axios
+        .post("/api/profile/upload", file, config)
+        .then(res =>             
+            dispatch({
+                type: GET_IMAGE_URL,
                 payload: res.data
         })
         )

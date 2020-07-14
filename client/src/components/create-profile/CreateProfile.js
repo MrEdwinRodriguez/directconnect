@@ -5,6 +5,7 @@ import { withRouter } from 'react-router-dom';
 import TextFieldGroup from '../common/TextFieldGroup';
 import InputGroup from '../common/InputGroup';
 import TextAreaFieldGroup from '../common/TextAreaFieldGroup';
+import { uploadCreateProfileImage } from "../../actions/profileActions";
 import SelectListGroup from '../common/SelectListGroup';
 import { createProfile } from "../../actions/profileActions";
 // import { deletePost, addLike, removeLike } from '../../actions/postActions';
@@ -33,9 +34,11 @@ class CreateProfile extends Component {
             linkedin: '',
             youtube: '',
             instagram: '',
+            selectedFile: null,
             errors: {}
         }
         this.onChange = this.onChange.bind(this);
+        this.onUpload = this.onUpload.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
     }
 
@@ -44,9 +47,28 @@ class CreateProfile extends Component {
             this.setState({errors: nextProps.errors});
         }
     }
+
+    onUpload() {
+        document.getElementById("inputGroupFile01").click()
+      }
+    fileSelectedHandler = event => {
+        this.setState({
+            selectedFile: event.target.files[0]
+        })
+        const fd = new FormData();
+        fd.append('file', event.target.files[0], event.target.files[0].name)
+        const config = {
+            headers: {
+                'content-type': 'multipart/form-data'
+            }
+        }
+        this.props.uploadCreateProfileImage(fd, config, this.props.history)
+        this.setState({
+            selectedFile: null
+        })
+    }
     onSubmit(e) {
         e.preventDefault();
-        
         const profileData = {
             handle: this.state.handle.replace(/\s/g, 'f/'),
             company: this.state.company,
@@ -66,6 +88,11 @@ class CreateProfile extends Component {
             lookingFor: this.state.lookingFor
         }
 
+        //temp adding it here instead initially in profileDate object because it may cause issues.  to move later
+        if (this.props.profile.imageURL) {
+            profileData.profileImage = this.props.profile.imageURL 
+        }
+
         this.props.createProfile(profileData, this.props.history)
     }
 
@@ -76,6 +103,7 @@ class CreateProfile extends Component {
   render() {
     const { errors, displaySocialInputs, displayLooking } = this.state;
     const { inviteCode } = this.props.auth.user;
+    const profileObj = this.props.profile;
 
     let socialInputs;
     let lookingFor;
@@ -190,7 +218,10 @@ class CreateProfile extends Component {
         {label: "Other", value: "Other"},
     ];
 
-
+    let imageUrl = <img className="rounded-circle" src="/blank.png"  alt="no image" />;
+    if (profileObj && profileObj.imageURL) {
+        imageUrl = <img src={profileObj.imageURL} className="rounded-circle"  alt="profile image" />
+    }
     return (
       <div className='create-profile'>
         <div className='container'>
@@ -201,6 +232,21 @@ class CreateProfile extends Component {
                         Let's get some information to better connect with your peers. 
                     </p>
                     <small className='d-block pb-3'>* = required fields</small>
+                    <div className="row pad-10">
+                        <div className="col-4 col-md-3 m-auto">
+                            {imageUrl}
+                        </div>
+                    </div>
+                    <div className='row'>
+                        <div className="col-8 col-md-4 m-auto height-35">
+                            <div className="input-group mb-3 text-center">
+                                    <div className="col text-center no-padding">
+                                    <button id='uploadImage' className="btn btn-light custom-button-size"  onClick={this.onUpload}>Update Profile Image</button>
+                                        <input id="inputGroupFile01" hidden type="file" onChange={this.fileSelectedHandler} />
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
                     <form onSubmit={this.onSubmit}>
                     <TextFieldGroup 
                         placeholder="* Profile Handle"
@@ -317,8 +363,8 @@ CreateProfile.propTypes = {
 
 const mapStateToProops = state => ({
     profile: state.profile,
-    auth: state.auth ,
+    auth: state.auth,
     errors: state.errors
 })
 
-export default connect(mapStateToProops, {createProfile})(withRouter(CreateProfile));
+export default connect(mapStateToProops, {createProfile, uploadCreateProfileImage})(withRouter(CreateProfile));

@@ -76,22 +76,20 @@ class ProfileHeader extends Component {
             <div className="row">
             <div className="col-md-12">
                 <div className="card card-body bg-royal text-white mb-3">
-                <div className="row pad-10">
-                    <div className="col-4 col-md-3 m-auto">
-                        {imageUrl}
+                    <div className="row pad-10">
+                        <div className="col-4 col-md-3 m-auto">
+                            {imageUrl}
+                        </div>
                     </div>
-                </div>
                 <div className='row'>
-                <div className="col-8 col-md-4 m-auto height-35">
-                    <div className="input-group mb-3 text-center">
+                    <div className="col-8 col-md-4 m-auto height-35">
+                        <div className="input-group mb-3 text-center">
                             <div className="col text-center no-padding">
-                            {isProfileUser}
-                            <input id="inputGroupFile01" hidden type="file" onChange={this.fileSelectedHandler} />
+                                {isProfileUser}
+                                <input id="inputGroupFile01" hidden type="file" onChange={this.fileSelectedHandler} />
                             </div>
                         </div>
                     </div>
-                
-                
                 </div>
                 <div className="text-center">
                     <h3 className="display-5 text-center">{profile.user.name}</h3>

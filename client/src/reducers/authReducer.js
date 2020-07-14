@@ -30,7 +30,6 @@ export default function(state = initialState, action) {
                 user: action.payload,
                 success: true
             }
-
         default:
             return state;
     }

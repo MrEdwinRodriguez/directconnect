@@ -301,6 +301,7 @@ router.post('/', passport.authenticate('jwt', {session: false }), (req, res) => 
 	profileFields.location = req.body.location ? req.body.location : null;
 	profileFields.website = req.body.website ? req.body.website : null;
 	profileFields.bio = req.body.bio ? req.body.bio : null;
+	profileFields.profileImage = req.body.profileImage ? req.body.profileImage : null;
 	profileFields.status = req.body.status ? req.body.status : null;
 	profileFields.phoneNumber= req.body.phoneNumber? req.body.phoneNumber: null;
 	profileFields.title = req.body.title ? req.body.title : null;
@@ -679,8 +680,7 @@ router.post('/upload',  multer.single('image'), passport.authenticate('jwt', {se
 	Profile.findOne({ user: req.user.id })
 	.then(profile => {
 		if(!profile) {
-			errors.noprofile = "There is no profile found for this user";
-			res.status(400). json(errors)
+			res.json({imageURL: req.file.gcsUrl })
 		}
 		let oldimage = null;
 		if (profile.profileImage) {

@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import TextFieldGroup from '../common/TextFieldGroup';
+import correctStorageURL from '../../validation/correctStorageURL';
+import { uploadProfileImage } from "../../actions/profileActions";
 import InputGroup from '../common/InputGroup';
 import TextAreaFieldGroup from '../common/TextAreaFieldGroup';
 import SelectListGroup from '../common/SelectListGroup';
@@ -30,9 +32,11 @@ class CreateProfile extends Component {
             linkedin: '',
             youtube: '',
             instagram: '',
+            selectedFile: null,
             errors: {}
         }
         this.onChange = this.onChange.bind(this);
+        this.onUpload = this.onUpload.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
     }
 
@@ -87,9 +91,29 @@ class CreateProfile extends Component {
 
         }
     }
+    onUpload() {
+        document.getElementById("inputGroupFile01").click()
+      }
+    fileSelectedHandler = event => {
+        console.log(event.target.files[0])
+        this.setState({
+            selectedFile: event.target.files[0]
+        })
+        const fd = new FormData();
+        fd.append('file', event.target.files[0], event.target.files[0].name)
+        const config = {
+            headers: {
+                'content-type': 'multipart/form-data'
+            }
+        }
+        this.props.uploadProfileImage(fd, config, this.props.history)
+        this.setState({
+            selectedFile: null
+        })
+    }
+
     onSubmit(e) {
         e.preventDefault();
-        console.log('line 92', this.state.handle.replace(/\s/g, '_'))
         const profileData = {
             handle: this.state.handle.replace(/\s/g, '_'),
             company: this.state.company,
@@ -119,7 +143,7 @@ class CreateProfile extends Component {
 
   render() {
     const { errors, displaySocialInputs, displayLooking} = this.state;
-
+    const { profile } = this.props.profile;
     let socialInputs;
     let lookingFor;
     let lookingForButton; 
@@ -264,6 +288,11 @@ if(!this.state.lookingFor) {
             ];
       }
 
+      let imageUrl = <img className="rounded-circle" src="/blank.png"  alt="no image" />;
+      if (profile && profile.profileImage) {
+          let newStringURL = correctStorageURL(profile.profileImage)
+          imageUrl = <img src={newStringURL} className="rounded-circle"  alt="profile image" />
+      }
     return (
       <div className='create-profile'>
         <div className='container'>
@@ -273,6 +302,21 @@ if(!this.state.lookingFor) {
                     Go Back</Link>
                     <h1 className='display-4 text-center'>Edit Profile</h1>
                     <small className='d-block pb-3'>* = required fields</small>
+                    <div className="row pad-10">
+                        <div className="col-4 col-md-3 m-auto">
+                            {imageUrl}
+                        </div>
+                    </div>
+                    <div className='row'>
+                        <div className="col-8 col-md-4 m-auto height-35">
+                            <div className="input-group mb-3 text-center">
+                                    <div className="col text-center no-padding">
+                                    <button id='uploadImage' className="btn btn-light custom-button-size"  onClick={this.onUpload}>Update Profile Image</button>
+                                        <input id="inputGroupFile01" hidden type="file" onChange={this.fileSelectedHandler} />
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
                     <form onSubmit={this.onSubmit}>
                     <TextFieldGroup 
                         placeholder="* Profile Handle"
@@ -391,4 +435,4 @@ const mapStateToProops = state => ({
     errors: state.errors,
 })
 
-export default connect(mapStateToProops, {createProfile, getCurrentProfile})(withRouter(CreateProfile));
+export default connect(mapStateToProops, {createProfile, getCurrentProfile, uploadProfileImage})(withRouter(CreateProfile));
