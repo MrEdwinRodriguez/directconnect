@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import TextFieldGroup from '../common/TextFieldGroup';
-import correctStorageURL from '../../validation/correctStorageURL';
 import { uploadProfileImage } from "../../actions/profileActions";
 import InputGroup from '../common/InputGroup';
 import TextAreaFieldGroup from '../common/TextAreaFieldGroup';
@@ -290,8 +289,7 @@ if(!this.state.lookingFor) {
 
       let imageUrl = <img className="rounded-circle" src="/blank.png"  alt="no image" />;
       if (profile && profile.profileImage) {
-          let newStringURL = correctStorageURL(profile.profileImage)
-          imageUrl = <img src={newStringURL} className="rounded-circle"  alt="profile image" />
+          imageUrl = <img src={profile.profileImage} className="rounded-circle"  alt="profile image" />
       }
     return (
       <div className='create-profile'>

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import correctStorageURL from '../../validation/correctStorageURL';
 import { Link } from 'react-router-dom';
 import { deletePost, addLike, removeLike } from '../../actions/postActions';
 
@@ -36,7 +35,7 @@ class PostItem extends Component {
       if (post.profile) {
         let newStringURL = "/blank.png";
         if (post.profile.profileImage) {
-          newStringURL = correctStorageURL(post.profile.profileImage)
+          newStringURL = post.profile.profileImage
         } 
         postImage = newStringURL; 
       }

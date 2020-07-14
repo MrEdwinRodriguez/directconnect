@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import isEmpty from '../../validation/is-empty';
-import correctStorageURL from '../../validation/correctStorageURL';
 import {connect} from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import '../../css/style.css';
@@ -69,8 +68,7 @@ class ProfileHeader extends Component {
 
             let imageUrl = <img className="rounded-circle" src="/blank.png"  alt="no image" />;
             if (profile.profileImage) {
-                let newStringURL = correctStorageURL(profile.profileImage)
-                imageUrl = <img src={newStringURL} className="rounded-circle"  alt="profile image" />
+                imageUrl = <img src={profile.profileImage} className="rounded-circle"  alt="profile image" />
             }
         return (
             <div className="row">

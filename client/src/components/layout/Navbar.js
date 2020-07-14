@@ -33,7 +33,7 @@ class Navbar extends Component {
       profileImage = 
         <img
         className="rounded-circle"
-        src={correctStorageURL(profile.profileImage)}
+        src={profile.profileImage}
         alt={user.name}
         style={{ width: '25px', marginRight: '5px' }}
       />

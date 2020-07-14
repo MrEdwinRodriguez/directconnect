@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { deleteComment } from '../../actions/postActions';
-import correctStorageURL from '../../validation/correctStorageURL';
 
 class CommentItem extends Component {
   onDeleteClick(postId, commentId) {
@@ -20,8 +19,7 @@ class CommentItem extends Component {
     let postImage =  "/blank.png"; 
     if (comment.profile && comment.profile.profileImage ) {
       if (comment.profile.profileImage) {
-        let newStringURL = correctStorageURL(comment.profile.profileImage);
-        postImage = newStringURL;
+        postImage = comment.profile.profileImage;
       } 
     } 
     return ( 
