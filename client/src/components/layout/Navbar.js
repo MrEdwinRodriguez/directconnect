@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { logoutUser} from '../../actions/authActions';
-import correctStorageURL from '../../validation/correctStorageURL';
 import { clearCurrentProfile,  getCurrentProfile } from '../../actions/profileActions';
 import logo from './../../img/logo-transparent.png'
 import '../../css/style.css';

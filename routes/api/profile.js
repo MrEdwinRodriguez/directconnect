@@ -14,6 +14,7 @@ const validateEducationInput = require('../../validation/education');
 const validateBusinessInput = require('../../validation/business');
 const validateHiringInput = require('../../validation/hiring');
 const gcs = require('../../middlewares/google-cloud-storage');
+const utils = require( '../../resources/utils');
 var Multer  = require('multer')
 // var upload = multer({ dest: 'uploads/' })
 // // const storage = multer.diskStorage({
@@ -45,13 +46,17 @@ router.get('/', passport.authenticate('jwt', {session: false }), (req, res) => {
 				errors.noprofile = "There is not profile for this user";
 				return res.status(404).json(errors)
 			}
+			let experiencesSorted = utils.sortArray(profile.experience);
+			let educationSorted = utils.sortArray(profile.education);
+			profile.experience = experiencesSorted;
+			profile.education = educationSorted;
 			profileFound = profile;
 			authUser = profile.user._id;
-			return Hire.find({user: authUser}).lean().exec()
+			return Hire.find({user: authUser}).sort('position').lean().exec()
 		})
 		.then(positions => {
 			profileFound.hiringFor = positions;
-			return Business.find({user: authUser}).lean().exec()
+			return Business.find({user: authUser}).sort('name').lean().exec()
 		})
 		.then(businesses => {
 			profileFound.business = businesses;
@@ -250,13 +255,17 @@ router.get('/handle/:handle', (req, res) => {
 				errors.noprofile = "There is no profile found for this user";
 				res.status(400). json(errors)
 			}
+			let experiencesSorted = utils.sortArray(profile.experience);
+			let educationSorted = utils.sortArray(profile.education);
+			profile.experience = experiencesSorted;
+			profile.education = educationSorted;
 			profileFound = profile;
 			authUser = profile.user._id;
 			return Hire.find({user: authUser}).lean().exec()
 		})
 		.then(positions => {
 			profileFound.hiringFor = positions;
-			return Business.find({user: authUser}).lean().exec()
+			return Business.find({user: authUser}).sort('name').lean().exec()
 		})
 		.then(businesses => {
 			profileFound.business = businesses;
@@ -716,6 +725,10 @@ function getProfileWithAttributes(userId) {
 		let profileFound = null
 		Profile.findOne({user: userId}).lean().exec()
 		.then(profile => {
+			let experiencesSorted = utils.sortArray(profile.experience);
+			let educationSorted = utils.sortArray(profile.education);
+			profile.experience = experiencesSorted;
+			profile.education = educationSorted;
 			profileFound = profile
 			return Hire.find({user: userId}).lean().exec()
 		})
