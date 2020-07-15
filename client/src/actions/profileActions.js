@@ -73,6 +73,24 @@ export const uploadProfileImage = (file, config, history) => dispatch => {
         )
 }
 
+//update experience
+export const deleteProfileImage = (profileData) => dispatch => {
+    axios
+        .post("/api/profile/delete/profile_image", profileData)
+        .then(res =>             
+            dispatch({
+                type: GET_PROFILE,
+                payload: res.data
+            })
+        )
+        .catch(err => 
+            dispatch({
+                type: GET_ERRORS,
+                payload: err.response.data
+            })
+            )
+}
+
 //create profile
 export const uploadCreateProfileImage = (file, config, history) => dispatch => {
     axios

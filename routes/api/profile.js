@@ -693,7 +693,7 @@ router.post('/upload',  multer.single('image'), passport.authenticate('jwt', {se
 		}
 		let oldimage = null;
 		if (profile.profileImage) {
-			imagePath = profile.profileImage.split('/');
+			let imagePath = profile.profileImage.split('/');
 			oldimage = imagePath[imagePath.length -1]
 
 		}
@@ -718,6 +718,28 @@ router.post('/upload',  multer.single('image'), passport.authenticate('jwt', {se
 	})		
 
 	// })
+})
+
+router.post('/delete/profile_image',passport.authenticate('jwt', { session: false }), (req, res) => {
+	let profileId = req.body.profileId;
+	Profile.findOne({_id: profileId})
+	.then(profile => {
+		if(!profile) {
+			errors.noprofile = "There is no profile found for this user";
+			res.status(400). json(errors)
+		}
+		if(profile && !profile.profileImage) {
+			errors.noprofile = "This profile does not have a profile image";
+			res.status(400). json(errors)
+		}
+		let imagePath = profile.profileImage.split('/');
+		let oldimage = imagePath[imagePath.length -1]
+		gcs.deleteFileGCS(oldimage)
+		profile.profileImage = null;
+
+		profile.save()
+			.then(profile => res.json(profile))
+	})
 })
 
 function getProfileWithAttributes(userId) {

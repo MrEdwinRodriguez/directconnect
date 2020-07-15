@@ -2,18 +2,48 @@ import React, { Component } from 'react';
 import isEmpty from '../../validation/is-empty';
 import {connect} from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import { FaWindowClose} from 'react-icons/fa';
 import '../../css/style.css';
 import { Link } from 'react-router-dom';
-import { uploadProfileImage } from "../../actions/profileActions";
+import { uploadProfileImage, deleteProfileImage } from "../../actions/profileActions";
 class ProfileHeader extends Component {
-
-    state = {
-        selectedFile: null
-    }
+    constructor(props) {
+        super(props);
+        this.state = {
+            imageHovered: false,
+            selectedFile: null,
+            errors: {},
+        };
+    
+        this.showDelete = this.showDelete.bind(this);
+        this.hideDelete = this.hideDelete.bind(this);
+        this.deleteProfileImage = this.deleteProfileImage.bind(this);
+      }
 
     upload() {
         document.getElementById("inputGroupFile01").click()
       }
+
+    showDelete() {
+        this.setState({
+            imageHovered: true
+        })
+    }
+    hideDelete() {
+        this.setState({
+            imageHovered: false
+        })
+    }
+
+    deleteProfileImage(){
+        console.log('clicked delete', this.props.profile)
+
+        var profileId = {
+            profileId : this.props.profile._id
+        }
+        console.log(profileId )
+        this.props.deleteProfileImage(profileId);
+    }
 
     fileSelectedHandler = event => {
         console.log(event.target.files[0])
@@ -34,9 +64,7 @@ class ProfileHeader extends Component {
     }
 
         render() {
-            console.log(window.location.origin)
-            const { profile, auth } = this.props;
-      
+            const { profile, auth } = this.props;            
             let fileName = "Update Profile Image";
             let lookginFor = "";
             let hiringFor = "";
@@ -68,14 +96,19 @@ class ProfileHeader extends Component {
 
             let imageUrl = <img className="rounded-circle" src="/blank.png"  alt="no image" />;
             if (profile.profileImage) {
-                imageUrl = <img src={profile.profileImage} className="rounded-circle"  alt="profile image" />
+                imageUrl = <img src={profile.profileImage} className="rounded-circle"  alt="profile image" onMouseEnter={this.showDelete} />
+            }
+            let deleteButton = <div></div>
+            if (this.state.imageHovered) {
+                deleteButton = <span className='deleteImage' ><FaWindowClose  size={20} onClick={this.deleteProfileImage}/></span>
             }
         return (
             <div className="row">
             <div className="col-md-12">
                 <div className="card card-body bg-royal text-white mb-3">
                     <div className="row pad-10">
-                        <div className="col-4 col-md-3 m-auto">
+                        <div className="col-4 col-md-3 m-auto" onMouseLeave={this.hideDelete}>
+                            {deleteButton}
                             {imageUrl}
                         </div>
                     </div>
@@ -180,4 +213,4 @@ const mapStateToProops = state => ({
     auth: state.auth,
 })
 
-export default connect(mapStateToProops, {uploadProfileImage})(withRouter(ProfileHeader));
+export default connect(mapStateToProops, {uploadProfileImage, deleteProfileImage})(withRouter(ProfileHeader));

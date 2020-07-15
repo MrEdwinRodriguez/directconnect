@@ -6,8 +6,9 @@ import TextFieldGroup from '../common/TextFieldGroup';
 import { uploadProfileImage } from "../../actions/profileActions";
 import InputGroup from '../common/InputGroup';
 import TextAreaFieldGroup from '../common/TextAreaFieldGroup';
+import { FaWindowClose} from 'react-icons/fa';
 import SelectListGroup from '../common/SelectListGroup';
-import { createProfile, getCurrentProfile } from "../../actions/profileActions";
+import { createProfile, getCurrentProfile, deleteProfileImage } from "../../actions/profileActions";
 import isEmpty from '../../validation/is-empty';
 import '../../css/style.css';
 
@@ -32,11 +33,15 @@ class CreateProfile extends Component {
             youtube: '',
             instagram: '',
             selectedFile: null,
+            imageHovered: false,
             errors: {}
         }
         this.onChange = this.onChange.bind(this);
         this.onUpload = this.onUpload.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
+        this.showDelete = this.showDelete.bind(this);
+        this.hideDelete = this.hideDelete.bind(this);
+        this.deleteProfileImage = this.deleteProfileImage.bind(this);
     }
 
     componentDidMount() {
@@ -93,6 +98,25 @@ class CreateProfile extends Component {
     onUpload() {
         document.getElementById("inputGroupFile01").click()
       }
+    showDelete() {
+        this.setState({
+            imageHovered: true
+        })
+    }
+    hideDelete() {
+        this.setState({
+            imageHovered: false
+        })
+    }
+
+    deleteProfileImage(){
+        console.log('ere', this.props)
+        let {profile} = this.props.profile;
+        var profileId = {
+            profileId : profile._id
+        }
+        this.props.deleteProfileImage(profileId);
+    }
     fileSelectedHandler = event => {
         console.log(event.target.files[0])
         this.setState({
@@ -289,7 +313,11 @@ if(!this.state.lookingFor) {
 
       let imageUrl = <img className="rounded-circle" src="/blank.png"  alt="no image" />;
       if (profile && profile.profileImage) {
-          imageUrl = <img src={profile.profileImage} className="rounded-circle"  alt="profile image" />
+          imageUrl = <img src={profile.profileImage} className="rounded-circle"  alt="profile image" onMouseEnter={this.showDelete}/>
+      }
+      let deleteButton = <div></div>
+      if (this.state.imageHovered) {
+          deleteButton = <span className='deleteImage' ><FaWindowClose  size={20} onClick={this.deleteProfileImage}/></span>
       }
     return (
       <div className='create-profile'>
@@ -301,7 +329,8 @@ if(!this.state.lookingFor) {
                     <h1 className='display-4 text-center'>Edit Profile</h1>
                     <small className='d-block pb-3'>* = required fields</small>
                     <div className="row pad-10">
-                        <div className="col-4 col-md-3 m-auto">
+                        <div className="col-4 col-md-3 m-auto" onMouseLeave={this.hideDelete}>
+                            {deleteButton}
                             {imageUrl}
                         </div>
                     </div>
@@ -433,4 +462,4 @@ const mapStateToProops = state => ({
     errors: state.errors,
 })
 
-export default connect(mapStateToProops, {createProfile, getCurrentProfile, uploadProfileImage})(withRouter(CreateProfile));
+export default connect(mapStateToProops, {createProfile, getCurrentProfile, uploadProfileImage, deleteProfileImage})(withRouter(CreateProfile));
