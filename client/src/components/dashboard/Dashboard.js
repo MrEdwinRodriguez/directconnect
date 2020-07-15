@@ -43,7 +43,7 @@ class Dashboard extends Component {
             <div className='mt-5 p-4 text-center small-text'>
               <p className='mb-0'>Blue and White Connect was created out of the Love for Blue and White.</p>
               <p> Please consider making a small donation to help with server and storage cost to maintain the site.</p>
-              <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+              <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
                 <input type="hidden" name="cmd" value="_s-xclick" />
                 <input type="hidden" name="hosted_button_id" value="Y2Z75S945U8VE" />
                 <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />
