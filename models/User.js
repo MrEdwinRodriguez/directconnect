@@ -11,6 +11,7 @@ const UserSchema = new Schema ({
   resetPasswordExpires: Date,
 	inviteCode: { type: String, required: true},
 	avatar: { type: String},
+	viewed_pinned_messages: [{ type: Schema.Types.ObjectId, ref: 'pinned'}],
 	date: { type: Date, default: Date.now},
 
 });

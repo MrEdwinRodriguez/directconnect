@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { ADD_POST, GET_ERRORS, GET_POSTS, POST_LOADING, DELETE_POST , GET_POST, CLEAR_ERRORS} from './types';
+import { ADD_POST, GET_ERRORS, GET_POSTS, POST_LOADING, DELETE_POST , GET_POST, GET_PINNED, CLEAR_ERRORS} from './types';
 
 //add Post
 export const addPost = postData => dispatch => {
@@ -39,6 +39,46 @@ export const getPosts = () => dispatch => {
                 })
                 );
      
+}
+
+export const getPinned = () => dispatch => {
+    dispatch(setPostLoading());
+    axios
+        .get("/api/pinned")
+        .then(res => 
+            dispatch({
+                type: GET_PINNED,
+                payload: res.data
+            })
+            )
+            .catch(err => 
+                dispatch({
+                    type: GET_POSTS,
+                    payload: null
+                })
+                );
+
+}
+
+export const deletePinned = (id) => dispatch => {
+    dispatch(setPostLoading());
+    axios
+        .put(`/api/pinned/${id}`)
+        .then(res => 
+            dispatch({
+                type: GET_PINNED,
+                payload: res.data
+            })
+            )
+            .catch(err => {
+                dispatch({
+                    type: GET_ERRORS,
+                    payload: err.response.data
+                })
+            }
+
+                );
+
 }
 
 //get Post

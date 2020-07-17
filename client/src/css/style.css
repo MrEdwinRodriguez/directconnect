@@ -87,6 +87,10 @@ li .profile {
     position:absolute; 
     right:0;
   }
+  .deletePinned {
+    position:absolute; 
+    right:10px;
+  }
   .navbar-brand {
     text-align: center;
     width: 350px !important;
@@ -214,4 +218,10 @@ li .profile {
     .profilesImages {
         display: none;
     }
+ }
+
+ .pinnedCard {
+    /* width: 18 rem !important; */
+    /* height: ; */
+    margin-bottom: 10px;
  }

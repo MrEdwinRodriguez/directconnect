@@ -42,7 +42,7 @@ class Profiles extends Component {
         
     }
     componentWillUpdate() {
-        console.log('here', this)
+        console.log(this)
     }
     searchChanged (e) {
         this.setState({search: e.target.value})

@@ -36,12 +36,9 @@ class ProfileHeader extends Component {
     }
 
     deleteProfileImage(){
-        console.log('clicked delete', this.props.profile)
-
         var profileId = {
             profileId : this.props.profile._id
         }
-        console.log(profileId )
         this.props.deleteProfileImage(profileId);
     }
 

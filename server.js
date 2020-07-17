@@ -8,6 +8,7 @@ const users = require('./routes/api/users');
 const profile = require('./routes/api/profile');
 const posts = require('./routes/api/posts');
 const hire = require('./routes/api/hire');
+const pinned = require('./routes/api/pinned');
 const business = require('./routes/api/business');
 const path = require('path');
 
@@ -36,6 +37,7 @@ app.use('/api/profile', profile);
 app.use('/api/posts', posts);
 app.use('/api/hire', hire);
 app.use('/api/business', business);
+app.use('/api/pinned', pinned);
 
 //serve static assets in production
 if (process.env.NODE_ENV === 'production') {

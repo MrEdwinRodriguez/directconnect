@@ -1,12 +1,14 @@
-import { ADD_POST, GET_POSTS, DELETE_POST, POST_LOADING, GET_POST } from '../actions/types';
+import { ADD_POST, GET_POSTS, DELETE_POST, POST_LOADING, GET_POST, GET_PINNED } from '../actions/types';
 
 const initialState = {
     posts: [],
     post: {},
+    pinned: [],
     loading: false
 }
 
 export default function(state = initialState, action) {
+  console.log('line', state)
   switch(action.type) {
     case POST_LOADING:
       return {
@@ -34,6 +36,14 @@ export default function(state = initialState, action) {
       return {
         ...state,
         posts: [action.payload, ...state.posts]
+      };
+    case GET_PINNED:
+      return {
+        // ...state,
+        post: {},
+        posts: state.posts,
+        pinned: action.payload.pinned,
+        loading: false
       };
       default:
         return state;

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import PostForm from './PostForm';
+import PinnedItem from './PinnedItem';
 import PostFeed from './PostFeed';
 import Spinner from "../common/Spinner";
 import { getPosts } from '../../actions/postActions';
@@ -21,16 +22,21 @@ class Posts extends Component {
     } else {
         postContent = <PostFeed posts={posts} />
     }
-
+    console.log('posts', posts)
     return (
       <div className='feed'>
         <div className='container'>
-            <div className='row'>
-                <div className='col-md-12'>
-                    <PostForm />
-                    {postContent}
-                </div>
+        <div className='row'>
+            <div className='col-md-12'>
+            <PinnedItem />
             </div>
+        </div>
+        <div className='row'>
+            <div className='col-md-12'>
+                <PostForm />
+                {postContent}
+            </div>
+        </div>
         </div>
       </div>
     )
