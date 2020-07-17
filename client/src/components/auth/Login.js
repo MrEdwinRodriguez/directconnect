@@ -26,6 +26,7 @@ class Login extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.auth.isAuthenticated) {
+      window.previousLocation = '/login'
       this.props.history.push('/dashboard');
 
     }

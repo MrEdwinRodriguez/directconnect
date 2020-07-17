@@ -15,6 +15,13 @@ class Dashboard extends Component {
     componentDidMount(){
         this.props.getCurrentProfile();
     }
+    componentWillReceiveProps(next) {
+      console.log(window.previousLocation)
+      if(window.previousLocation == "/login" && next.profile.profile && next.profile.profile._id ) {
+        delete window.previousLocation;
+        this.props.history.push('/feed');
+      }
+    }
 
     onDeleteClick(e) {
       this.props.deleteAccount();
