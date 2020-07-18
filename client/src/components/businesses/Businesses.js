@@ -30,7 +30,7 @@ class Businesses extends Component {
     }
     searchClicked(e) {
         if (this.state.search != "") {
-           window.location.href = window.location.origin+'/hiring/search/'+this.state.search
+           window.location.href = window.location.origin+'/businesses/search/'+this.state.search
             this.props.getBusinessBySearchCriteria(this.state.search)
         } else {
             this.props.getBusinesses();  
