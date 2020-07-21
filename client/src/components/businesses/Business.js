@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import Spinner from '../common/Spinner';
+import { Link } from 'react-router-dom';
 import ProfileItem from '../profiles/ProfileItem';
 import { getBusiness } from '../../actions/businessActions';
 
@@ -56,6 +57,7 @@ class Business extends Component {
             <div className="container">
                 <div className="row">
                     <div className="col-md-12">
+                        <Link to="/businesses" className="btn btn-light mb-3">Back To Businesses</Link>
                         <h1 className="display-4 text-center">Blue and White Profiles</h1>
                         <p className="lead text-center">
                         Support Businesses owned by Sigmas and Zetas
