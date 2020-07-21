@@ -87,7 +87,7 @@ class ProfileHeader extends Component {
             }
 
             let isProfileUser = <div></div>
-            if (profile.user._id+"" == auth.user.id+"" || profile.user+"" == auth.user.id+"" ) {
+            if (profile && profile.user && (profile.user._id+"" == auth.user.id+"" || profile.user+"" == auth.user.id+"" )) {
                 isProfileUser = <button id='uploadImage' className="btn btn-light custom-button-size"  onClick={this.upload}>Update Profile Image</button>
             }
 
@@ -120,10 +120,10 @@ class ProfileHeader extends Component {
                     </div>
                 </div>
                 <div className="text-center">
-                    <h3 className="display-5 text-center">{profile.user.name}</h3>
+                    <h3 className="display-5 text-center">{profile && profile.user ? profile.user.name : ""}</h3>
                     <p className="lead text-center">{profile.title} {isEmpty(profile.company) ? null : (<span>@ {profile.company}</span>)}</p>
                     {isEmpty(profile.location) ? null : (<p>{profile.location}</p>)}
-                    <p className="lead text-center">{profile.user.email}</p>
+                    <p className="lead text-center">{profile && profile.user ? profile.user.email : ""}</p>
                     <p>
                         {isEmpty(profile.website) ? null : (
                         <a

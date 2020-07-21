@@ -14,11 +14,14 @@ class ProfileAbout extends Component {
         }
 
         //skill list
-        const skills = profile.skills.map((skill, index) => (
+        let skills = [];
+        if (profile && profile.skills) {
+          skills = profile.skills.map((skill, index) => (
             <div key={index} className="p-3">
                 <i className="fa fa-check" />{skill}
             </div>
-        ))
+          ))
+        }
 
     return (
         <div className="row">

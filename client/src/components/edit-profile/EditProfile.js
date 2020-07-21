@@ -22,6 +22,8 @@ class CreateProfile extends Component {
             handle: '',
             company: '',
             website: '',
+            blog: '',
+            podcast: '',
             location: '',
             status: '',
             skills: '',
@@ -78,6 +80,8 @@ class CreateProfile extends Component {
                 handle: profile.handle,
                 company: profile.company,
                 website: profile.website,
+                blog: profile.blog,
+                podcast: profile.podcast,
                 location: profile.location,
                 phoneNumber: profile.phoneNumber,
                 status: profile.status,
@@ -145,6 +149,8 @@ class CreateProfile extends Component {
             chapter: this.state.chapter,
             phoneNumber: this.state.phoneNumber,
             website: this.state.website,
+            blog: this.state.blog,
+            podcast: this.state.podcast,
             location: this.state.location,
             status: this.state.status,
             skills: this.state.skills,
@@ -405,6 +411,20 @@ if(!this.state.lookingFor) {
                         onChange={this.onChange}
                         error={errors.handle}
                         info="Personal Website or company website."/>
+                    <TextFieldGroup 
+                        placeholder="Blog"
+                        name='blog'
+                        value={this.state.blog}
+                        onChange={this.onChange}
+                        error={errors.handle}
+                        info="Link to Personal Blog."/>
+                    <TextFieldGroup 
+                        placeholder="Podcast"
+                        name='podcast'
+                        value={this.state.podcast}
+                        onChange={this.onChange}
+                        error={errors.handle}
+                        info="Link to Personal Podcast."/>
                     <TextFieldGroup 
                         placeholder="Location"
                         name='location'

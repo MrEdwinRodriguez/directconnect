@@ -6,23 +6,25 @@ class ProfileCreds extends Component {
   render() {
     const { experience, education, business } = this.props;
 
-    const expItems = experience.map( exp => (
-     <li key={exp._id} className="list-group-item">
-      <h4>{exp.company}</h4>
-      <p>
-        <Moment format="MM/YYYY">{exp.from}</Moment> - 
-        {exp.current === true ? (' Current') : <Moment format="MM/YYYY">{exp.to}</Moment>}
-      </p>
-      <p><strong>Position:</strong> {exp.title}</p>
-      <p>
-        {exp.location === "" ? null : (<span><strong>Location: </strong>{exp.location}</span>)}
-      </p>
-      <p>
-        {exp.description=== "" ? null : (<span><strong>Description: </strong>{exp.description}</span>)}
-      </p>
-     </li>
-  ))
-
+    let expItems = "";
+    if(experience) {
+      expItems = experience.map( exp => (
+      <li key={exp._id} className="list-group-item">
+        <h4>{exp.company}</h4>
+        <p>
+          <Moment format="MM/YYYY">{exp.from}</Moment> - 
+          {exp.current === true ? (' Current') : <Moment format="MM/YYYY">{exp.to}</Moment>}
+        </p>
+        <p><strong>Position:</strong> {exp.title}</p>
+        <p>
+          {exp.location === "" ? null : (<span><strong>Location: </strong>{exp.location}</span>)}
+        </p>
+        <p>
+          {exp.description=== "" ? null : (<span><strong>Description: </strong>{exp.description}</span>)}
+        </p>
+      </li>
+    ))
+    }
   let eduItems ="";
   if (!isEmpty(education)) {
     eduItems = education.map( edu => (

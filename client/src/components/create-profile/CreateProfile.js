@@ -24,6 +24,8 @@ class CreateProfile extends Component {
             orginization: '',
             chapter: '',
             website: '',
+            blog: '',
+            podcast: '',
             locations: '',
             status: '',
             skills: '',
@@ -73,6 +75,8 @@ class CreateProfile extends Component {
             handle: this.state.handle.replace(/\s/g, 'f/'),
             company: this.state.company,
             website: this.state.website,
+            blog: this.state.blog,
+            podcast: this.state.podcast,
             location: this.state.location,
             status: this.state.status,
             title: this.state.title,
@@ -300,6 +304,20 @@ class CreateProfile extends Component {
                         onChange={this.onChange}
                         error={errors.handle}
                         info="Personal Website or company website."/>
+                    <TextFieldGroup 
+                        placeholder="Blog"
+                        name='blog'
+                        value={this.state.blog}
+                        onChange={this.onChange}
+                        error={errors.handle}
+                        info="Link to Personal Blog."/>
+                    <TextFieldGroup 
+                        placeholder="Podcast"
+                        name='podcast'
+                        value={this.state.podcast}
+                        onChange={this.onChange}
+                        error={errors.handle}
+                        info="Link to Personal Podcast."/>
                     <TextFieldGroup 
                         placeholder="Location"
                         name='location'

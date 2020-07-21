@@ -309,6 +309,8 @@ router.post('/', passport.authenticate('jwt', {session: false }), (req, res) => 
 	profileFields.company = req.body.company ? req.body.company : null;
 	profileFields.location = req.body.location ? req.body.location : null;
 	profileFields.website = req.body.website ? req.body.website : null;
+	profileFields.blog = req.body.blog ? req.body.blog : null;
+	profileFields.podcast = req.body.podcast ? req.body.podcast : null;
 	profileFields.bio = req.body.bio ? req.body.bio : null;
 	profileFields.profileImage = req.body.profileImage ? req.body.profileImage : null;
 	profileFields.status = req.body.status ? req.body.status : null;
@@ -342,7 +344,6 @@ router.post('/', passport.authenticate('jwt', {session: false }), (req, res) => 
 						errors.handle = "That handle already exists";
 						return res.status(400).json(errors);
 					}
-					console.log('line 338')
 					new Profile(profileFields).save().then(profile => res.json(profile))
 				})
 			}

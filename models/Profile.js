@@ -7,6 +7,8 @@ const ProfileScheme = new Schema({
 	profileImage: {type: String},
 	company: {type: String},
 	website: {type: String},
+	blog: {type: String},
+	podcast: {type: String},
 	location: {type: String},
 	phoneNumber: {type: String},
 	title: {type: String},
