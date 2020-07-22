@@ -171,7 +171,10 @@ li .profile {
     padding-top: 50px !important;
 
  }
-
+ 
+ .mb15 {
+    margin-bottom: 15px;
+ }
   @media only screen and (max-height: 450px) {
      .landing-logo {
         position: relative; 

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import isEmpty from '../../validation/is-empty';
 import {connect} from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { FaWindowClose} from 'react-icons/fa';
+import { FaWindowClose, FaBlog, FaPodcast} from 'react-icons/fa';
 import '../../css/style.css';
 import { Link } from 'react-router-dom';
 import { uploadProfileImage, deleteProfileImage } from "../../actions/profileActions";
@@ -125,7 +125,7 @@ class ProfileHeader extends Component {
                     {isEmpty(profile.location) ? null : (<p>{profile.location}</p>)}
                     <p className="lead text-center">{profile && profile.user ? profile.user.email : ""}</p>
                     <p>
-                        {isEmpty(profile.website) ? null : (
+                        {profile.website ? (
                         <a
                             className="text-white p-2"
                             href={profile.website}
@@ -133,6 +133,26 @@ class ProfileHeader extends Component {
                             rel="noopener noreferrer"
                         >
                             <i className="fas fa-globe fa-2x" />
+                        </a>
+                        ): null}
+                    {isEmpty(profile.blog) ? null : (
+                        <a
+                            className="text-white p-2"
+                            href={profile.blog}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                        <FaBlog  className="mb15" size={32} />
+                        </a>
+                        )}
+                    {isEmpty(profile.podcast) ? null : (
+                        <a
+                            className="text-white p-2"
+                            href={profile.podcast}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            <FaPodcast  className="mb15" size={32} />
                         </a>
                         )}
                         {isEmpty(profile.social && profile.social.twitter) ? null : (
