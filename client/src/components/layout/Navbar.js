@@ -6,7 +6,7 @@ import { logoutUser} from '../../actions/authActions';
 import { clearCurrentProfile,  getCurrentProfile } from '../../actions/profileActions';
 import logo from './../../img/logo-transparent.png'
 import '../../css/style.css';
- 
+
 class Navbar extends Component {
   componentDidMount(){
     this.props.getCurrentProfile();
@@ -99,16 +99,15 @@ class Navbar extends Component {
               <i className="fas fa-user-circle text-royal mr-1"></i>
             Account
             </Link>
-          </div>
-        </li>
-        <li className="nav-item">
-          <a
+            <a
             href=""
             onClick={this.onLogoutClick.bind(this)}
-            className="nav-link"
+            className="dropdown-item "
           >
+         <i className="fa fa-times text-royal mr-1"></i>
             Logout
           </a>
+          </div>
         </li>
       </ul>
     );
