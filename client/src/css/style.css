@@ -178,6 +178,11 @@ li .profile {
  .test {
      margin-bottom: 15px !important;
  }
+
+ .posRelative {
+    position: relative;
+
+ }
   @media only screen and (max-height: 450px) {
      .landing-logo {
         position: relative; 
