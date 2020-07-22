@@ -175,6 +175,9 @@ li .profile {
  .mb15 {
     margin-bottom: 15px;
  }
+ .test {
+     margin-bottom: 15px !important;
+ }
   @media only screen and (max-height: 450px) {
      .landing-logo {
         position: relative; 

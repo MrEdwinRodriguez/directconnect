@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactTooltip from "react-tooltip";
 import isEmpty from '../../validation/is-empty';
 import {connect} from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -125,12 +126,14 @@ class ProfileHeader extends Component {
                     {isEmpty(profile.location) ? null : (<p>{profile.location}</p>)}
                     <p className="lead text-center">{profile && profile.user ? profile.user.email : ""}</p>
                     <p>
+                        {profile.website || profile.blog || profile.podcast || (profile.social && (profile.social.twitter || profile.social.instagram || profile.social.facebook || profile.social.youtube || profile.social.linkedin)) ? <p>Links: </p> : ""}
                         {profile.website ? (
                         <a
                             className="text-white p-2"
                             href={profile.website}
                             target="_blank"
                             rel="noopener noreferrer"
+                            data-tip data-for="website"
                         >
                             <i className="fas fa-globe fa-2x" />
                         </a>
@@ -141,6 +144,7 @@ class ProfileHeader extends Component {
                             href={profile.blog}
                             target="_blank"
                             rel="noopener noreferrer"
+                            data-tip data-for="blog"
                         >
                         <FaBlog  className="mb15" size={32} />
                         </a>
@@ -151,6 +155,7 @@ class ProfileHeader extends Component {
                             href={profile.podcast}
                             target="_blank"
                             rel="noopener noreferrer"
+                            data-tip data-for="podcast"
                         >
                             <FaPodcast  className="mb15" size={32} />
                         </a>
@@ -161,6 +166,7 @@ class ProfileHeader extends Component {
                             href={profile.social.twitter}
                             target="_blank"
                             rel="noopener noreferrer"
+                            data-tip data-for="twitter"
                         >
                             <i className="fab fa-twitter fa-2x" />
                         </a>
@@ -172,6 +178,7 @@ class ProfileHeader extends Component {
                             href={profile.social.linkedin}
                             target="_blank"
                             rel="noopener noreferrer"
+                            data-tip data-for="linkedin"
                         >
                             <i className="fab fa-linkedin fa-2x" />
                         </a>
@@ -183,6 +190,7 @@ class ProfileHeader extends Component {
                             href={profile.social.facebook}
                             target="_blank"
                             rel="noopener noreferrer"
+                            data-tip data-for="facebook"
                         >
                             <i className="fab fa-facebook fa-2x" />
                         </a>
@@ -194,6 +202,7 @@ class ProfileHeader extends Component {
                             href={profile.social.instagram}
                             target="_blank"
                             rel="noopener noreferrer"
+                            data-tip data-for="instagram"
                         >
                             <i className="fab fa-instagram fa-2x" />
                         </a>
@@ -205,18 +214,44 @@ class ProfileHeader extends Component {
                             href={profile.social.youtube}
                             target="_blank"
                             rel="noopener noreferrer"
+                            data-tip data-for="youtube"
                         >
                             <i className="fab fa-youtube fa-2x" />
                         </a>
                         )}
 
                     </p>
-                    <p>Looking for: </p>
-                    <p>{profile.lookingFor} Position</p>
-                    <p>Hiring: </p>
+                    
+                    {profile.lookingFor ? <p>Looking for: </p> : ""}
+                    {profile.lookingFor ? <p>{profile.lookingFor} Position</p> : ""}
+                    {hiringFor && hiringFor.length > 0 ? <p>Hiring: </p> : "" }
                     <ul className="list-group list-group-flush">
                     {hiringFor} 
                     </ul>
+                    <ReactTooltip id="website" place="top" effect="solid">
+                        Website
+                    </ReactTooltip>
+                    <ReactTooltip id="blog" place="top" effect="solid">
+                        Blog
+                    </ReactTooltip>
+                    <ReactTooltip id="podcast" place="top" effect="solid">
+                        Podcast
+                    </ReactTooltip>
+                    <ReactTooltip id="linkedin" place="top" effect="solid">
+                        LinkedIn
+                    </ReactTooltip>
+                    <ReactTooltip id="facebook" place="top" effect="solid">
+                        Facebook
+                    </ReactTooltip>
+                    <ReactTooltip id="instagram" place="top" effect="solid">
+                        Instagram
+                    </ReactTooltip>
+                    <ReactTooltip id="twitter" place="top" effect="solid">
+                        Twitter
+                    </ReactTooltip>
+                    <ReactTooltip id="youtube" place="top" effect="solid">
+                        YouTube
+                    </ReactTooltip>
                 </div>
                 </div>
             </div>
