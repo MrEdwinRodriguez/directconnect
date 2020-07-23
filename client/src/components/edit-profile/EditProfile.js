@@ -26,6 +26,7 @@ class CreateProfile extends Component {
             blogName: "",
             blogLink: "",
             blogAbout: "",
+            profileImage: "",
             hasPodcast: false,
             podcastName: "",
             podcastLink: "",
@@ -89,14 +90,14 @@ class CreateProfile extends Component {
                 company: profile.company,
                 website: profile.website,
                 hasBlog: profile.hasBlog,
-                blogName: profile.blog && profile.blog.name  ? profile.blog.name : null,
-                blogLink: profile.blog  && profile.blog.link ? profile.blog.link : null,
-                blogAbout: profile.blog && profile.blog.about? profile.blog.about : null,
+                profileImage: profile.profileImage,
+                blogName: profile.hasBlog && profile.blog.name  ? profile.blog.name : null,
+                blogLink: profile.hasBlog  && profile.blog.link ? profile.blog.link : null,
+                blogAbout: profile.hasBlog && profile.blog.about? profile.blog.about : null,
                 hasPodcast: profile.hasPodcast,
-                podcastName: profile.podcast && profile.blog.name? profile.podcast.name : null,
-                podcastLink: profile.podcast && profile.blog.link? profile.podcast.link : null ,
-                podcastAbout: profile.podcast && profile.blog.about? profile.podcast.about : null,
-                podcast: profile.podcast,
+                podcastName: profile.hasPodcast && profile.podcast.name? profile.podcast.name : null,
+                podcastLink: profile.hasPodcast && profile.podcast.link? profile.podcast.link : null ,
+                podcastAbout: profile.hasPodcast && profile.podcast.about? profile.podcast.about : null,
                 location: profile.location,
                 phoneNumber: profile.phoneNumber,
                 status: profile.status,
@@ -128,7 +129,7 @@ class CreateProfile extends Component {
         })
     }
 
-    deleteProfileImage(){
+    deleteProfileImage() {
         let {profile} = this.props.profile;
         var profileId = {
             profileId : profile._id
@@ -202,6 +203,7 @@ class CreateProfile extends Component {
             orginization: this.state.orginization,
             chapter: this.state.chapter,
             phoneNumber: this.state.phoneNumber,
+            profileImage: this.state.profileImage,
             website: this.state.website,
             hasBlog: this.state.hasBlog,
             blogName: this.state.blogName,

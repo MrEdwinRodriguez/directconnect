@@ -126,7 +126,7 @@ class ProfileHeader extends Component {
                     {isEmpty(profile.location) ? null : (<p>{profile.location}</p>)}
                     <p className="lead text-center">{profile && profile.user ? profile.user.email : ""}</p>
                     <p>
-                        {profile.website || profile.blog || profile.podcast || (profile.social && (profile.social.twitter || profile.social.instagram || profile.social.facebook || profile.social.youtube || profile.social.linkedin)) ? <p>Links: </p> : ""}
+                        {profile.website || profile.hasBlog || profile.hasPodcast || (profile.social && (profile.social.twitter || profile.social.instagram || profile.social.facebook || profile.social.youtube || profile.social.linkedin)) ? <p>Links: </p> : ""}
                         {profile.website ? (
                         <a
                             className="text-white p-2"
@@ -138,10 +138,10 @@ class ProfileHeader extends Component {
                             <i className="fas fa-globe fa-2x" />
                         </a>
                         ): null}
-                    {isEmpty(profile.blog) ? null : (
+                    {!profile.hasBlog ? null : (
                         <a
                             className="text-white p-2"
-                            href={profile.blog}
+                            href={profile.blog.link}
                             target="_blank"
                             rel="noopener noreferrer"
                             data-tip data-for="blog"
@@ -149,10 +149,10 @@ class ProfileHeader extends Component {
                         <FaBlog  className="mb15" size={32} />
                         </a>
                         )}
-                    {isEmpty(profile.podcast) ? null : (
+                    {!profile.hasPodcast ? null : (
                         <a
                             className="text-white p-2"
-                            href={profile.podcast}
+                            href={profile.podcast.link}
                             target="_blank"
                             rel="noopener noreferrer"
                             data-tip data-for="podcast"
@@ -232,10 +232,10 @@ class ProfileHeader extends Component {
                         Website
                     </ReactTooltip>
                     <ReactTooltip id="blog" place="top" effect="solid">
-                        Blog
+                       Blog: {profile.blog.name}
                     </ReactTooltip>
                     <ReactTooltip id="podcast" place="top" effect="solid">
-                        Podcast
+                        Podcast: {profile.podcast.name}
                     </ReactTooltip>
                     <ReactTooltip id="linkedin" place="top" effect="solid">
                         LinkedIn
