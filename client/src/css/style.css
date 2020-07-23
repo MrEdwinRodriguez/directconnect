@@ -181,7 +181,11 @@ li .profile {
 
  .posRelative {
     position: relative;
+ }
 
+ .contentInput {
+     /* width: 85% !important; */
+     margin-left: 20px !important;
  }
   @media only screen and (max-height: 450px) {
      .landing-logo {

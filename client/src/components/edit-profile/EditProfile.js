@@ -22,8 +22,14 @@ class CreateProfile extends Component {
             handle: '',
             company: '',
             website: '',
-            blog: '',
-            podcast: '',
+            hasBlog: false,
+            blogName: "",
+            blogLink: "",
+            blogAbout: "",
+            hasPodcast: false,
+            podcastName: "",
+            podcastLink: "",
+            podcastAbout: "",
             location: '',
             status: '',
             skills: '',
@@ -39,6 +45,8 @@ class CreateProfile extends Component {
             errors: {}
         }
         this.onChange = this.onChange.bind(this);
+        this.onCheck = this.onCheck.bind(this);
+        this.onCheckPodcast = this.onCheckPodcast.bind(this);
         this.onUpload = this.onUpload.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
         this.showDelete = this.showDelete.bind(this);
@@ -80,7 +88,14 @@ class CreateProfile extends Component {
                 handle: profile.handle,
                 company: profile.company,
                 website: profile.website,
-                blog: profile.blog,
+                hasBlog: profile.hasBlog,
+                blogName: profile.blog && profile.blog.name  ? profile.blog.name : null,
+                blogLink: profile.blog  && profile.blog.link ? profile.blog.link : null,
+                blogAbout: profile.blog && profile.blog.about? profile.blog.about : null,
+                hasPodcast: profile.hasPodcast,
+                podcastName: profile.podcast && profile.blog.name? profile.podcast.name : null,
+                podcastLink: profile.podcast && profile.blog.link? profile.podcast.link : null ,
+                podcastAbout: profile.podcast && profile.blog.about? profile.podcast.about : null,
                 podcast: profile.podcast,
                 location: profile.location,
                 phoneNumber: profile.phoneNumber,
@@ -114,7 +129,6 @@ class CreateProfile extends Component {
     }
 
     deleteProfileImage(){
-        console.log('ere', this.props)
         let {profile} = this.props.profile;
         var profileId = {
             profileId : profile._id
@@ -141,6 +155,46 @@ class CreateProfile extends Component {
 
     onSubmit(e) {
         e.preventDefault();
+        this.setState({
+            errors: "",
+        }); 
+        if(this.state.hasBlog) {
+            if(!this.state.blogName) {
+                this.setState({
+                    errors: {
+                        blogName: 'Blog Name is Required'
+                    },
+                  });
+                  return false
+            }
+            if(!this.state.blogLink) {
+                this.setState({
+                    errors: {
+                        blogLink: 'Blog Link is Required'
+                    },
+                  });
+                  return false
+            }
+        }
+        if(this.state.hasPodcast) {
+            if(!this.state.podcastName) {
+                this.setState({
+                    errors: {
+                        podcastName: 'Podcast Name is Required'
+                    },
+                  });
+                  return false
+            }
+            if(!this.state.podcastLink) {
+                this.setState({
+                    errors: {
+                        podcastLink: 'Podcast Link is Required'
+                    },
+                });
+                return false
+            }
+        }
+
         const profileData = {
             handle: this.state.handle.replace(/\s/g, '_'),
             company: this.state.company,
@@ -149,8 +203,14 @@ class CreateProfile extends Component {
             chapter: this.state.chapter,
             phoneNumber: this.state.phoneNumber,
             website: this.state.website,
-            blog: this.state.blog,
-            podcast: this.state.podcast,
+            hasBlog: this.state.hasBlog,
+            blogName: this.state.blogName,
+            blogLink: this.state.blogLink,
+            blogAbout: this.state.blogAbout,
+            hasPodcast: this.state.hasPodcast,
+            podcastName: this.state.podcastName,
+            podcastLink: this.state.podcastLink,
+            podcastAbout: this.state.podcastAbout,
             location: this.state.location,
             status: this.state.status,
             skills: this.state.skills,
@@ -169,6 +229,17 @@ class CreateProfile extends Component {
     onChange(e) {
         this.setState({[e.target.name]: e.target.value})
     }
+
+    onCheck(e) {
+        this.setState({
+          hasBlog: !this.state.hasBlog,
+        });
+      }
+      onCheckPodcast(e) {
+        this.setState({
+          hasPodcast: !this.state.hasPodcast,
+        });
+      }
 
   render() {
     const { errors, displaySocialInputs, displayLooking} = this.state;
@@ -325,6 +396,66 @@ if(!this.state.lookingFor) {
       if (this.state.imageHovered) {
           deleteButton = <span className='deleteImage' ><FaWindowClose  size={20} onClick={this.deleteProfileImage}/></span>
       }
+
+      let displayBlog = this.state.hasBlog;
+      let blogInputs = null;
+      if(displayBlog) {
+        blogInputs = (
+            <div className="contentInput">
+            <TextFieldGroup 
+            placeholder="Blog Name"
+            name='blogName'
+            value={this.state.blogName}
+            onChange={this.onChange}
+            error={errors.blogName}
+            info="Name of your Personal Blog."/>
+        <TextFieldGroup 
+            placeholder="Blog Link"
+            name='blogLink'
+            value={this.state.blogLink}
+            onChange={this.onChange}
+            error={errors.blogLink}
+            info="Link to you Personal Blog."/>
+        <TextFieldGroup 
+            placeholder="Blog Description"
+            name='blogAbout'
+            value={this.state.blogAbout}
+            onChange={this.onChange}
+            error={errors.blogAbout}
+            info="Short Description of your Personal Blog."/>
+            </div>
+        )
+    }
+
+    let displayPodcast = this.state.hasPodcast;
+    let podcastInputs = null;
+    if(displayPodcast) {
+    podcastInputs = (
+          <div className="contentInput">
+          <TextFieldGroup 
+          placeholder="Podcast Name"
+          name='podcastName'
+          value={this.state.podcastName}
+          onChange={this.onChange}
+          error={errors.podcastName}
+          info="Name of your Personal Podcast."/>
+      <TextFieldGroup 
+          placeholder="Podcast Link"
+          name='podcastLink'
+          value={this.state.podcastLink}
+          onChange={this.onChange}
+          error={errors.podcastLink}
+          info="Link to you Personal Podcast."/>
+      <TextFieldGroup 
+          placeholder="Podcast Description"
+          name='podcastAbout'
+          value={this.state.podcastAbout}
+          onChange={this.onChange}
+          error={errors.podcastAbout}
+          info="Short Description of your Personal Podcast."/>
+          </div>
+      )
+  }
     return (
       <div className='create-profile'>
         <div className='container'>
@@ -411,20 +542,36 @@ if(!this.state.lookingFor) {
                         onChange={this.onChange}
                         error={errors.handle}
                         info="Personal Website or company website."/>
-                    <TextFieldGroup 
-                        placeholder="Blog"
-                        name='blog'
-                        value={this.state.blog}
-                        onChange={this.onChange}
-                        error={errors.handle}
-                        info="Link to Personal Blog."/>
-                    <TextFieldGroup 
-                        placeholder="Podcast"
-                        name='podcast'
-                        value={this.state.podcast}
-                        onChange={this.onChange}
-                        error={errors.handle}
-                        info="Link to Personal Podcast."/>
+                    <div className="form-check mb-4">
+                    <input
+                        type="checkbox"
+                        className="form-check-input"
+                        name="hasBlog"
+                        value={this.state.hasBlog}
+                        checked={this.state.hasBlog}
+                        onChange={this.onCheck}
+                        id="hasBlog"
+                    />
+                    <label htmlFor="hasBlog" className="form-check-label">
+                        Do you have a blog?
+                    </label>
+                    </div>
+                    {blogInputs}
+                    <div className="form-check mb-4">
+                    <input
+                        type="checkbox"
+                        className="form-check-input"
+                        name="hasBlog"
+                        value={this.state.hasPodcast}
+                        checked={this.state.hasPodcast}
+                        onChange={this.onCheckPodcast}
+                        id="hasPodcast"
+                    />
+                    <label htmlFor="hasPodcast" className="form-check-label">
+                        Do you have a Podcast?
+                    </label>
+                    </div>
+                    {podcastInputs}
                     <TextFieldGroup 
                         placeholder="Location"
                         name='location'

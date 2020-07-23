@@ -309,8 +309,6 @@ router.post('/', passport.authenticate('jwt', {session: false }), (req, res) => 
 	profileFields.company = req.body.company ? req.body.company : null;
 	profileFields.location = req.body.location ? req.body.location : null;
 	profileFields.website = req.body.website ? req.body.website : null;
-	profileFields.blog = req.body.blog ? req.body.blog : null;
-	profileFields.podcast = req.body.podcast ? req.body.podcast : null;
 	profileFields.bio = req.body.bio ? req.body.bio : null;
 	profileFields.profileImage = req.body.profileImage ? req.body.profileImage : null;
 	profileFields.status = req.body.status ? req.body.status : null;
@@ -323,6 +321,16 @@ router.post('/', passport.authenticate('jwt', {session: false }), (req, res) => 
 	if (typeof req.body.skills !== 'undefined') {
 		profileFields.skills = req.body.skills.split(',');
 	} 
+	profileFields.blog = {}
+	profileFields.hasBlog = req.body.hasBlog ? req.body.hasBlog : false;
+	profileFields.blog.name =  req.body.hasBlog === true && req.body.blogName ? req.body.blogName : null;
+	profileFields.blog.about = req.body.hasBlog === true && req.body.blogAbout? req.body.blogAbout: null;
+	profileFields.blog.link =  req.body.hasBlog === true && req.body.blogLink ? req.body.blogLink : null;
+	profileFields.podcast = {}
+	profileFields.hasPodcast = req.body.hasPodcast ? req.body.hasPodcast : false;
+	profileFields.podcast.name =  req.body.hasPodcast === true && req.body.podcastName ? req.body.podcastName : null;
+	profileFields.podcast.about = req.body.hasPodcast === true && req.body.podcastAbout ? req.body.podcastAbout : null;
+	profileFields.podcast.link =  req.body.hasPodcast === true && req.body.podcastLink ? req.body.podcastLink : null;
 	profileFields.social = {}
 	profileFields.social.youtube = req.body.youtube ? req.body.youtube : null;
 	profileFields.social.facebook = req.body.facebook ? req.body.facebook : null;
