@@ -83,7 +83,7 @@ class Navbar extends Component {
           </Link>
         </li>
         <li className="nav-item" data-toggle="collapse" data-target="#mobile-nav">
-          <Link className="nav-link" to="/podcast">
+          <Link className="nav-link" to="/podcasts">
             Podcasts
           </Link>
         </li>

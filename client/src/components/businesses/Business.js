@@ -3,7 +3,6 @@ import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import Spinner from '../common/Spinner';
 import { Link } from 'react-router-dom';
-import ProfileItem from '../profiles/ProfileItem';
 import { getBusiness } from '../../actions/businessActions';
 
 

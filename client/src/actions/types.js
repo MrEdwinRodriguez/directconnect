@@ -33,4 +33,9 @@ export const DELETE_BUSINESS = "DELETE_BUSINESS";
 export const GET_PROFILES_CRITERIA = "GET_PROFILES_CRITERIA";
 export const GET_IMAGE_URL = "GET_IMAGE_URL";
 export const GET_PINNED = "GET_PINNED";
+export const GET_BLOGS = "GET_BLOGS";
+export const GET_BLOG = "GET_BLOG";
+export const GET_PODCASTS = "GET_PODCASTS";
+export const GET_PODCAST = "GET_PODCAST";
+export const CONTENT_LOADING = "CONTENT_LOADING";
 

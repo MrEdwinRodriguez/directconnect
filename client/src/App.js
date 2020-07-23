@@ -30,6 +30,10 @@ import NotFound from './components/not-found/NotFound';
 import Posts from './components/posts/Posts';
 import Positions from './components/positions/Positions';
 import Busineseses from './components/businesses/Businesses';
+import Blogs from './components/blogs/Blogs';
+import Blog from './components/blogs/Blog';
+import Podcasts from './components/podcasts/Podcasts';
+import Podcast from './components/podcasts/Podcast';
 import Business from './components/businesses/Business';
 import Position from './components/positions/Position';
 import Post from './components/post/Post';
@@ -138,6 +142,18 @@ class App extends Component {
               </Switch>
               <Switch>
                 <PrivateRoute exact path="/businesses/search/:criteria" component={Busineseses} />
+              </Switch>
+              <Switch>
+                <PrivateRoute exact path="/blogs" component={Blogs} />
+              </Switch>
+              <Switch>
+                <PrivateRoute exact path="/content/blog/:blog" component={Blog} />
+              </Switch>
+              <Switch>
+                <PrivateRoute exact path="/podcasts" component={Podcasts} />
+              </Switch>
+              <Switch>
+                <PrivateRoute exact path="/content/podcast/:podcast" component={Podcast} />
               </Switch>
               <Switch>
                 <PrivateRoute exact path="/business/:business" component={Business} />
