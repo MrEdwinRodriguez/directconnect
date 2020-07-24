@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ReactTooltip from "react-tooltip";
 import isEmpty from '../../validation/is-empty';
+import {validURL} from '../../validation/formatting';
 import {connect} from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { FaWindowClose, FaBlog, FaPodcast} from 'react-icons/fa';
@@ -141,7 +142,7 @@ class ProfileHeader extends Component {
                     {!profile.hasBlog ? null : (
                         <a
                             className="text-white p-2"
-                            href={profile.blog.link}
+                            href={profile.blog.link ? validURL(profile.blog.link) : "#"}
                             target="_blank"
                             rel="noopener noreferrer"
                             data-tip data-for="blog"
@@ -152,7 +153,7 @@ class ProfileHeader extends Component {
                     {!profile.hasPodcast ? null : (
                         <a
                             className="text-white p-2"
-                            href={profile.podcast.link}
+                            href={profile.podcast.link ? validURL(profile.podcast.link) : "#"}
                             target="_blank"
                             rel="noopener noreferrer"
                             data-tip data-for="podcast"
