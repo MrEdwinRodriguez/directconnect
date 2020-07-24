@@ -124,6 +124,7 @@ router.put('/:id', passport.authenticate('jwt', { session: false }), (req, res) 
           res.status(400). json(errors)
         }
         post.text = req.body.text
+        post.updated = new Date()
         post.save().then(post => res.json(post));
       })
       .catch(err => res.status(404).json({ postnotfound: 'No post found' }));
