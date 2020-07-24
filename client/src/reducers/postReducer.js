@@ -8,7 +8,6 @@ const initialState = {
 }
 
 export default function(state = initialState, action) {
-  console.log('line', state)
   switch(action.type) {
     case POST_LOADING:
       return {

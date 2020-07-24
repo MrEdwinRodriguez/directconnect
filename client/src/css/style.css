@@ -167,6 +167,9 @@ li .profile {
       margin-top: 16px;
   }
 
+  .margin-10 {
+    margin: 10px;
+  }
   .landing-inner {
     padding-top: 50px !important;
 

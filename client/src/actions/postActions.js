@@ -100,6 +100,22 @@ export const getPost = (id) => dispatch => {
                 );
      
 }
+
+export const editPost = (id, postText, history) => dispatch => {
+    dispatch(setPostLoading());
+    axios
+        .put(`/api/posts/${id}`, postText)
+        .then(res => history.push('/post/'+id))
+            .catch(err => {
+                dispatch({
+                    type: GET_ERRORS,
+                    payload: err.response.data
+                })
+            }
+
+                );
+
+} 
 //delete post
 export const deletePost = id => dispatch => {
     axios

@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { Link } from 'react-router-dom';
 import { deletePost, addLike, removeLike } from '../../actions/postActions';
+import { FaEdit, FaCommentDots} from 'react-icons/fa';
+import { BsTrashFill} from 'react-icons/bs';
 
 class PostItem extends Component {
     onDeleteClick(id) {
@@ -57,8 +59,17 @@ class PostItem extends Component {
             {makeNameLink}
           </div>
           <div className="col-md-10">
+          {userId === auth.user.id ? (
+              <div>
+                <Link to={`/post/edit/${post._id}`} className='text-black margin-10' ><FaEdit  size={20}/></Link>
+                <span onClick={this.onDeleteClick.bind(this, post._id)} type='button' className='text-black margin-10' ><BsTrashFill size={20}/></span>
+                </div>
+            ) : null}
             <p className="lead">{post.text}</p>
-            {showActions ? (<span> <button onClick={this.onLikeClick.bind(this, post._id)} type="button" className="btn btn-light mr-1">
+            <Link to={`/post/${post._id}`} className="btn btn-light mr-1">
+              Comment  <FaCommentDots  size={30}/>
+            </Link>
+            {showActions ? (<span> <button onClick={this.onLikeClick.bind(this, post._id)} type="button" className="mr-1">
               <i className={classnames('fas fa-thumbs-up', {
                   'text-info': this.findUserLike(post.likes)
 
@@ -66,15 +77,15 @@ class PostItem extends Component {
               
               <span className="badge badge-light">{post.likes.length}</span>
             </button>
-            <button onClick={this.onUnlikeClick.bind(this, post._id)} type="button" className="btn btn-light mr-1">
+            <button onClick={this.onUnlikeClick.bind(this, post._id)} type="button" className=" mr-1">
               <i className="text-secondary fas fa-thumbs-down"></i>
             </button>
-            <Link to={`/post/${post._id}`} className="btn btn-info mr-1">
-              Comment
-            </Link>
-            {userId === auth.user.id ? (
-                <button onClick={this.onDeleteClick.bind(this, post._id)} type='button' className="btn btn-danger mr-1"><i className='fas fa-times' /></button>
+            {/* {userId === auth.user.id ? (
+                <span onClick={this.onDeleteClick.bind(this, post._id)} type='button' className='text-black margin-10' ><BsTrashFill size={20}/></span>
             ) : null}
+            {userId === auth.user.id ? (
+                <Link to={`/post/edit/${post._id}`} className='text-black margin-10' ><FaEdit  size={20}/></Link>
+            ) : null} */}
               <p>          
                 <Link to={`/post/${post._id}`} >
                 {post.comments.length == 1 ? post.comments.length + " Comment " :  post.comments.length + " Comments "} 

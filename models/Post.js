@@ -13,10 +13,12 @@ const PostScheme = new Schema ({
 			text: {type: String, required: true},
 			name: {type: String },
 			avatar: { type: String }, 
-			date: { type: Date, default: Date.now }
+			date: { type: Date, default: Date.now },
+			updated: { type: Date }
 		}
 		],
-	date: { type: Date, default: Date.now }
+	date: { type: Date, default: Date.now },
+	updated: { type: Date }
 })
 
 module.exports = Post = mongoose.model('post', PostScheme);

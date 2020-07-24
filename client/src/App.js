@@ -28,6 +28,8 @@ import Profiles from './components/profiles/Profiles';
 import Profile from './components/profile/Profile';
 import NotFound from './components/not-found/NotFound';
 import Posts from './components/posts/Posts';
+import Post from './components/post/Post';
+import EditPost from './components/post/EditPost';
 import Positions from './components/positions/Positions';
 import Busineseses from './components/businesses/Businesses';
 import Blogs from './components/blogs/Blogs';
@@ -36,7 +38,6 @@ import Podcasts from './components/podcasts/Podcasts';
 import Podcast from './components/podcasts/Podcast';
 import Business from './components/businesses/Business';
 import Position from './components/positions/Position';
-import Post from './components/post/Post';
 import ForgotPassword from './components/auth/ForgotPassword';
 import ResetPassword from './components/auth/ResetPassword';
  
@@ -132,6 +133,12 @@ class App extends Component {
                 <PrivateRoute exact path="/feed" component={Posts} />
               </Switch>
               <Switch>
+                <PrivateRoute exact path="/post/:id" component={Post} />
+              </Switch>
+              <Switch>
+                <PrivateRoute exact path="/post/edit/:id" component={EditPost} />
+              </Switch>
+              <Switch>
                 <PrivateRoute exact path="/hiring" component={Positions} />
               </Switch>
               <Switch>
@@ -157,9 +164,6 @@ class App extends Component {
               </Switch>
               <Switch>
                 <PrivateRoute exact path="/business/:business" component={Business} />
-              </Switch>
-              <Switch>
-                <PrivateRoute exact path="/post/:id" component={Post} />
               </Switch>
               <Switch>
                 <PrivateRoute exact path="/position/:id" component={Position} />

@@ -111,6 +111,26 @@ router.post('/', passport.authenticate('jwt', { session: false }), (req, res) =>
   }
 );
 
+//PUT API/post
+//edit post
+//private
+router.put('/:id', passport.authenticate('jwt', { session: false }), (req, res) => {
+  Profile.findOne({ user: req.user.id })
+  .then(profile => {
+    Post.findById(req.params.id)
+      .then(post => {
+        if(!post) {
+          errors.noprofile = "No post was found";
+          res.status(400). json(errors)
+        }
+        post.text = req.body.text
+        post.save().then(post => res.json(post));
+      })
+      .catch(err => res.status(404).json({ postnotfound: 'No post found' }));
+  });
+}
+);
+
 // DELETE api/posts/:id
 // Delete post
 // Private
