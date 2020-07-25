@@ -84,21 +84,29 @@ router.post('/login', (req, res) => {
 
 	const email = req.body.email.toLowerCase();
 	const password = req.body.password;
-	User.findOne({email})
+	let authUser = null;
+	let authProfile = null;
+	User.findOne({email: email})
 	.then(user => {
 		if (!user) {
 			errors.email = "User not found";
 			return res.status(404).json(errors);
 		}
-		bcrypt.compare(password, user.password)
+		authUser = user;
+		return Profile.findOne({user: authUser._id}).lean().exec()
+	})
+	.then(profile => {
+		authProfile  = profile
+		bcrypt.compare(password, authUser.password)
 			.then(isMatch => {
 				if(isMatch) {
 					//user Matched
 					const payload = { 
-						id: user.id, 
-						first_name: user.first_name,
-						last_name: user.last_name,
-						inviteCode: user.inviteCode
+						id: authUser._id, 
+						first_name: authUser.first_name,
+						last_name: authUser.last_name,
+						inviteCode: authUser.inviteCode,
+						profileImage : authProfile && authProfile.profileImage ? authProfile.profileImage : null ,
 					};
 					//Sign Token
 					jwt.sign(
@@ -156,20 +164,18 @@ router.put('/update', passport.authenticate('jwt', { session: false }), (req, re
 router.get('/current', passport.authenticate('jwt', { session: false }), (req, res) => {
 	let first_name = null;
 	let last_name = null;
-	console.log('line 164', req.user)
 	if (req.user.name && !req.user.first_name) {
 		let splitName = req.user.name.split(" ");
 		first_name = splitName[0];
 		last_name = splitName[1];
 	}
-	console.log('line 164', req.user)
-	res.json({
-		id: req.user.id,
-		name: req.user.name,
-		first_name: req.user.first_name ? req.user.first_name : first_name,
-		last_name: req.user.last_name ? req.user.last_name : last_name,
-		email: req.user.email
-	});
+		res.json({
+			id: req.user.id,
+			name: req.user.name,
+			first_name: req.user.first_name ? req.user.first_name : first_name,
+			last_name: req.user.last_name ? req.user.last_name : last_name,
+			email: req.user.email
+		});
 });
 
 //GET API/users/current

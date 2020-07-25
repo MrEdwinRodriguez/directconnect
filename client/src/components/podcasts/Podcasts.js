@@ -58,8 +58,8 @@ class Podcasts extends Component {
         podcastItems = <Spinner />
     } else {
         if(podcasts.length > 0) {
-            podcastItems = podcasts.map(podcast => (
-                <PodcastItem key={podcast.userId} podcast={podcast} />
+            podcastItems = podcasts.map((podcast, i) => (
+                <PodcastItem key={i} podcast={podcast} />
             ))
         } else {
             podcastItems = <h4>No Podcast Found...</h4>

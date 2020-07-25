@@ -58,8 +58,8 @@ class Blogs extends Component {
         blogItems = <Spinner />
     } else {
         if(blogs.length > 0) {
-            blogItems = blogs.map(blog => (
-                <BlogItem key={blog.userId} blog={blog} />
+            blogItems = blogs.map((blog, i) => (
+                <BlogItem key={i} blog={blog} />
             ))
         } else {
             blogItems = <h4>No Blog Found...</h4>

@@ -27,7 +27,6 @@ class Profile extends Component {
     const { profile, loading} = this.props.profile;
     const { auth } = this.props;
     let profileContent;
-    console.log(auth)
     let backLink = <Link to='/profiles' className="btn btn-light mb-3 float-left">Back To Profiles</Link>
     if (profile && profile.user && auth && auth.user && (profile.user._id+"" == auth.user.id+"" || profile.user+"" == auth.user.id+"" )) {
         backLink = 

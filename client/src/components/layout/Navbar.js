@@ -28,11 +28,11 @@ class Navbar extends Component {
     } else if (profile && profile.user) {
       nameDisplay = profile.user.name;
     }
-    if (profile && profile.profileImage) {
+    if (user && user.profileImage) {
       profileImage = 
         <img
         className="rounded-circle"
-        src={profile.profileImage}
+        src={user.profileImage}
         alt={user.name}
         style={{ width: '25px', marginRight: '5px' }}
       />
