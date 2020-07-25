@@ -38,6 +38,7 @@ class Navbar extends Component {
       />
     }
 
+    let navProfileLink = profile && profile.handle ? <Link to={`/profile/${profile.handle}`} className="nav-link">Profile</Link> : "";
     let profileLink = profile && profile.handle ? <Link to={`/profile/${profile.handle}`} className="dropdown-item "><i className="fas fa-id-card text-royal mr-1"></i>Profile</Link> : "";
     let editProfileLink = profile && profile._id ?<Link to="/edit-profile" className="dropdown-item"> <i className="fas fa-user-edit text-royal mr-1"></i> Edit Profile</Link> : "";
     let createProfileLink = !profile|| (profile && !profile._id) ? <Link to="/create-profile" className="dropdown-item"> <i className="fas fa-user-edit text-royal mr-1"></i> Create Profile</Link> : "";
@@ -96,6 +97,10 @@ class Navbar extends Component {
           <Link className="nav-link" to="/dashboard">
             Dashboard
           </Link>
+        </li>
+        <li className="nav-item" data-toggle="collapse" data-target="#mobile-nav">
+          {navProfileLink}
+  
         </li>
         <li className="nav-item dropdown">
           <a className="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
