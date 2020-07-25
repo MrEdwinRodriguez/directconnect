@@ -147,6 +147,7 @@ class CreateProfile extends Component {
             lookingFor: this.state.lookingFor
         }
 
+        //*********temp fix, need a way to select the value of orginization and chapter without changing.  Currently, if not chenge, it wont save it to  */
         if (!profileData.orginization) {
             if(this.props.auth.user.inviteCode == "iotarho1978" || this.props.auth.user.inviteCode == "gammadeltasigma1951") {
                 profileData.orginization = 'phi_beta_sigma'
@@ -169,7 +170,7 @@ class CreateProfile extends Component {
         if (this.props.profile.imageURL) {
             profileData.profileImage = this.props.profile.imageURL 
         }
-        
+
         this.props.createProfile(profileData, this.props.history)
     }
 
