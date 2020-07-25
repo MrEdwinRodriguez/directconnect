@@ -464,7 +464,7 @@ if(!this.state.lookingFor) {
             <div className='row'>
                 <div className='col-md-8 m-auto'>
                     <Link to="/dashboard" className="btn btn-light">
-                    Go Back</Link>
+                    Cancel</Link>
                     <h1 className='display-4 text-center'>Edit Profile</h1>
                     <small className='d-block pb-3'>* = required fields</small>
                     <div className="row pad-10">

@@ -6,6 +6,8 @@ import ProfileHeader from './ProfileHeader';
 import ProfileAbout from './ProfileAbout';
 import ProfileCreds from './ProfileCreds';
 import Spinner from '../common/Spinner';
+import { AiFillDashboard} from 'react-icons/ai';
+import { FaEdit} from 'react-icons/fa';
 import { getProfileByHandle } from '../../actions/profileActions';
 
 class Profile extends Component {
@@ -22,9 +24,18 @@ class Profile extends Component {
     }
 
   render() {
-    const { profile, loading } = this.props.profile;
+    const { profile, loading} = this.props.profile;
+    const { auth } = this.props;
     let profileContent;
-
+    console.log(auth)
+    let backLink = <Link to='/profiles' className="btn btn-light mb-3 float-left">Back To Profiles</Link>
+    if (profile && profile.user && auth && auth.user && (profile.user._id+"" == auth.user.id+"" || profile.user+"" == auth.user.id+"" )) {
+        backLink = 
+        <div><Link to='/dashboard' className="btn btn-light mb-3 float-left mr-1"> <AiFillDashboard size={20}/> To Dashboard</Link>
+        <Link to='/edit-profile' className="btn btn-light mb-3 float-left mr-1"><FaEdit size={20}/> Edit Profile</Link>
+        </div>
+    }
+    
     if(profile === null || loading ) {
         profileContent = <Spinner />
     } else {
@@ -32,7 +43,7 @@ class Profile extends Component {
             <div>
                 <div className="row">
                     <div className="col-md-6">
-                        <Link to='/profiles' className="btn btn-light mb-3 float-left">Back To Profiles</Link>
+                        {backLink}
                     </div>
                     <div className='col-md-6'></div>
                 </div>
@@ -61,7 +72,8 @@ Profile.propTypes = {
 }
 
 const mapStateToProps = state => ({
-    profile: state.profile
+    profile: state.profile,
+    auth: state.auth
 })
 
 export default connect(mapStateToProps, { getProfileByHandle })(Profile);

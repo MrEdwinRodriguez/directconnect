@@ -220,9 +220,7 @@ class ProfileHeader extends Component {
                             <i className="fab fa-youtube fa-2x" />
                         </a>
                         )}
-
                     </p>
-                    
                     {profile.lookingFor ? <p>Looking for: </p> : ""}
                     {profile.lookingFor ? <p>{profile.lookingFor} Position</p> : ""}
                     {hiringFor && hiringFor.length > 0 ? <p>Hiring: </p> : "" }
@@ -233,10 +231,10 @@ class ProfileHeader extends Component {
                         Website
                     </ReactTooltip>
                     <ReactTooltip id="blog" place="top" effect="solid">
-                       Blog: {profile.blog.name}
+                       Blog: {profile.blog && profile.blog.name ? profile.blog.name : ""}
                     </ReactTooltip>
                     <ReactTooltip id="podcast" place="top" effect="solid">
-                        Podcast: {profile.podcast.name}
+                        Podcast: {profile.blog && profile.podcast.name ? profile.podcast.name : ""}
                     </ReactTooltip>
                     <ReactTooltip id="linkedin" place="top" effect="solid">
                         LinkedIn
