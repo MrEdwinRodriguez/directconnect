@@ -78,6 +78,8 @@ class CreateProfile extends Component {
         })
     }
     onSubmit(e) {
+        console.log(e)
+        console.log(this.props.auth.user.inviteCode)
         e.preventDefault();
         this.setState({
             errors: "",
@@ -145,11 +147,29 @@ class CreateProfile extends Component {
             lookingFor: this.state.lookingFor
         }
 
+        if (!profileData.orginization) {
+            if(this.props.auth.user.inviteCode == "iotarho1978" || this.props.auth.user.inviteCode == "gammadeltasigma1951") {
+                profileData.orginization = 'phi_beta_sigma'
+            } else if (this.props.auth.user.inviteCode == "sigmaepsilon1978" || this.props.auth.user.inviteCode == "epsilonepsilonzeta1954") {
+                profileData.orginization = 'zeta_phi_beta'
+            }
+        }
+        if (!profileData.chapter) {
+            if(this.props.auth.user.inviteCode == "iotarho1978") {
+                profileData.chapter = 'iota_rho'
+            } else if (this.props.auth.user.inviteCode == "sigmaepsilon1978") {
+                profileData.chapter = 'sigma_epsilon'
+            } else if (this.props.auth.user.inviteCode == "gammadeltasigma1951") {
+                profileData.chapter = 'gamma_delta_sigma'
+            } else if (this.props.auth.user.inviteCode == "epsilonepsilonzeta1954") {
+                profileData.chapter = 'epsilon_epsilon_zeta'
+            }
+        }
         //temp adding it here instead initially in profileDate object because it may cause issues.  to move later
         if (this.props.profile.imageURL) {
             profileData.profileImage = this.props.profile.imageURL 
         }
-
+        
         this.props.createProfile(profileData, this.props.history)
     }
 
