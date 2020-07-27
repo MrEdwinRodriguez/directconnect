@@ -13,12 +13,28 @@ class EditComment extends Component {
         super(props);
         this.state = {
             text: "",
+            postId: "",
             errors: {}
         }
 
         this.onChange = this.onChange.bind(this);
         this.onSubmitComment = this.onSubmitComment.bind(this);
     }
+
+    componentDidMount() {
+        console.log(this.props.post.comments)
+        let comments = this.props.post.comments;
+        if (comments) {
+            comments.forEach(comment => {
+                if(comment._id+"" == this.props.match.params.id+"") {
+                this.setState({
+                    text: comment.text,
+                    postid: this.props.post._id,
+                })
+                }
+            })
+        }
+      }
 
     componentWillReceiveProps(newProps) {
         if(newProps.errors) {
@@ -29,20 +45,21 @@ class EditComment extends Component {
     onSubmitComment(e) {
         e.preventDefault();
         const { user } = this.props.auth;
-        const { postId } = this.props;
+       const postId = this.props.post._id;
+       const commentId = this.props.match.params.id
         const { profile } = this.props.profile;
         if(!profile._id) {
             console.log('no profile found')
             this.setState({ errors: {text:  "You must create a profile post a comment.  Visit your dashboard to create a profile"} })
             return false;
         }
-        const newComment = {
+        const editComment = {
             text: this.state.text,
             name: user.name,
             avatar: isEmpty(profile.profileImage) ? "/blank.png" : profile.profileImage
         };
 
-        this.props.editComment(postId, newComment);
+        this.props.editComment(commentId, postId, editComment, this.props.history);
         if (this.state.text.length < 5) {
             this.state.errors = 'Post must be between 5';
         } else if (isEmpty(this.state.text)) {
@@ -64,7 +81,7 @@ class EditComment extends Component {
         <div className="post-form mb-3">
         <div className="card card-info">
           <div className="card-header bg-royal text-white">
-            Comment...
+            Edit Comment...
           </div>
           <div className="card-body">
             <form onSubmit={this.onSubmitComment}>
@@ -90,13 +107,13 @@ EditComment.propTypes = {
     editComment: PropTypes.func.isRequired,
     auth: PropTypes.object.isRequired,
     profile: PropTypes.object.isRequired,
-    postId: PropTypes.string.isRequired,
     errors: PropTypes.object.isRequired
 }
 
 const mapStateToProps = state => ({
     auth: state.auth,
     profile: state.profile, 
+    post: state.post.post,
     errors: state.errors
 })
 
