@@ -127,7 +127,50 @@ router.put('/:id', passport.authenticate('jwt', { session: false }), (req, res) 
         post.updated = new Date()
         post.save().then(post => res.json(post));
       })
-      .catch(err => res.status(404).json({ postnotfound: 'No post found' }));
+      .catch(err => res.status(404).json(err));
+  });
+}
+);
+
+//PUT API/post/comment/:id
+//edit comment
+//private
+router.put('/comment/:id', passport.authenticate('jwt', { session: false }), (req, res) => {
+
+  let commentId = req.params.id;
+  Profile.findOne({ user: req.user.id })
+  .then(profile => {
+    if(!profile) {
+      errors.noprofile = "No profile was Found.  You must have a profile to edit comments";
+      res.status(400). json(errors)
+    }
+    
+    Post.findOne({comments: { $elemMatch: { _id: commentId } } } )
+      .then(post => {
+        if(!post) {
+          errors.noprofile = "No post was found for this comment";
+          res.status(400). json(errors)
+        }
+        post.comments.forEach(function(comment) {
+          if (comment._id+"" == commentId+"") {
+            comment.text = req.body.text;
+            comment.updated = new Date()
+
+          }
+        })
+
+
+        // post.save((err, post) => {
+        //   console.log('line 161', post)
+        //   if (err) {
+        //     res.status(400). json(err)
+        //   }
+        //   res.json(post)
+        // })
+
+        post.save().then(post => res.json(post));
+      })
+      .catch(err => res.status(404).json(err));
   });
 }
 );
@@ -150,7 +193,7 @@ router.delete( '/:id', passport.authenticate('jwt', { session: false }), (req, r
           // Delete
           post.remove().then(() => res.json({ success: true }));
         })
-        .catch(err => res.status(404).json({ postnotfound: 'No post found' }));
+        .catch(err => res.status(404).json(err));
     });
   }
 );
