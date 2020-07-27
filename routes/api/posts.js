@@ -136,7 +136,6 @@ router.put('/:id', passport.authenticate('jwt', { session: false }), (req, res) 
 //edit comment
 //private
 router.put('/comment/:id', passport.authenticate('jwt', { session: false }), (req, res) => {
-
   let commentId = req.params.id;
   Profile.findOne({ user: req.user.id })
   .then(profile => {
@@ -144,7 +143,6 @@ router.put('/comment/:id', passport.authenticate('jwt', { session: false }), (re
       errors.noprofile = "No profile was Found.  You must have a profile to edit comments";
       res.status(400). json(errors)
     }
-    
     Post.findOne({comments: { $elemMatch: { _id: commentId } } } )
       .then(post => {
         if(!post) {
@@ -158,16 +156,6 @@ router.put('/comment/:id', passport.authenticate('jwt', { session: false }), (re
 
           }
         })
-
-
-        // post.save((err, post) => {
-        //   console.log('line 161', post)
-        //   if (err) {
-        //     res.status(400). json(err)
-        //   }
-        //   res.json(post)
-        // })
-
         post.save().then(post => res.json(post));
       })
       .catch(err => res.status(404).json(err));

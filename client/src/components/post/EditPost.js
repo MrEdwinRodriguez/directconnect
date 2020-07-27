@@ -2,11 +2,7 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import TextAreaFieldGroup from '../common/TextAreaFieldGroup';
-import PostItem from '../posts/PostItem';
 import Spinner from "../common/Spinner";
-import { FaEdit} from 'react-icons/fa';
-import { BsTrashFill} from 'react-icons/bs';
-import { Link } from 'react-router-dom';
 import { getPost, editPost } from '../../actions/postActions';
 import isEmpty from '../../validation/is-empty';
 

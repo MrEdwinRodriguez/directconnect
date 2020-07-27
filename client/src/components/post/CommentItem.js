@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { deleteComment } from '../../actions/postActions';
+import { FaEdit, FaCommentDots} from 'react-icons/fa';
+import { BsTrashFill} from 'react-icons/bs';
 
 class CommentItem extends Component {
   onDeleteClick(postId, commentId) {
@@ -35,18 +37,24 @@ class CommentItem extends Component {
             </a>
             <br />
             {makeNameLink}
+            <div className="text-center">
+            {comment.user._id === auth.user.id || comment.user === auth.user.id? (
+              <div>
+                <span className='margin-10'>
+                <Link to={`/post/comment/edit/${comment._id}`} className='text-black margin-10' ><FaEdit  size={20}/></Link>
+                </span>
+              <span
+                onClick={this.onDeleteClick.bind(this, postId, comment._id)}
+                className='margin-10'
+              >
+                <BsTrashFill size={20}/>
+              </span>
+               </div>
+            ) : null}
+            </div>
           </div>
           <div className="col-md-10">
-            <p className="lead">{comment.text}</p>
-            {comment.user._id === auth.user.id || comment.user === auth.user.id? (
-              <button
-                onClick={this.onDeleteClick.bind(this, postId, comment._id)}
-                type="button"
-                className="btn btn-danger mr-1"
-              >
-                <i className="fas fa-times" />
-              </button>
-            ) : null}
+            <p className="lead btn-light" >{comment.text}</p>
           </div>
         </div>
       </div>

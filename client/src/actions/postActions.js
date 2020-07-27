@@ -116,6 +116,24 @@ export const editPost = (id, postText, history) => dispatch => {
                 );
 
 } 
+
+//edit comment
+export const editComment = (commentId, postId,  commentText, history) => dispatch => {
+    dispatch(setPostLoading());
+    axios
+        .put(`/api/posts/comment/${commentId}`, commentText)
+        .then(res => history.push('/post/'+postId))
+            .catch(err => {
+                dispatch({
+                    type: GET_ERRORS,
+                    payload: err.response.data
+                })
+            }
+
+                );
+
+} 
+
 //delete post
 export const deletePost = id => dispatch => {
     axios

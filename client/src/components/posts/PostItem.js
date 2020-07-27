@@ -70,14 +70,16 @@ class PostItem extends Component {
             </a>
             <br />
             {makeNameLink}
-          </div>
-          <div className="col-md-10">
-          {userId === auth.user.id ? (
+            <div className="text-center">
+            {userId === auth.user.id ? (
               <div>
                 <Link to={`/post/edit/${post._id}`} className='text-black margin-10' ><FaEdit  size={20}/></Link>
                 <span onClick={this.onDeleteClick.bind(this, post._id)} type='button' className='text-black margin-10' ><BsTrashFill size={20}/></span>
                 </div>
             ) : null}
+            </div>
+          </div>
+          <div className="col-md-10">
             <p className="lead">{post.text}</p>
             <Link to={`/post/${post._id}`} className="btn btn-light mr-1">
               Comment  <FaCommentDots  size={30}/>
@@ -88,12 +90,6 @@ class PostItem extends Component {
               })}/>
               <span className="badge badge-light">{post.likes.length}</span>
             </span>           
-            {/* {userId === auth.user.id ? (
-                <span onClick={this.onDeleteClick.bind(this, post._id)} type='button' className='text-black margin-10' ><BsTrashFill size={20}/></span>
-            ) : null}
-            {userId === auth.user.id ? (
-                <Link to={`/post/edit/${post._id}`} className='text-black margin-10' ><FaEdit  size={20}/></Link>
-            ) : null} */}
               <p>          
                 <Link to={`/post/${post._id}`} >
                 {post.comments.length == 1 ? post.comments.length + " Comment " :  post.comments.length + " Comments "} 

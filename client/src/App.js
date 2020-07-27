@@ -30,6 +30,7 @@ import NotFound from './components/not-found/NotFound';
 import Posts from './components/posts/Posts';
 import Post from './components/post/Post';
 import EditPost from './components/post/EditPost';
+import EditComment from './components/post/EditComment';
 import Positions from './components/positions/Positions';
 import Busineseses from './components/businesses/Businesses';
 import Blogs from './components/blogs/Blogs';
@@ -137,6 +138,9 @@ class App extends Component {
               </Switch>
               <Switch>
                 <PrivateRoute exact path="/post/edit/:id" component={EditPost} />
+              </Switch>
+              <Switch>
+                <PrivateRoute exact path="/post/comment/edit/:id" component={EditComment} />
               </Switch>
               <Switch>
                 <PrivateRoute exact path="/hiring" component={Positions} />
