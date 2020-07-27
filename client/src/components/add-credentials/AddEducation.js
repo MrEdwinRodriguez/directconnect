@@ -55,9 +55,7 @@ class AddEducation extends Component {
   }
 
   onChange(e) {
-    if (e.target && e.target.name && e.target.value) {
-      this.setState({ [e.target.name]: e.target.value });
-    }
+    this.setState({ [e.target.name]: e.target.value });
   }
   onChangeFrom(e) {
     this.setState({ from: formatDate(e) });
