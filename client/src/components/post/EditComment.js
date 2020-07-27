@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import TextAreaFieldGroup from '../common/TextAreaFieldGroup';
-import { editComment } from '../../actions/postActions';
+import { editComment, getPostByComment } from '../../actions/postActions';
 import isEmpty from '../../validation/is-empty';
 import '../../css/style.css';
 
@@ -22,23 +22,23 @@ class EditComment extends Component {
     }
 
     componentDidMount() {
-        console.log(this.props.post.comments)
-        let comments = this.props.post.comments;
-        if (comments) {
+        this.props.getPostByComment(this.props.match.params.id);
+      }
+
+    componentWillReceiveProps(newProps) {
+        if(newProps.errors) {
+            this.setState({ errors: newProps.errors })
+        }
+        let comments = newProps.post.comments;
+        if (newProps.post && comments) {
             comments.forEach(comment => {
-                if(comment._id+"" == this.props.match.params.id+"") {
+                if(comment._id+"" == newProps.match.params.id+"") {
                 this.setState({
                     text: comment.text,
                     postid: this.props.post._id,
                 })
                 }
             })
-        }
-      }
-
-    componentWillReceiveProps(newProps) {
-        if(newProps.errors) {
-            this.setState({ errors: newProps.errors })
         }
     }
 
@@ -105,6 +105,7 @@ class EditComment extends Component {
 
 EditComment.propTypes = {
     editComment: PropTypes.func.isRequired,
+    getPostByComment: PropTypes.func.isRequired,
     auth: PropTypes.object.isRequired,
     profile: PropTypes.object.isRequired,
     errors: PropTypes.object.isRequired
@@ -117,4 +118,4 @@ const mapStateToProps = state => ({
     errors: state.errors
 })
 
-export default  connect(mapStateToProps, {editComment})(EditComment);
+export default  connect(mapStateToProps, {editComment, getPostByComment})(EditComment);

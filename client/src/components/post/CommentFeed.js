@@ -13,7 +13,6 @@ class CommentFeed extends Component {
 }
 
 CommentFeed.propTypes = {
-    comment: PropTypes.array.isRequired,
     postId: PropTypes.string.isRequired
 }
 

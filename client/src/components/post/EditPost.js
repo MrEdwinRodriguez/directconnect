@@ -114,7 +114,7 @@ onChange(e) {
 
 Post.propTypes = {
   getPost: PropTypes.func.isRequired,
-  editPost: PropTypes.object.isRequired
+  editPost: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({

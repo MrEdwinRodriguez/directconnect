@@ -101,6 +101,26 @@ export const getPost = (id) => dispatch => {
      
 }
 
+//get Post by comment id
+export const getPostByComment = (id) => dispatch => {
+    dispatch(setPostLoading());
+    axios
+        .get(`/api/posts/comment/${id}`)
+        .then(res => 
+            dispatch({
+                type: GET_POST,
+                payload: res.data
+            })
+            )
+            .catch(err => 
+                dispatch({
+                    type: GET_POST,
+                    payload: null
+                })
+                );
+     
+}
+
 export const editPost = (id, postText, history) => dispatch => {
     dispatch(setPostLoading());
     axios

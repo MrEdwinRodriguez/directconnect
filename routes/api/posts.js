@@ -90,6 +90,51 @@ router.get('/:id', (req, res) => {
     );
 });
 
+// GET api/posts/comment/:id
+// Get post by comment id
+// Public
+router.get('/comment/:id', (req, res) => {
+  console.log('get by comment id')
+  let commentId = req.params.id;
+  let postFound = null;
+  Post.findOne({comments: { $elemMatch: { _id: commentId } } } )
+    .populate('user')
+    .lean()
+    .then(post => {
+      console.log('here')
+      postFound = post;
+      let userIds = [post.user._id];
+      post.comments.forEach(function(comment){
+        if (userIds.indexOf(comment.user+"") == -1) {
+          userIds.push(comment.user+"");
+        }
+      })
+      console.log('searching for profiles with ids: ', userIds)
+      return Profile.find({user: {$in: userIds }}).populate('user').lean().exec()
+    })
+    .then(profiles => {
+      var userObject = {};
+      profiles.forEach(function(profile) {
+        let user = profile.user._id ? profile.user._id : profile.user;
+        userObject[user]= profile;
+      })
+      postFound.comments.forEach(function(comment) {
+        if (userObject[comment.user]) {
+          comment.profile = userObject[comment.user];
+          comment.user = userObject[comment.user].user;
+        }
+      })
+      if(userObject[postFound.user._id]){
+        postFound.profile = userObject[postFound.user._id];
+      }
+      res.json(postFound)
+    })
+    .catch(err =>
+      res.status(404).json(err)
+    );
+});
+
+
 //POST API/post
 //create post
 //private
