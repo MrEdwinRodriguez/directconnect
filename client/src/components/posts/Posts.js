@@ -33,7 +33,6 @@ class Posts extends Component {
     } else {
         postContent = <PostFeed posts={posts} />
     }
-    console.log('posts', posts)
     return (
       <div className='feed'>
         <div className='container'>

@@ -11,11 +11,10 @@ import { getPinned, deletePinned } from '../../actions/postActions';
 class PinnedItem extends Component {
 
   componentDidMount() {
-    console.log('here')
     this.props.getPinned();
   }
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps)
+    
   }
 
   deletePinnedMessage (id) {
@@ -24,7 +23,6 @@ class PinnedItem extends Component {
   
   render() {
     const { post } = this.props; 
-    console.log('here', post)
     let pinned = [];
     if (post.pinned && post.pinned.length > 0) {
       pinned = post.pinned;

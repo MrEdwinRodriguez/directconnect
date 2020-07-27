@@ -13,7 +13,24 @@ class PostItem extends Component {
       }
 
       onLikeClick(id) {
-        this.props.addLike(id);
+        const { post, auth } = this.props;
+        let liked = false;
+        let authUser = auth.user.id;
+        console.log(this.props)
+        console.log(post)
+        console.log(authUser)
+        post.likes.forEach(like => {
+          if(like.user+"" == authUser+"") {
+            liked = true;
+          }
+        })
+
+        if(!liked) {
+          this.props.addLike(id);
+        } else {
+          this.props.removeLike(id);
+        }
+        
       }
 
       onUnlikeClick(id) {
@@ -76,10 +93,7 @@ class PostItem extends Component {
               })}/>
               
               <span className="badge badge-light">{post.likes.length}</span>
-            </button>
-            <button onClick={this.onUnlikeClick.bind(this, post._id)} type="button" className=" mr-1">
-              <i className="text-secondary fas fa-thumbs-down"></i>
-            </button>
+            </button>           
             {/* {userId === auth.user.id ? (
                 <span onClick={this.onDeleteClick.bind(this, post._id)} type='button' className='text-black margin-10' ><BsTrashFill size={20}/></span>
             ) : null}
