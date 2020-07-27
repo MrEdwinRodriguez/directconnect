@@ -1,10 +1,35 @@
 import React, { Component } from 'react';
 import Moment from 'react-moment';
 import isEmpty from '../../validation/is-empty';
-
+import { Link } from 'react-router-dom';
+import { GrFormAdd } from 'react-icons/gr'
 class ProfileCreds extends Component {
   render() {
-    const { experience, education, business } = this.props;
+    const { experience, education, business, profile, auth } = this.props;
+  
+    let showAddExperience = <div></div>
+    let showAddEducation = <div></div>
+    let showAddBusiness = <div></div>
+    if (profile && profile.user && (profile.user._id+"" == auth.user.id+"" || profile.user+"" == auth.user.id+"" )) {
+       showAddExperience =             
+          <div className="text-center">
+            <Link to="/add-experience" type="button" className="btn">
+            <GrFormAdd className="raise_add" size={24}/>
+            Add Experience</Link>
+          </div>
+        showAddEducation =             
+          <div className="text-center">
+            <Link to="/add-education" type="button" className="btn">
+            <GrFormAdd className="raise_add" size={24}/>
+            Add Education</Link>
+          </div>
+        showAddBusiness =             
+          <div className="text-center">
+            <Link to="/add-business" type="button" className="btn">
+            <GrFormAdd className="raise_add" size={24}/>
+            Add Business</Link>
+          </div>
+    }
 
     let expItems = "";
     if(experience) {
@@ -67,6 +92,7 @@ class ProfileCreds extends Component {
             ) : (
               <p className='text-center'>No Experience Listed</p>
             )}
+            {showAddExperience}
         </div>
 
         <div className="col-md-4">
@@ -76,6 +102,7 @@ class ProfileCreds extends Component {
             ) : (
               <p className='text-center'>No Education Listed</p>
             )}
+             {showAddEducation}
         </div>
 
         <div className="col-md-4">
@@ -85,6 +112,7 @@ class ProfileCreds extends Component {
             ) : (
               <p className='text-center'>No Business Listed</p>
             )}
+             {showAddBusiness}
         </div>
  
       </div>
