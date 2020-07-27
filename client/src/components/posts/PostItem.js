@@ -33,10 +33,6 @@ class PostItem extends Component {
         
       }
 
-      onUnlikeClick(id) {
-       this.props.removeLike(id);
-      }
-
       findUserLike(likes) {
           const { auth } = this.props;
 
@@ -86,14 +82,12 @@ class PostItem extends Component {
             <Link to={`/post/${post._id}`} className="btn btn-light mr-1">
               Comment  <FaCommentDots  size={30}/>
             </Link>
-            {showActions ? (<span> <button onClick={this.onLikeClick.bind(this, post._id)} type="button" className="mr-1">
+            {showActions ? (<span> <span onClick={this.onLikeClick.bind(this, post._id)}  className="mr-1">
               <i className={classnames('fas fa-thumbs-up', {
                   'text-info': this.findUserLike(post.likes)
-
               })}/>
-              
               <span className="badge badge-light">{post.likes.length}</span>
-            </button>           
+            </span>           
             {/* {userId === auth.user.id ? (
                 <span onClick={this.onDeleteClick.bind(this, post._id)} type='button' className='text-black margin-10' ><BsTrashFill size={20}/></span>
             ) : null}
