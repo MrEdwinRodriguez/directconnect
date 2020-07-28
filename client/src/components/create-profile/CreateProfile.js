@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
+import Spinner from '../common/SpinnerProfileImage';
 import { withRouter } from 'react-router-dom';
 import TextFieldGroup from '../common/TextFieldGroup';
 import InputGroup from '../common/InputGroup';
@@ -43,6 +44,8 @@ class CreateProfile extends Component {
             youtube: '',
             instagram: '',
             selectedFile: null,
+            currentImage: "",
+            notLoaded: true,
             errors: {}
         }
         this.onChange = this.onChange.bind(this);
@@ -63,7 +66,9 @@ class CreateProfile extends Component {
       }
     fileSelectedHandler = event => {
         this.setState({
-            selectedFile: event.target.files[0]
+            selectedFile: event.target.files[0],
+            currentImage: this.props.profile.imageUrl,
+            notLoaded: false,
         })
         const fd = new FormData();
         fd.append('file', event.target.files[0], event.target.files[0].name)
@@ -307,8 +312,10 @@ class CreateProfile extends Component {
         {label: "Other", value: "Other"},
     ];
 
-    let imageUrl = <img className="rounded-circle" src="/blank.png"  alt="no image" />;
-    if (profileObj && profileObj.imageURL) {
+    let imageUrl = <img className="rounded-circle" src="/blank.png"  alt="no image" />;   
+    if (this.state.currentImage == profileObj.imageURL) {
+        imageUrl = <Spinner />
+    } else if (!this.state.notLoaded && profileObj.imageURL) {
         imageUrl = <img src={profileObj.imageURL} className="rounded-circle"  alt="profile image" />
     }
     let displayBlog = this.state.hasBlog;

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ReactTooltip from "react-tooltip";
 import isEmpty from '../../validation/is-empty';
+import Spinner from '../common/SpinnerProfileImage';
 import {validURL} from '../../validation/formatting';
 import {connect} from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -14,6 +15,7 @@ class ProfileHeader extends Component {
         this.state = {
             imageHovered: false,
             selectedFile: null,
+            currentImage: "",
             errors: {},
         };
     
@@ -47,7 +49,8 @@ class ProfileHeader extends Component {
     fileSelectedHandler = event => {
         console.log(event.target.files[0])
         this.setState({
-            selectedFile: event.target.files[0]
+            selectedFile: event.target.files[0],
+            currentImage: this.props.profile.profileImage,
         })
         const fd = new FormData();
         fd.append('file', event.target.files[0], event.target.files[0].name)
@@ -94,7 +97,9 @@ class ProfileHeader extends Component {
             }
 
             let imageUrl = <img className="rounded-circle" src="/blank.png"  alt="no image" />;
-            if (profile.profileImage) {
+            if (this.state.currentImage == profile.profileImage) {
+                imageUrl = <Spinner />
+            } else if (profile.profileImage) {
                 imageUrl = <img src={profile.profileImage} className="rounded-circle"  alt="profile image" onMouseEnter={this.showDelete} />
             }
             let deleteButton = <div></div>

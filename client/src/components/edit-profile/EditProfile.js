@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
+import Spinner from '../common/SpinnerProfileImage';
 import TextFieldGroup from '../common/TextFieldGroup';
 import { uploadProfileImage } from "../../actions/profileActions";
 import InputGroup from '../common/InputGroup';
@@ -43,6 +44,7 @@ class CreateProfile extends Component {
             instagram: '',
             selectedFile: null,
             imageHovered: false,
+            currentImage: "",
             errors: {}
         }
         this.onChange = this.onChange.bind(this);
@@ -139,7 +141,8 @@ class CreateProfile extends Component {
     fileSelectedHandler = event => {
         console.log(event.target.files[0])
         this.setState({
-            selectedFile: event.target.files[0]
+            selectedFile: event.target.files[0],
+            currentImage: this.props.profile.profile.profileImage,
         })
         const fd = new FormData();
         fd.append('file', event.target.files[0], event.target.files[0].name)
@@ -391,7 +394,9 @@ if(!this.state.lookingFor) {
       }
 
       let imageUrl = <img className="rounded-circle" src="/blank.png"  alt="no image" />;
-      if (profile && profile.profileImage) {
+      if (profile && this.state.currentImage == profile.profileImage) {
+        imageUrl = <Spinner />
+      } else if (profile && profile.profileImage) {
           imageUrl = <img src={profile.profileImage} className="rounded-circle"  alt="profile image" onMouseEnter={this.showDelete}/>
       }
       let deleteButton = <div></div>
