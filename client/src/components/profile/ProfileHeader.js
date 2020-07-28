@@ -132,7 +132,7 @@ class ProfileHeader extends Component {
                     {isEmpty(profile.location) ? null : (<p>{profile.location}</p>)}
                     <p className="lead text-center">{profile && profile.user ? profile.user.email : ""}</p>
                     <p>
-                        {profile.website || profile.hasBlog || profile.hasPodcast || (profile.social && (profile.social.twitter || profile.social.instagram || profile.social.facebook || profile.social.youtube || profile.social.linkedin)) ? <p>Links: </p> : ""}
+                        {profile.website || profile.hasBlog || profile.hasPodcast || (profile.social && (profile.social.twitter || profile.social.instagram || profile.social.facebook || profile.social.youtube || profile.social.linkedin)) ? <p>Connect with {profile.user.name}: </p> : ""}
                         {profile.website ? (
                         <a
                             className="text-white p-2"
