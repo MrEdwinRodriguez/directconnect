@@ -116,3 +116,40 @@ function passwordReset (user) {
 }
 
 exports.passwordReset = passwordReset;
+
+function commentNotification (user, post, commentCount) {
+    return new Promise(function (resolve, reject) {
+        console.log('in comment notification')
+        const transporter = nodemailer.createTransport({
+            host: "smtp.gmail.com",
+            port: 465,
+            secure: false,
+            service: 'gmail',
+            host: 'gmail.com',
+            auth: {
+                user: mailerCredentials.email,
+                pass: mailerCredentials.password
+            },
+            debug: false,
+            logger: true
+        });
+        const emailBody = 'You have ' + commentCount+" new comments on post: " +post;
+
+        const mailOptions = {
+            from: '"BlueAndWhiteConnect"'+ mailerCredentials.email,
+            to: user.email,
+            subject: 'Somebody has commented on your post',
+            text:  emailBody,
+        }
+        console.log('sending email now to: ', user.email)
+        transporter.sendMail(mailOptions, function(err, res) {
+            if (err) {
+                return reject(err);
+            } else {
+                return resolve({'success': 'Email has been sent'})
+            }
+        })
+    })
+}
+
+exports.commentNotification  = commentNotification ;

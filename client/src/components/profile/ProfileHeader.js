@@ -136,7 +136,7 @@ class ProfileHeader extends Component {
                         {profile.website ? (
                         <a
                             className="text-white p-2"
-                            href={profile.website}
+                            href={profile.website ? validURL(profile.website) : "#"}
                             target="_blank"
                             rel="noopener noreferrer"
                             data-tip data-for="website"
