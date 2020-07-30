@@ -4,11 +4,10 @@ const mailerCredentials = require('../config/nodemailer')
 function welcomeEmail(user) {
     console.log('sending welcome email')
     const transporter = nodemailer.createTransport({
-        host: "smtp.gmail.com",
+        host: "smtp.mail.yahoo.com",
         port: 465,
         secure: false,
-        service: 'gmail',
-        host: 'gmail.com',
+        service: 'yahoo',
         auth: {
             user: mailerCredentials.email,
             pass: mailerCredentials.password
@@ -39,11 +38,11 @@ function forgotPassword (user, host) {
     return new Promise(function (resolve, reject) {
         console.log('sending forgot password email')
         const transporter = nodemailer.createTransport({
-            host: "smtp.gmail.com",
+            host: "smtp.mail.yahoo.com",
             port: 465,
             secure: false,
-            service: 'gmail',
-            host: 'gmail.com',
+            service: 'yahoo',
+
             auth: {
                 user: mailerCredentials.email,
                 pass: mailerCredentials.password
@@ -82,11 +81,10 @@ function passwordReset (user) {
     return new Promise(function (resolve, reject) {
         console.log('sending password reset email')
         const transporter = nodemailer.createTransport({
-            host: "smtp.gmail.com",
+            host: "smtp.mail.yahoo.com",
             port: 465,
             secure: false,
-            service: 'gmail',
-            host: 'gmail.com',
+            service: 'yahoo',
             auth: {
                 user: mailerCredentials.email,
                 pass: mailerCredentials.password
@@ -94,7 +92,6 @@ function passwordReset (user) {
             debug: false,
             logger: true
         });
-        console.log('break')
         const emailBody = 'Your password has been reset';
 
         const mailOptions = {
@@ -121,11 +118,10 @@ function commentNotification (user, post, commentCount) {
     return new Promise(function (resolve, reject) {
         console.log('in comment notification')
         const transporter = nodemailer.createTransport({
-            host: "smtp.gmail.com",
+            host: "smtp.mail.yahoo.com",
             port: 465,
             secure: false,
-            service: 'gmail',
-            host: 'gmail.com',
+            service: 'yahoo',
             auth: {
                 user: mailerCredentials.email,
                 pass: mailerCredentials.password
