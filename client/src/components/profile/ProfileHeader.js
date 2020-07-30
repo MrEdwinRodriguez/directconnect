@@ -111,7 +111,7 @@ class ProfileHeader extends Component {
             <div className="col-md-12">
                 <div className="card card-body bg-royal text-white mb-3">
                     <div className="row pad-10">
-                        <div className="col-4 col-md-3 m-auto text-center" onMouseLeave={this.hideDelete}>
+                        <div className="m-auto text-center" onMouseLeave={this.hideDelete}>
                             {deleteButton}
                             {imageUrl}
                         </div>
