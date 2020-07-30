@@ -96,14 +96,14 @@ class ProfileHeader extends Component {
                 isProfileUser = <button id='uploadImage' className="btn btn-light custom-button-size"  onClick={this.upload}>Update Profile Image</button>
             }
 
-            let imageUrl = <img className="rounded-circle" src="/blank.png"  alt="no image" />;
+            let imageUrl = <img className="rounded-circle profileImage" src="/blank.png"  alt="no image" />;
             if (this.state.currentImage == profile.profileImage) {
                 imageUrl = <Spinner />
             } else if (profile.profileImage) {
                 imageUrl = <img src={profile.profileImage} className="rounded-circle profileImage"  alt="profile image" onMouseEnter={this.showDelete} />
             }
-            let deleteButton = <div></div>
-            if (this.state.imageHovered) {
+            let deleteButton = <div className='deleteImage'></div>
+            if (profile&& profile.user && profile.user._id+""==auth.user.id+"" && this.state.imageHovered) {
                 deleteButton = <span className='deleteImage' ><FaWindowClose  size={20} onClick={this.deleteProfileImage}/></span>
             }
         return (

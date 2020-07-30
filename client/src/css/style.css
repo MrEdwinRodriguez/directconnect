@@ -43,8 +43,6 @@
     width: 100%;
 }
 .profileImage{
-    /* width: 100%;
-    height: 100%; */
     width: 250px;
     height: 250px;
     object-fit: cover;
@@ -91,8 +89,9 @@ li .profile {
   }
 
   .deleteImage {
-    position:absolute; 
-    right:0;
+    position: relative;
+    left: 250px;
+    bottom: 125px;
   }
   .deletePinned {
     position:absolute; 
@@ -242,6 +241,20 @@ li .profile {
     .profilesImages {
         display: none;
     }
+ }
+
+  /* xs in bootstrap is 768 */
+  @media only screen and (max-width: 560px) {
+    .profileImage{
+        width: 200px;
+        height: 200px;
+        object-fit: cover;
+    }
+    .deleteImage {
+        position: relative;
+        left: 200px;
+        bottom: 100px;
+      }
  }
 
  .pinnedCard {
