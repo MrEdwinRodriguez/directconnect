@@ -129,6 +129,9 @@ class App extends Component {
               <Switch>
                 <PrivateRoute exact path="/profile/:handle" component={Profile} />
               </Switch>
+              <Switch>
+                <PrivateRoute exact path="/myprofile/:handle" component={Profile} />
+              </Switch>
               <Route exact path="/not-found" component={NotFound} />
               <Switch>
                 <PrivateRoute exact path="/feed" component={Posts} />

@@ -106,6 +106,7 @@ router.post('/login', (req, res) => {
 						first_name: authUser.first_name,
 						last_name: authUser.last_name,
 						inviteCode: authUser.inviteCode,
+						profileHandle: authProfile && authProfile.handle ? authProfile.handle : null,
 						profileImage : authProfile && authProfile.profileImage ? authProfile.profileImage : null ,
 					};
 					//Sign Token

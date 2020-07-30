@@ -20,9 +20,9 @@ class Posts extends Component {
     let postContent;
     let user = auth.user
     let welcomeMessage = <p>Welcome, {user.first_name} {user.last_name}</p>
-    if(profile && profile.profile && profile.profile.handle) {
+    if(user && user.profileHandle) {
         welcomeMessage = 
-        <p className='lead'>Welcome, <Link to={`/profile/${profile.profile.handle}`}>
+        <p className='lead'>Welcome, <Link to={`/myprofile/${user.profileHandle}`}>
         {user.first_name} {user.last_name}
         </Link>
     </p>
