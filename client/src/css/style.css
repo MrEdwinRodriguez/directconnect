@@ -53,6 +53,11 @@
     height: 120px;
     object-fit: cover;
 }
+.commentImage, .postImage {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+ }
 
 .lead-add-on {
     position: relative; 
@@ -231,6 +236,19 @@ li .profile {
      display: none;
  }
 
+ @media only screen and (max-width: 9950px) {
+    .commentImage {
+        width: 90px;
+        height: 90px;
+        object-fit: cover;
+     }
+     .postImage {
+        width: 90px;
+        height: 90px;
+        object-fit: cover;
+     }
+ }
+
  /* xs in bootstrap is 768 */
  @media only screen and (max-width: 768px) {
     .alternativeButton{
@@ -282,15 +300,4 @@ li .profile {
     margin-bottom: 10px;
  }
 
- .commentImage {
-    width: 120px;
-    height: 120px;
-    object-fit: cover;
- }
- @media only screen and (max-width: 9950px) {
-    .commentImage {
-        width: 90px;
-        height: 90px;
-        object-fit: cover;
-     }
- }
+
