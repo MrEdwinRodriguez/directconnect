@@ -279,6 +279,7 @@ class CreateProfile extends Component {
   render() {
     const { errors, displaySocialInputs, displayLooking} = this.state;
     const { profile } = this.props.profile;
+    const {user} = this.props.auth;
     let socialInputs;
     let lookingFor;
     let lookingForButton; 
@@ -498,7 +499,7 @@ if(!this.state.lookingFor) {
         <div className='container'>
             <div className='row'>
                 <div className='col-md-8 m-auto'>
-                    <Link to="/dashboard" className="btn btn-light">
+                    <Link to={`/myprofile/${user.profileHandle}`} className="btn btn-light">
                     Cancel</Link>
                     <h1 className='display-4 text-center'>Edit Profile</h1>
                     <small className='d-block pb-3'>* = required fields</small>
@@ -663,6 +664,7 @@ CreateProfile.propTypes = {
 
 const mapStateToProops = state => ({
     profile: state.profile,
+    auth: state.auth,
     errors: state.errors,
 })
 
