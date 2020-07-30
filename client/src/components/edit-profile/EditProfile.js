@@ -162,6 +162,20 @@ class CreateProfile extends Component {
         this.setState({
             errors: "",
         }); 
+        
+        const regexp = /^[a-zA-Z0-9-_]+$/;
+        let check = this.state.handle;
+        let errors = {
+            handle: "Handle can include letters, numbers, '_', and '-' only"
+        }
+        if (check.search(regexp) === -1){
+            this.setState({
+                errors: errors
+
+            })
+            return false;
+        }    
+    
         if(this.state.hasBlog) {
             if(!this.state.blogName) {
                 this.setState({
@@ -232,6 +246,22 @@ class CreateProfile extends Component {
     }
 
     onChange(e) {
+        if(e.target.name == 'handle') {
+            this.setState({
+                errors: ""
+            })
+            const regexp = /^[a-zA-Z0-9-_]+$/;
+            let check = e.target.value;
+            let errors = {
+                handle: "Handle can include letters, numbers, '_', and '-' only"
+            }
+            if (check.search(regexp) === -1){
+                this.setState({
+                    errors: errors
+  
+                })
+            }    
+        }
         this.setState({[e.target.name]: e.target.value})
     }
 
@@ -547,7 +577,7 @@ if(!this.state.lookingFor) {
                         name='website'
                         value={this.state.website}
                         onChange={this.onChange}
-                        error={errors.handle}
+                        error={errors.website}
                         info="Personal Website or company website."/>
                     <div className="form-check mb-4">
                     <input

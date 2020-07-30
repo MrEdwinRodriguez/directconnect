@@ -83,12 +83,22 @@ class CreateProfile extends Component {
         })
     }
     onSubmit(e) {
-        console.log(e)
-        console.log(this.props.auth.user.inviteCode)
         e.preventDefault();
         this.setState({
             errors: "",
         }); 
+        const regexp = /^[a-zA-Z0-9-_]+$/;
+        let check = this.state.handle;
+        let errors = {
+            handle: "Handle can include letters, numbers, undersocores ( _ ), and dashes (-) only"
+        }
+        if (check.search(regexp) === -1){
+            this.setState({
+                errors: errors
+
+            })
+            return false;
+        } 
         if(this.state.hasBlog) {
             if(!this.state.blogName) {
                 this.setState({
@@ -180,6 +190,22 @@ class CreateProfile extends Component {
     }
 
     onChange(e) {
+        if(e.target.name == 'handle') {
+            this.setState({
+                errors: ""
+            })
+            const regexp = /^[a-zA-Z0-9-_]+$/;
+            let check = e.target.value;
+            let errors = {
+                handle: "Handle can include letters, numbers, undersocores ( _ ), and dashes (-) only"
+            }
+            if (check.search(regexp) === -1){
+                this.setState({
+                    errors: errors
+  
+                })
+            }    
+        }
         this.setState({[e.target.name]: e.target.value})
     }
 
