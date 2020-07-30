@@ -12,9 +12,9 @@ class ProfileItem extends Component {
     return (
       <div className='card card-body bg-light mb-3'>
           <div className='row'>
-            <div className='col-4 col-lg-2'>
+            <div className='col-4 col-lg-2 text-center'>
               <span >
-                <img src={isEmpty(profile.profileImage) ? "/blank.png" : profile.profileImage} alt="" className="rounded-circle" />
+                <img src={isEmpty(profile.profileImage) ? "/blank.png" : profile.profileImage} alt="" className="rounded-circle smallProfileImage" />
               </span>
             </div>
             <div className='col-lg-6 col-md-4 col-8'>
