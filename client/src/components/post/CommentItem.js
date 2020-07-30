@@ -27,10 +27,10 @@ class CommentItem extends Component {
     return ( 
       <div className="card card-body mb-3">
         <div className="row">
-          <div className="col-md-2 centerImage">
+          <div className="col-md-2 centerImage text-center">
             <a href="profile.html">
               <img
-                className="rounded-circle imageResize centerImage"
+                className="rounded-circle commentImage centerImage"
                 src={postImage}
                 alt=""
               />

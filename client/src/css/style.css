@@ -238,7 +238,8 @@ li .profile {
     }
     .imageResize{
         width: 40%;
-        height: 60%;
+        height: 40%;
+        object-fit: cover;
     }
     .centerImage{
         text-align: center
@@ -279,4 +280,17 @@ li .profile {
     /* width: 18 rem !important; */
     /* height: ; */
     margin-bottom: 10px;
+ }
+
+ .commentImage {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+ }
+ @media only screen and (max-width: 9950px) {
+    .commentImage {
+        width: 90px;
+        height: 90px;
+        object-fit: cover;
+     }
  }
