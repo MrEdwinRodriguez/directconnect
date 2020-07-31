@@ -12,6 +12,8 @@ const pinned = require('./routes/api/pinned');
 const business = require('./routes/api/business');
 const content = require('./routes/api/content');
 const path = require('path');
+var cron = require('node-cron');
+var notifications = require('./controllers/notifications');
 
 const app = express();
 
@@ -51,6 +53,12 @@ if (process.env.NODE_ENV === 'production') {
 
 
 const port = process.env.PORT || 5000;
+
+// notifications.commentNotification();
+// cron job setup here
+// cron.schedule('* * * * *', function(){
+// 	console.log('running a task every minute');
+//   });
 
 
 app.listen(port, () => console.log(`Server running on port ${port}`));

@@ -114,7 +114,7 @@ function passwordReset (user) {
 
 exports.passwordReset = passwordReset;
 
-function commentNotification (user, post, commentCount) {
+function sendCommentNotifications(user, post, commentCount) {
     return new Promise(function (resolve, reject) {
         console.log('in comment notification')
         const transporter = nodemailer.createTransport({
@@ -148,4 +148,4 @@ function commentNotification (user, post, commentCount) {
     })
 }
 
-exports.commentNotification  = commentNotification ;
+exports.sendCommentNotifications = sendCommentNotifications;

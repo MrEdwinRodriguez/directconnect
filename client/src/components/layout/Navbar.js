@@ -31,7 +31,7 @@ class Navbar extends Component {
     if (user && user.profileImage) {
       profileImage = 
         <img
-        className="rounded-circle"
+        className="rounded-circle navProfileImage"
         src={user.profileImage}
         alt={user.name}
         style={{ width: '25px', marginRight: '5px' }}

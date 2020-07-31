@@ -58,6 +58,11 @@
     height: 120px;
     object-fit: cover;
  }
+ .navProfileImage{
+    width: 25px;
+    height: 25px;
+    object-fit: cover;
+}
 
 .lead-add-on {
     position: relative; 
