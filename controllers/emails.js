@@ -136,7 +136,7 @@ function sendCommentNotifications(user, listString) {
             to: user.email,
             subject: 'Somebody has commented on your post',
             // text:  emailBody,
-            html: '<p>'+user.first_name+',</p><p>Somebody has commented on your post(s) this week:</p>'+listString+'<p>Log into <a href="https://www.blueandwhiteconnect.com">Blue and White Connect</a> to view the comments</p>'
+            html: '<p>'+user.first_name+',</p><p>Somebody has commented on your post(s) this week:</p>'+listString+'<p>Log into <a href="https://www.blueandwhiteconnect.com/login">Blue and White Connect</a> to view the comments</p>'
         }
         // console.log('sending email now to: ', user.email)
         transporter.sendMail(mailOptions, function(err, res) {

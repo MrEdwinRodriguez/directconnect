@@ -56,9 +56,11 @@ const port = process.env.PORT || 5000;
 
 // notifications.commentNotification();
 // cron job setup here
-// cron.schedule('* * * * *', function(){
-// 	console.log('running a task every minute');
-//   });
+//UTC time Every Sunday
+cron.schedule('47 15 * * Sat', function(){
+	console.log('running a task every minute');
+	notifications.commentNotification();
+  }, undefined, true, "US/Eastern");
 
 
 app.listen(port, () => console.log(`Server running on port ${port}`));
