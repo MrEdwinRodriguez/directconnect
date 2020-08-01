@@ -54,7 +54,7 @@ if (process.env.NODE_ENV === 'production') {
 
 const port = process.env.PORT || 5000;
 
-notifications.commentNotification();
+// notifications.commentNotification();
 // cron job setup here
 // cron.schedule('* * * * *', function(){
 // 	console.log('running a task every minute');
