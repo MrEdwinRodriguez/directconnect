@@ -48,7 +48,8 @@ function commentNotification () {
             let userSending = "";
             user.postItem.forEach(post => {
                 userSending = post.user;
-                listString += '<li>Comment: '+post.post.substring(0, 6)+".../Comments: "+post.commentCount +"</li>"
+                let textSubstring = post.post.length > 15 ? post.post.substring(0, 14) : post.post;
+                listString += '<li><strong>Comment</strong>: '+textSubstring+".../<strong># of New Comments</strong>: "+post.commentCount +"</li>"
             })
             listString += "</ul>"
             Emails.sendCommentNotifications(userSending, listString)
