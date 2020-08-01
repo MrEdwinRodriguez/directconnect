@@ -29,7 +29,9 @@ router.post('/register', (req, res) => {
 	};
 
 	inviteCodeArray = ['iotarho1978', 'sigmaepsilon1978', "gammadeltasigma1951", "epsilonepsilonzeta1954"]
-	if (inviteCodeArray.indexOf(req.body.inviteCode) == -1) {
+	let inviteCodeEntered = req.body.inviteCode.toLowerCase()
+
+	if (inviteCodeArray.indexOf(inviteCodeEntered) == -1) {
 		return res.status(400).json(errors.name = "Enter a Valid Invite Code")
 	}
 
@@ -50,7 +52,7 @@ router.post('/register', (req, res) => {
 				last_name: req.body.last_name,
 				name: req.body.first_name + " " + req.body.last_name,
 				email: email,
-				inviteCode: req.body.inviteCode,
+				inviteCode: inviteCodeEntered,
 				avatar,
 				password: req.body.password
 			})

@@ -114,7 +114,7 @@ function passwordReset (user) {
 
 exports.passwordReset = passwordReset;
 
-function sendCommentNotifications(user, post, commentCount) {
+function sendCommentNotifications(user, listString) {
     return new Promise(function (resolve, reject) {
         console.log('in comment notification')
         const transporter = nodemailer.createTransport({
@@ -129,15 +129,16 @@ function sendCommentNotifications(user, post, commentCount) {
             debug: false,
             logger: true
         });
-        const emailBody = 'You have ' + commentCount+" new comments on post: " +post;
+        // const emailBody = 'You have ' + commentCount+" new comments on post: " +post;
 
         const mailOptions = {
             from: '"BlueAndWhiteConnect"'+ mailerCredentials.email,
             to: user.email,
             subject: 'Somebody has commented on your post',
-            text:  emailBody,
+            // text:  emailBody,
+            html: '<p>'+user.first_name+',</p><p>Somebody has commented on your post(s) this week:</p>'+listString+'<p>Log into <a href="https://www.blueandwhiteconnect.com">Blue and White Connect</a> to see the comments</p>'
         }
-        console.log('sending email now to: ', user.email)
+        // console.log('sending email now to: ', user.email)
         transporter.sendMail(mailOptions, function(err, res) {
             if (err) {
                 return reject(err);
