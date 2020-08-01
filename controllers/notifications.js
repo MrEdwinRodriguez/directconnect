@@ -1,5 +1,5 @@
 const Post = require('../models/Post');
-const Emails = require('./Emails');
+const Emails = require('./emails');
 
 function commentNotification () {
     console.log('in notification')
