@@ -362,7 +362,7 @@ class CreateProfile extends Component {
           value={this.state.blogLink}
           onChange={this.onChange}
           error={errors.blogLink}
-          info="Link to you Personal Blog."/>
+          info="Link to your Personal Blog."/>
       <TextFieldGroup 
           placeholder="Blog Description"
           name='blogAbout'
@@ -392,7 +392,7 @@ class CreateProfile extends Component {
         value={this.state.podcastLink}
         onChange={this.onChange}
         error={errors.podcastLink}
-        info="Link to you Personal Podcast."/>
+        info="Link to your Personal Podcast."/>
     <TextFieldGroup 
         placeholder="Podcast Description"
         name='podcastAbout'
