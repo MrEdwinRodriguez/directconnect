@@ -31,6 +31,7 @@ class EditAccount extends Component {
       this.onCheck = this.onCheck.bind(this);
       this.onDelete = this.onDelete.bind(this);
       this.onCancel = this.onCancel.bind(this);
+      this.updated = this.updated.bind(this);
       this.chapterNotification = this.chapterNotification.bind(this);
       this.localChaptersNotification = this.localChaptersNotification.bind(this);
       this.fullNetworkNotification = this.fullNetworkNotification.bind(this);
@@ -134,6 +135,9 @@ class EditAccount extends Component {
     commentNotification(checked) {
       this.setState({ commentNotification : !this.state.commentNotification });
     }
+    updated () {
+      this.setState({updated: false});
+    }
 
     render() {
       const { errors } = this.state;
@@ -160,6 +164,10 @@ class EditAccount extends Component {
                   </div>
               </div>
           </div>
+      }
+
+      if (this.state.updated) {
+        setTimeout(this.updated, 5000)
       }
       return (
         <div className="add-business">
