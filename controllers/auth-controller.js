@@ -10,3 +10,14 @@ function getToken(){
 } 
 
 exports.getToken = getToken;
+
+function getProfile(userId) {
+	return new Promise(function(resolve, reject){
+		Profile.findOne({user: userId}).lean().exec()
+		.then(profile => {
+			if(!profile) return resolve({noprofile: 'no profile found for this user.'})
+			return resolve(profile)
+		})	
+	})
+}
+exports.getProfile = getProfile;

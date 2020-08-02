@@ -161,6 +161,7 @@ router.put('/update', passport.authenticate('jwt', { session: false }), (req, re
 					authController.getProfile(user._id)
 				.then(profile => {		
 					res.json({
+						updated: true, 
 						id: authUser._id,
 						name: authUser.name,
 						first_name: authUser.first_name,

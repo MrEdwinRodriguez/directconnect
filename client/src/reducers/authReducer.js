@@ -6,7 +6,6 @@ const initialState = {
     isAuthenticated: false,
     user: {},
     profile: {},
-    success: false
 }
 
 export default function(state = initialState, action) {
@@ -28,7 +27,6 @@ export default function(state = initialState, action) {
                 ...state,
                 isAuthenticated: !isEmpty(action.payload),
                 user: action.payload,
-                success: true
             }
         default:
             return state;

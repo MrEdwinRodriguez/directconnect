@@ -22,6 +22,7 @@ class EditAccount extends Component {
           fullNetworkNotification: true, 
           showDeleteModal: false,
           deleteId: "",
+          updated: false, 
           errors: {},
       };
   
@@ -69,7 +70,7 @@ class EditAccount extends Component {
               chapterNotification: chapterNotification,
               localChaptersNotification: localChaptersNotification,
               fullNetworkNotification: fullNetworkNotification, 
-
+              updated: user.updated ? user.updated : false,
         })
   
       }
@@ -168,7 +169,7 @@ class EditAccount extends Component {
                 <Link to="/dashboard" className="btn btn-light">
                   Go Back
                 </Link>
-                { this.props.auth.success ? <div className= "alert alert-success">Account has been updated.</div> : <div></div>}
+                { this.state.updated ? <div className= "alert alert-success">Account has been updated.</div> : <div></div>}
                 <h1 className="display-4 text-center">Account</h1>
                 <small className="d-block pb-3">* = required fields</small>
                 <form onSubmit={this.onSubmit}>
