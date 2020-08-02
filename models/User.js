@@ -13,6 +13,12 @@ const UserSchema = new Schema ({
 	avatar: { type: String},
 	viewed_pinned_messages: [{ type: Schema.Types.ObjectId, ref: 'pinned'}],
 	date: { type: Date, default: Date.now},
+	email_permissions : {
+		commentNotification : { type: Boolean, required: true, default: true},
+		chapterNotification: { type: Boolean, required: true, default: true},
+		localChaptersNotification : { type: Boolean, required: true, default: true},
+		fullNetworkNotification: { type: Boolean, required: true, default: true},
+	}
 
 });
 

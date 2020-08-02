@@ -147,6 +147,12 @@ router.put('/update', passport.authenticate('jwt', { session: false }), (req, re
 			user.first_name = req.body.first_name;
 			user.last_name = req.body.last_name;
 			user.name = req.body.name;
+			if(!user.email_permissions) user.email_permissions = {};
+			user.email_permissions.fullNetworkNotification = req.body.fullNetworkNotification;
+			user.email_permissions.chapterNotification = req.body.chapterNotification,
+			user.email_permissions.localChaptersNotification = req.body.localChaptersNotification,
+			user.email_permissions.commentNotification = req.body.commentNotification,
+
 			console.log('saving user account update')
 			user.save()
 			// .then(user => {
@@ -165,20 +171,26 @@ router.put('/update', passport.authenticate('jwt', { session: false }), (req, re
 //return current user
 //private
 router.get('/current', passport.authenticate('jwt', { session: false }), (req, res) => {
-	let first_name = null;
-	let last_name = null;
-	if (req.user.name && !req.user.first_name) {
-		let splitName = req.user.name.split(" ");
-		first_name = splitName[0];
-		last_name = splitName[1];
-	}
+	User.findOne({_id: req.user.id}).exec()
+	.then(user => {
+		if (!user) { 
+			errors.nouser = "There is no user found.";
+			res.status(400). json(errors)
+		}
+
+
 		res.json({
-			id: req.user.id,
-			name: req.user.name,
-			first_name: req.user.first_name ? req.user.first_name : first_name,
-			last_name: req.user.last_name ? req.user.last_name : last_name,
-			email: req.user.email
+			id: user._id,
+			name: user.name,
+			first_name: user.first_name,
+			last_name: user.last_name,
+			email: user.email,
+			commentNotification: user.email_permissions && user.email_permissions.commentNotification != null && user.email_permissions.commentNotification != undefined ? user.email_permissions.commentNotification : true,
+			chapterNotification: user.email_permissions && user.email_permissions.chapterNotification != null && user.email_permissions.chapterNotification != undefined ? user.email_permissions.chapterNotification : true,
+			localChaptersNotification: user.email_permissions && user.email_permissions.localChaptersNotification != null && user.email_permissions.localChaptersNotification != undefined ? user.email_permissions.localChaptersNotification : true,
+			fullNetworkNotification: user.email_permissions && user.email_permissions.fullNetworkNotification != null && user.email_permissions.fullNetworkNotification != undefined  ? user.email_permissions.fullNetworkNotification : true, 
 		});
+	});	
 });
 
 //GET API/users/current

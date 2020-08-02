@@ -16,6 +16,10 @@ class EditAccount extends Component {
           first_name: '',
           last_name: '',
           id: '',
+          commentNotification: true,
+          chapterNotification: true,
+          localChaptersNotification: true,
+          fullNetworkNotification: true, 
           showDeleteModal: false,
           deleteId: "",
           errors: {},
@@ -26,6 +30,10 @@ class EditAccount extends Component {
       this.onCheck = this.onCheck.bind(this);
       this.onDelete = this.onDelete.bind(this);
       this.onCancel = this.onCancel.bind(this);
+      this.chapterNotification = this.chapterNotification.bind(this);
+      this.localChaptersNotification = this.localChaptersNotification.bind(this);
+      this.fullNetworkNotification = this.fullNetworkNotification.bind(this);
+      this.commentNotification = this.commentNotification.bind(this);
     }
   
     componentDidMount() {
@@ -38,10 +46,30 @@ class EditAccount extends Component {
       }
       if(nextProps && nextProps.auth && nextProps.auth.user) {
           let user = nextProps.auth.user;
+          let commentNotification = user.commentNotification != null && user.commentNotification != undefined ? user.commentNotification : true;
+          let chapterNotification= user.chapterNotification != null ? user.chapterNotification : true;
+          let localChaptersNotification = user.localChaptersNotification != null? user.localChaptersNotification : true;
+          let fullNetworkNotification = user.fullNetworkNotification != null ? user.fullNetworkNotification : true;
+          if (user.email_permissions) {
+            if(user.email_permissions.commentNotification != null && user.email_permissions.commentNotification != undefined)
+              commentNotification = user.email_permissions.commentNotification
+            if(user.email_permissions.chapterNotification!= null && user.email_permissions.chapterNotification!= undefined)
+              chapterNotification = user.email_permissions.chapterNotification;
+            if(user.email_permissions.localChaptersNotification != null && user.email_permissions.localChaptersNotification != undefined)
+              localChaptersNotification = user.email_permissions.localChaptersNotification;
+            if(user.email_permissions.fullNetworkNotification != null && user.email_permissions.fullNetworkNotification != undefined)
+              fullNetworkNotification = user.email_permissions.fullNetworkNotification;
+
+          }
           this.setState({
               first_name: user.first_name,
               last_name: user.last_name,
-              id: user._id
+              id: user._id,
+              commentNotification: commentNotification,
+              chapterNotification: chapterNotification,
+              localChaptersNotification: localChaptersNotification,
+              fullNetworkNotification: fullNetworkNotification, 
+
         })
   
       }
@@ -53,7 +81,11 @@ class EditAccount extends Component {
           first_name: this.state.first_name,
           last_name: this.state.last_name,
           name: this.state.first_name + " " + this.state.last_name,
-          id: this.state.id
+          id: this.state.id,
+          commentNotification: this.state.commentNotification,
+          chapterNotification: this.state.chapterNotification,
+          localChaptersNotification: this.state.localChaptersNotification,
+          fullNetworkNotification: this.state.fullNetworkNotification,
       }
   
       this.props.updateCurrentUser(accountData);
@@ -89,7 +121,19 @@ class EditAccount extends Component {
         this.setState({deleteId: ""});
     }
 
-  
+    chapterNotification(checked) {
+      this.setState({ chapterNotification : !this.state.chapterNotification });
+    }
+    localChaptersNotification(checked) {
+      this.setState({ localChaptersNotification : !this.state.localChaptersNotification });
+    }
+    fullNetworkNotification(checked) {
+      this.setState({ fullNetworkNotification : !this.state.fullNetworkNotification });
+    }
+    commentNotification(checked) {
+      this.setState({ commentNotification : !this.state.commentNotification });
+    }
+
     render() {
       const { errors } = this.state;
 
@@ -124,10 +168,12 @@ class EditAccount extends Component {
                 <Link to="/dashboard" className="btn btn-light">
                   Go Back
                 </Link>
-                { this.props.auth.success ? <div className= "alert alert-success">Name has been updated.</div> : <div></div>}
+                { this.props.auth.success ? <div className= "alert alert-success">Account has been updated.</div> : <div></div>}
                 <h1 className="display-4 text-center">Account</h1>
                 <small className="d-block pb-3">* = required fields</small>
                 <form onSubmit={this.onSubmit}>
+                <span><h4>Name</h4></span>
+                <hr></hr>
                 <TextFieldGroup 
                       placeholder="First Name"
                       name='first_name'
@@ -142,6 +188,24 @@ class EditAccount extends Component {
                       onChange={this.onChange}
                       error={errors.businessTitle}
                       info="Last Name."/>
+                  <span><h4>Email Preferences</h4></span>
+                  <hr></hr>
+                  <div className="custom-control custom-switch">
+                    <input type="checkbox" className="custom-control-input" id="chapterNotification" onChange={this.chapterNotification} checked={this.state.chapterNotification} />
+                    <label className="custom-control-label" for="chapterNotification">Chapter Notifications</label>
+                  </div>
+                  <div className="custom-control custom-switch">
+                    <input type="checkbox" className="custom-control-input" id="localChapterNotification" onChange={this.localChaptersNotification} checked={this.state.localChaptersNotification} />
+                    <label className="custom-control-label" for="localChapterNotification">Local Chapter Notifications (if more than one chapter in your area)</label>
+                  </div>
+                  <div className="custom-control custom-switch">
+                    <input type="checkbox" className="custom-control-input" id="fullNetworkNotification" onChange={this.fullNetworkNotification} checked={this.state.fullNetworkNotification} />
+                    <label className="custom-control-label" for="fullNetworkNotification">Full Network Notifications</label>
+                  </div>
+                  <div className="custom-control custom-switch">
+                    <input type="checkbox" className="custom-control-input" id="commentNotification" onChange={this.commentNotification} checked={this.state.commentNotification}  />
+                    <label className="custom-control-label" for="commentNotification">Comment Notifications (weekly notice if somebody comments on a post you wrote)</label>
+                  </div>
                   <input
                     type="submit"
                     value="Update"
