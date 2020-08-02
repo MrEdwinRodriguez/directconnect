@@ -136,6 +136,7 @@ router.post('/login', (req, res) => {
 //private
 router.put('/update', passport.authenticate('jwt', { session: false }), (req, res) => {
 	console.log(req.user)
+	let authUser = null;
 	
 	try {
 		User.findOne({_id: req.user._id})
@@ -155,8 +156,25 @@ router.put('/update', passport.authenticate('jwt', { session: false }), (req, re
 
 			console.log('saving user account update')
 			user.save()
-			// .then(user => {
-				.then(user => res.json(user))
+				.then(user => {
+					authUser = user
+					authController.getProfile(user._id)
+				.then(profile => {		
+					res.json({
+						id: authUser._id,
+						name: authUser.name,
+						first_name: authUser.first_name,
+						last_name: authUser.last_name,
+						email: authUser.email,
+						profileHandle: profile && profile.handle ? profile.handle : null ,
+						profileImage : profile && profile.profileImage ? profile.profileImage : null ,
+						commentNotification: authUser.email_permissions && authUser.email_permissions.commentNotification != null && authUser.email_permissions.commentNotification != undefined ? authUser.email_permissions.commentNotification : true,
+						chapterNotification: authUser.email_permissions && authUser.email_permissions.chapterNotification != null && authUser.email_permissions.chapterNotification != undefined ? authUser.email_permissions.chapterNotification : true,
+						localChaptersNotification: authUser.email_permissions && authUser.email_permissions.localChaptersNotification != null && authUser.email_permissions.localChaptersNotification != undefined ? authUser.email_permissions.localChaptersNotification : true,
+						fullNetworkNotification: authUser.email_permissions && authUser.email_permissions.fullNetworkNotification != null && authUser.email_permissions.fullNetworkNotification != undefined  ? authUser.email_permissions.fullNetworkNotification : true, 
+					});
+					})
+				})
 			// 	return Profile.findOne({user: user._id}).populate('user').exec()
 			// })
 			// .then(profile => res.json(profile))
