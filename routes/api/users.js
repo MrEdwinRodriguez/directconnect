@@ -171,13 +171,16 @@ router.put('/update', passport.authenticate('jwt', { session: false }), (req, re
 //return current user
 //private
 router.get('/current', passport.authenticate('jwt', { session: false }), (req, res) => {
-	User.findOne({_id: req.user.id}).exec()
-	.then(user => {
+	let profile = null;
+	Profile.findOne({user: req.user.id}).exec()
+	.then(foundProfile => {
+		if(foundProfile) profile = foundProfile
+	return User.findOne({_id: req.user.id}).exec()
+	}).then(user => {
 		if (!user) { 
 			errors.nouser = "There is no user found.";
 			res.status(400). json(errors)
 		}
-
 
 		res.json({
 			id: user._id,
@@ -185,6 +188,8 @@ router.get('/current', passport.authenticate('jwt', { session: false }), (req, r
 			first_name: user.first_name,
 			last_name: user.last_name,
 			email: user.email,
+			profileHandle: profile && profile.handle ? profile.handle : null ,
+			profileImage : profile && profile.profileImage ? profile.profileImage : null ,
 			commentNotification: user.email_permissions && user.email_permissions.commentNotification != null && user.email_permissions.commentNotification != undefined ? user.email_permissions.commentNotification : true,
 			chapterNotification: user.email_permissions && user.email_permissions.chapterNotification != null && user.email_permissions.chapterNotification != undefined ? user.email_permissions.chapterNotification : true,
 			localChaptersNotification: user.email_permissions && user.email_permissions.localChaptersNotification != null && user.email_permissions.localChaptersNotification != undefined ? user.email_permissions.localChaptersNotification : true,
