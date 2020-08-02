@@ -54,11 +54,10 @@ if (process.env.NODE_ENV === 'production') {
 
 const port = process.env.PORT || 5000;
 
-// notifications.commentNotification();
 // cron job setup here
-//UTC time Every Sunday
-cron.schedule('47 15 * * Sat', function(){
-	console.log('running a task every minute');
+//Every sunday at 3:00 pm eastern
+cron.schedule('0 15 * * Sun', function(){
+	console.log('sending comment notification')
 	notifications.commentNotification();
   }, undefined, true, "US/Eastern");
 
