@@ -169,7 +169,7 @@ class ProfileHeader extends Component {
                         {isEmpty(profile.social && profile.social.twitter) ? null : (
                         <a
                             className="text-white p-2"
-                            href={profile.social.twitter}
+                            href={profile.social && profile.social.twitter ? validURL(profile.social.twitter): ""}
                             target="_blank"
                             rel="noopener noreferrer"
                             data-tip data-for="twitter"
@@ -181,7 +181,7 @@ class ProfileHeader extends Component {
                         {isEmpty(profile.social && profile.social.linkedin) ? null : (
                         <a
                             className="text-white p-2"
-                            href={profile.social.linkedin}
+                            href={profile.social && profile.social.linkedin ? validURL(profile.social.linkedin):""}
                             target="_blank"
                             rel="noopener noreferrer"
                             data-tip data-for="linkedin"
@@ -193,7 +193,7 @@ class ProfileHeader extends Component {
                         {isEmpty(profile.social && profile.social.facebook) ? null : (
                         <a
                             className="text-white p-2"
-                            href={profile.social.facebook}
+                            href={profile.social && profile.social.facebook ? validURL(profile.social.facebook ) : ""}
                             target="_blank"
                             rel="noopener noreferrer"
                             data-tip data-for="facebook"
@@ -205,7 +205,7 @@ class ProfileHeader extends Component {
                         {isEmpty(profile.social && profile.social.instagram) ? null : (
                         <a
                             className="text-white p-2"
-                            href={profile.social.instagram}
+                            href={profile.social && profile.social.instagram ? validURL(profile.social.instagram) : ""}
                             target="_blank"
                             rel="noopener noreferrer"
                             data-tip data-for="instagram"
@@ -217,7 +217,7 @@ class ProfileHeader extends Component {
                         {isEmpty(profile.social && profile.social.youtube) ? null : (
                         <a
                             className="text-white p-2"
-                            href={profile.social.youtube}
+                            href={profile.social && profile.social.youtube? validURL( profile.social.youtube) : ""}
                             target="_blank"
                             rel="noopener noreferrer"
                             data-tip data-for="youtube"
