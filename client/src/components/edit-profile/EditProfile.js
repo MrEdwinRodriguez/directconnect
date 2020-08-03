@@ -494,13 +494,13 @@ if(!this.state.lookingFor) {
           </div>
       )
   }
+    let cancelButton = user.profileHandle ? <Link to={`/myprofile/${user.profileHandle}`} className="btn btn-light">Cancel</Link> : profile && profile.handle ? <Link to={`/myprofile/${profile.handle}`} className="btn btn-light">Cancel</Link>: ""
     return (
       <div className='create-profile'>
         <div className='container'>
             <div className='row'>
                 <div className='col-md-8 m-auto'>
-                    <Link to={`/myprofile/${user.profileHandle}`} className="btn btn-light">
-                    Cancel</Link>
+                    {cancelButton}
                     <h1 className='display-4 text-center'>Edit Profile</h1>
                     <small className='d-block pb-3'>* = required fields</small>
                     <div className="row pad-10">

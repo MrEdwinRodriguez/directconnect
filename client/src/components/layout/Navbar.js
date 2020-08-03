@@ -38,9 +38,9 @@ class Navbar extends Component {
       />
     }
 
-    let navProfileLink = user && user.profileHandle ? <Link to={`/myprofile/${user.profileHandle}`} className="nav-link">Profile</Link> : "";
-    let profileLink = user && user.profileHandle ? <Link to={`/myprofile/${user.profileHandle}`} className="dropdown-item "><i className="fas fa-id-card text-royal mr-1"></i>Profile</Link> : "";
-    let editProfileLink = profile && profile._id ?<Link to="/edit-profile" className="dropdown-item"> <i className="fas fa-user-edit text-royal mr-1"></i> Edit Profile</Link> : "";
+    let navProfileLink = user && user.profileHandle ? <Link to={`/myprofile/${user.profileHandle}`} className="nav-link">Profile</Link> : profile && profile.handle ? <Link to={`/myprofile/${profile.handle}`} className="nav-link">Profile</Link>: "";
+    let profileLink = user && user.profileHandle ? <Link to={`/myprofile/${user.profileHandle}`} className="dropdown-item "><i className="fas fa-id-card text-royal mr-1"></i>Profile</Link> : profile && profile.handle ?  <Link to={`/myprofile/${profile.handle}`} className="dropdown-item "><i className="fas fa-id-card text-royal mr-1"></i> Profile</Link>: "";
+    let editProfileLink = profile && profile._id ?<Link to="/edit-profile" className="dropdown-item"> <i className="fas fa-user-edit text-royal mr-1"></i>Edit Profile</Link> : "";
     let createProfileLink = !profile|| (profile && !profile._id) ? <Link to="/create-profile" className="dropdown-item"> <i className="fas fa-user-edit text-royal mr-1"></i> Create Profile</Link> : "";
     const inNetworkLinks = (
       <ul className="navbar-nav mr-auto">
