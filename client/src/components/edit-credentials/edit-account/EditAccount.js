@@ -201,19 +201,19 @@ class EditAccount extends Component {
                   <hr></hr>
                   <div className="custom-control custom-switch">
                     <input type="checkbox" className="custom-control-input" id="chapterNotification" onChange={this.chapterNotification} checked={this.state.chapterNotification} />
-                    <label className="custom-control-label" for="chapterNotification">Chapter Notifications</label>
+                    <label className="custom-control-label" htmlFor="chapterNotification">Chapter Notifications</label>
                   </div>
                   <div className="custom-control custom-switch">
                     <input type="checkbox" className="custom-control-input" id="localChapterNotification" onChange={this.localChaptersNotification} checked={this.state.localChaptersNotification} />
-                    <label className="custom-control-label" for="localChapterNotification">Local Chapter Notifications (if more than one chapter in your area)</label>
+                    <label className="custom-control-label" htmlFor="localChapterNotification">Local Chapter Notifications (if more than one chapter in your area)</label>
                   </div>
                   <div className="custom-control custom-switch">
                     <input type="checkbox" className="custom-control-input" id="fullNetworkNotification" onChange={this.fullNetworkNotification} checked={this.state.fullNetworkNotification} />
-                    <label className="custom-control-label" for="fullNetworkNotification">Full Network Notifications</label>
+                    <label className="custom-control-label" htmlFor="fullNetworkNotification">Full Network Notifications</label>
                   </div>
                   <div className="custom-control custom-switch">
                     <input type="checkbox" className="custom-control-input" id="commentNotification" onChange={this.commentNotification} checked={this.state.commentNotification}  />
-                    <label className="custom-control-label" for="commentNotification">Comment Notifications (weekly notice if somebody comments on a post you wrote)</label>
+                    <label className="custom-control-label" htmlFor="commentNotification">Comment Notifications (weekly notice if somebody comments on a post you wrote)</label>
                   </div>
                   <input
                     type="submit"

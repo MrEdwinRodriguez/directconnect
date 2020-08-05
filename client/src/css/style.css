@@ -196,7 +196,14 @@ li .profile {
     padding-top: 50px !important;
 
  }
+
+ .fullWidth {
+     width: 100%;
+ }
  
+ .mt15 {
+    margin-top: 15px;
+ } 
  .mb15 {
     margin-bottom: 15px;
  }
