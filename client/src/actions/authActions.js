@@ -89,7 +89,21 @@ export const logoutUser = () => dispatch => {
       })
       );
   }
-        
+
+
+    export const accountResetPassword = (userData) => dispatch => {
+        axios.put('/api/users/account_reset_password', userData)
+        .then(res => 
+            dispatch({
+                type: UPDATE_USER,
+                payload: res.data
+            })) 
+        .catch(err => dispatch({
+            type: GET_ERRORS,
+            payload: err.response.data
+        })
+        );
+    }
 
   export const resetPassword = (resetData, token, history) => dispatch => {
       console.log('here', resetData)

@@ -290,4 +290,46 @@ router.put('/reset/:token', (req, res) => {
 	}
 })
 
+router.put('/account_reset_password', (req, res) => {
+	console.log('in account reset password', req)
+	const currentPassword= req.params.currentPassword;
+	const newPassword = req.body.newPassword;
+	const newPasswordConfirm = req.body.newPasswordConfirm
+	let errors = {};
+	try {
+		if (newPassword != newPasswordConfirm ) {
+			req.json({'error': 'passwords do no match'})
+		}
+		User.findOne({_id: "5f023ca97925dde34bf1431f"})
+		.then(user => {
+			if (!user) {
+				return res.json({'error': 'user not found'})
+			}
+			bcrypt.compare(currentPassword, user.password)
+			.then(isMatch => {
+				if(isMatch) {
+					//user Matched
+					bcrypt.genSalt(10, (err, salt) => {
+						bcrypt.hash(newPassword, salt, (err, hash) => {
+							if (err) throw err;
+							user.password = hash;
+							user.save()
+								.then(user => {
+									mailer.passwordReset(user)
+									res.status(200).json(user)
+								})
+								.catch(err => console.log(err));
+						})
+					})
+				} else {
+					errors.password = "Current password incorrect";
+					return res.status(400).json(errors);
+				}
+			})
+		})
+	}
+	catch (error) {
+		res.status(500).send(error+"")
+	}
+})
 module.exports = router;

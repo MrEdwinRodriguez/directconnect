@@ -17,6 +17,7 @@ import CreateProfile from './components/create-profile/CreateProfile';
 import EditProfile from './components/edit-profile/EditProfile';
 import AddExperience from './components/add-credentials/AddExperience';
 import EditAccount from './components/edit-credentials/edit-account/EditAccount';
+import AccountResetPassword from './components/edit-credentials/edit-account/ResetPassword';
 import EditExperience from './components/edit-credentials/edit-experience/EditExperience';
 import EditEducation from './components/edit-credentials/edit-education/EditEducation';
 import EditBusiness from './components/edit-credentials/edit-business/EditBusiness';
@@ -89,6 +90,9 @@ class App extends Component {
               </Switch>
               <Switch>
                 <PrivateRoute exact path="/account" component={EditAccount} />
+              </Switch>
+              <Switch>
+                <PrivateRoute exact path="/account-reset-password" component={AccountResetPassword} />
               </Switch>
               <Switch>
                 <PrivateRoute exact path="/add-experience" component={AddExperience} />
