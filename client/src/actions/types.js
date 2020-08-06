@@ -37,5 +37,6 @@ export const GET_BLOGS = "GET_BLOGS";
 export const GET_BLOG = "GET_BLOG";
 export const GET_PODCASTS = "GET_PODCASTS";
 export const GET_PODCAST = "GET_PODCAST";
+export const UPDATE_PASSWORD = "UPDATE_PASSWORD";
 export const CONTENT_LOADING = "CONTENT_LOADING";
 

@@ -291,8 +291,8 @@ router.put('/reset/:token', (req, res) => {
 })
 
 router.put('/account_reset_password', (req, res) => {
-	console.log('in account reset password', req)
-	const currentPassword= req.params.currentPassword;
+	console.log('in account reset password')
+	const currentPassword = req.body.currentPassword;
 	const newPassword = req.body.newPassword;
 	const newPasswordConfirm = req.body.newPasswordConfirm
 	let errors = {};
@@ -300,7 +300,7 @@ router.put('/account_reset_password', (req, res) => {
 		if (newPassword != newPasswordConfirm ) {
 			req.json({'error': 'passwords do no match'})
 		}
-		User.findOne({_id: "5f023ca97925dde34bf1431f"})
+		User.findOne({_id: req.body.id})
 		.then(user => {
 			if (!user) {
 				return res.json({'error': 'user not found'})
@@ -316,7 +316,7 @@ router.put('/account_reset_password', (req, res) => {
 							user.save()
 								.then(user => {
 									mailer.passwordReset(user)
-									res.status(200).json(user)
+									res.status(200).json({user: user, updated: true})
 								})
 								.catch(err => console.log(err));
 						})

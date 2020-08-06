@@ -16,6 +16,7 @@ class ResetPassword extends Component {
         current_password: '',
         new_password: '',
         confirm_new_password: '',
+        updated: false,
         errors: {},
       };
   
@@ -29,18 +30,18 @@ class ResetPassword extends Component {
     }
   
     componentWillReceiveProps(nextProps) {
-      if (nextProps.errors || !nextProps.education) {
-          this.setState({ errors: nextProps.errors });
+        console.log(nextProps)
+      if (nextProps.errors && nextProps.errors.password) {
+          this.setState({ errors: {current_password:  nextProps.errors.password} });
       }
-      if(nextProps && nextProps.auth && nextProps.auth.user) {
-          let user = nextProps.auth.user;
-          this.setState({
-              first_name: user.first_name,
-              last_name: user.last_name,
-              id: user._id,
-              updated: user.updated ? user.updated : false,
-        })
-  
+      if(nextProps.auth  && nextProps.auth.updated) {
+        this.setState({ 
+            updated: true, 
+            current_password: "",
+            new_password: "",
+            confirm_new_password: "",
+            errors: {}
+        });
       }
     }
   
@@ -76,16 +77,16 @@ class ResetPassword extends Component {
             this.setState({ errors: {confirm_new_password:  "Password confirm does not match new password"} })
             return false;
         }
-    
-      const passwordData = {
-          currentPassword: this.state.current_password,
-          newPassword: this.state.new_password,
-          newPasswordConfirm: this.state.confirm_new_password,
-          id: this.state.id,
-      }
-      console.log(passwordData)
+        let userId = this.props.auth.user && this.props.auth.user.id ? this.props.auth.user.id : this.props.auth.user._id; 
+        const passwordData = {
+            currentPassword: this.state.current_password,
+            newPassword: this.state.new_password,
+            newPasswordConfirm: this.state.confirm_new_password,
+            id: userId,
+        }
+        console.log(passwordData)
   
-      this.props.accountResetPassword(passwordData);
+        this.props.accountResetPassword(passwordData);
     }
   
     onChange(e) {
