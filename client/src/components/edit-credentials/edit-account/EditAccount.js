@@ -224,9 +224,12 @@ class EditAccount extends Component {
               </div>
             </div>
           </div>
+          <div className='col-md-8 m-auto'> 
+            <Link to="/account-reset-password" className="btn btn-info  mt15 mb15">Reset Password</Link>
+          </div>
           {modal}
-          <div className='center' style={{marginTop: '100px'}} >
-            <button onClick={this.onOpenModal.bind(this, this.props.auth.user.id)} className='btn  btn-info'>
+          <div className='col-md-8 m-auto' >
+            <button onClick={this.onOpenModal.bind(this, this.props.auth.user.id)} className='btn  btn-danger mt15'>
                 Delete My Account
             </button>
           </div>

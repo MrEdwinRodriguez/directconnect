@@ -316,7 +316,13 @@ router.put('/account_reset_password', (req, res) => {
 							user.save()
 								.then(user => {
 									mailer.passwordReset(user)
-									res.status(200).json({user: user, updated: true})
+									let userObject = authController.sanitizeUserObject(user)
+									authController.getProfile((user._id))
+									.then(profile => {
+										userObject.profileHandle = profile.handle;
+										userObject.profileImage = profile.profileImage;
+										res.status(200).json({user: userObject, updated: true})
+									})
 								})
 								.catch(err => console.log(err));
 						})

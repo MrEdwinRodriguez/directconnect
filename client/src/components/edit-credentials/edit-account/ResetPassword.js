@@ -98,7 +98,13 @@ class ResetPassword extends Component {
     }
 
     render() {
-      const { errors } = this.state;
+      const { errors} = this.state;
+      const { auth } = this.props;
+
+      let profileLink = <div></div>
+      if(auth && auth.user && auth.user.profileHandle) {
+          profileLink = <Link to={`/myprofile/${auth.user.profileHandle}`} className="btn btn-light">To Profile </Link>
+      }
 
       if (this.state.updated) {
         setTimeout(this.updated, 5000)
@@ -108,10 +114,11 @@ class ResetPassword extends Component {
           <div className="container">
             <div className="row">
               <div className="col-md-8 m-auto">
-                <Link to="/dashboard" className="btn btn-light">
-                  Go Back
+                <Link to="/account" className="btn btn-light">
+                    To Account
                 </Link>
-                { this.state.updated ? <div className= "alert alert-success">Account has been updated.</div> : <div></div>}
+                {profileLink}
+                { this.state.updated ? <div className= "alert alert-success">Your password has been changed.</div> : <div></div>}
                 <h1 className="display-4 text-center">Reset Password</h1>
                 <small className="d-block pb-3">* = required fields</small>
                 <form onSubmit={this.onSubmit}>
