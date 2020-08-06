@@ -10,6 +10,8 @@ const validateRegistrationInput = require('../../validation/register');
 const validateLoginInput = require('../../validation/login');
 const User = require('../../models/User');
 const Profile = require('../../models/Profile');
+const Chapter = require('../../models/Chapter');
+const Orginization = require('../../models/Orginization');
 const mailer = require('../../controllers/emails');
 const authController = require('../../controllers/auth-controller');
 
@@ -22,7 +24,8 @@ router.get('/test', (req,res) => res.json({msg: "Users works"}));
 router.post('/register', (req, res) => {
 	console.log('in /register')
 	const { errors, isValid } = validateRegistrationInput(req.body);
-
+	let chapter = null;
+	let email = null;
 	//check Validation
 	if(!isValid) {
 		return res.status(400).json(errors);
@@ -34,10 +37,12 @@ router.post('/register', (req, res) => {
 	if (inviteCodeArray.indexOf(inviteCodeEntered) == -1) {
 		return res.status(400).json(errors.name = "Enter a Valid Invite Code")
 	}
-
-	let email = req.body.email.toLowerCase()
-	User.findOne({email : email })
-	.then(user => {
+	Chapter.findOne({invite_code : inviteCodeEntered }).lean().exec()
+	.then(oChapter => {
+		chapter = oChapter;
+		email = req.body.email.toLowerCase()
+		return User.findOne({email : email })
+	}).then(user => {
 		if (user) {
 			errors.email = "Email already exists";
 			return res.status(400).json(errors);
@@ -50,6 +55,8 @@ router.post('/register', (req, res) => {
 			const newUser = new User({
 				first_name: req.body.first_name,
 				last_name: req.body.last_name,
+				orginization: chapter.orginization,
+				chapter: [chapter._id],
 				name: req.body.first_name + " " + req.body.last_name,
 				email: email,
 				inviteCode: inviteCodeEntered,

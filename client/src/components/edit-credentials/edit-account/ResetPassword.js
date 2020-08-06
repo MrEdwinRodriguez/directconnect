@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { accountResetPassword, getCurrentUser } from '../../../actions/authActions';
 import '../../../css/style.css';
-import { thistle } from 'color-name';
 
 
 
@@ -34,7 +33,7 @@ class ResetPassword extends Component {
       if (nextProps.errors && nextProps.errors.password) {
           this.setState({ errors: {current_password:  nextProps.errors.password} });
       }
-      if(nextProps.auth  && nextProps.auth.updated) {
+      if(nextProps.auth && nextProps.auth.updated) {
         this.setState({ 
             updated: true, 
             current_password: "",
