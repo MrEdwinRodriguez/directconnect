@@ -101,7 +101,11 @@ router.post('/login', (req, res) => {
 			errors.email = "User not found";
 			return res.status(404).json(errors);
 		}
+		user.last_login = new Date();
 		authUser = user;
+		console.log('line 106')
+		user.save()}).then(function(user) {
+			console.log('line 108')
 		return Profile.findOne({user: authUser._id}).lean().exec()
 	})
 	.then(profile => {
@@ -119,6 +123,7 @@ router.post('/login', (req, res) => {
 						profileImage : authProfile && authProfile.profileImage ? authProfile.profileImage : null ,
 					};
 					//Sign Token
+					console.log('line 126')
 					jwt.sign(
 						payload, 
 						keys.secretOrKey, 

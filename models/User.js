@@ -20,7 +20,8 @@ const UserSchema = new Schema ({
 		chapterNotification: { type: Boolean, required: true, default: true},
 		localChaptersNotification : { type: Boolean, required: true, default: true},
 		fullNetworkNotification: { type: Boolean, required: true, default: true},
-	}
+	},
+	last_login: { type: Date, default: Date.now},
 
 });
 
