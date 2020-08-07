@@ -14,6 +14,7 @@ const content = require('./routes/api/content');
 const path = require('path');
 var cron = require('node-cron');
 var notifications = require('./controllers/notifications');
+var updateUserCollection = require('./updateUserModelScript');
 
 const app = express();
 
@@ -62,4 +63,5 @@ cron.schedule('0 15 * * Sun', function(){
   }, undefined, true, "US/Eastern");
 
 
+updateUserCollection.updateUserCollection()
 app.listen(port, () => console.log(`Server running on port ${port}`));
