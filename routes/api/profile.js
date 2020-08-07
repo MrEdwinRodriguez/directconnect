@@ -70,15 +70,15 @@ router.get('/', passport.authenticate('jwt', {session: false }), (req, res) => {
 //public
 router.get('/all', (req, res) => {
 	const errors = {};
-
 	Profile.find()
-		.populate('user', ['name', 'avatar'])
+		.populate('user', ['name', 'email', 'avatar', 'last_name', 'first_name']).lean()
 		.then(profiles => {
 			if(!profiles) {
 				errors.noprofile = "There are no profiles";
-				return res.status(404).json(errors)
+			return res.status(404).json(errors)
 			}
-			return res.json(profiles)
+			let sortedProfiles = utils.sortProfileByUserName(profiles)
+			return res.json(sortedProfiles)
 		})
 		.catch(err => res.status(404).json({profile: "There is no profiles"}));
 });
@@ -90,13 +90,14 @@ router.get('/orginization/:orginization', (req, res) => {
 	const errors = {};
 
 	Profile.find({ orginization: req.params.orginization })
-		.populate('user', ['name', 'avatar', 'email'])
+		.populate('user', ['name', 'avatar', 'email', 'last_name', 'first_name'])
 		.then(profiles => {
 			if(!profiles) {
 				errors.noprofile = "There are no profiles for this orginization";
 				res.status(400). json(errors)
 			}
-			res.json(profiles)
+			let sortedProfiles = utils.sortProfileByUserName(profiles)
+			return res.json(sortedProfiles)
 		})
 		.catch(err => res.status(404).json(err));
 
@@ -158,12 +159,13 @@ router.get('/search/:criteria', passport.authenticate('jwt', {session: false }),
 		if (included_user_ids.length > 0) {
 			profile_parameters.$or.push({user: {$in: included_user_ids}})
 		}
-		return Profile.find(profile_parameters).populate('user', ['name']).lean().exec()
+		return Profile.find(profile_parameters).populate('user', ['name', 'first_name', 'last_name']).lean().exec()
 		.then(profiles => {
 			if(!profiles || profiles == null) {
 				res.json({noprofiles: "There were no profiles found for "+criteria})
 			}
-			res.json(profiles)
+			let sortedProfiles = utils.sortProfileByUserName(profiles)
+			return res.json(sortedProfiles)
 		})
 	})
 	.catch(err => res.status(404).json(err));
