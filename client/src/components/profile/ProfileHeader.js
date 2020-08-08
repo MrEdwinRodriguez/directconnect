@@ -130,7 +130,7 @@ class ProfileHeader extends Component {
                     <h3 className="display-5 text-center">{profile && profile.user ? profile.user.name : ""}</h3>
                     <p className="lead text-center">{profile.title} {isEmpty(profile.company) ? null : (<span>@ {profile.company}</span>)}</p>
                     {isEmpty(profile.location) ? null : (<p>{profile.location}</p>)}
-                    <p className="lead text-center">{profile && profile.user ? profile.user.email : ""}</p>
+                    <p className="lead text-center"><a className="text-white" href={profile && profile.user ? 'mailto:'+profile.user.email : "#"}>{profile && profile.user ? profile.user.email : ""}</a></p>
                     <p>
                         {profile.website || profile.hasBlog || profile.hasPodcast || (profile.social && (profile.social.twitter || profile.social.instagram || profile.social.facebook || profile.social.youtube || profile.social.linkedin)) ? <p>Connect with {profile.user.name}: </p> : ""}
                         {profile.website ? (
