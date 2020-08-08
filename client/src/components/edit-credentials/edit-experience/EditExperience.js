@@ -55,7 +55,7 @@ class EditExperience extends Component {
             title: currentExperience.title,
             location: currentExperience.location,
             from: formatDate(currentExperience.from),
-            to: formatDate(currentExperience.to),
+            to: currentExperience.to ? formatDate(currentExperience.to) : "",
             current: currentExperience.current,
             description: currentExperience.description
         })
@@ -65,7 +65,7 @@ class EditExperience extends Component {
   
     onSubmit(e) {
       e.preventDefault();
-  
+
       const expData = {
           company: this.state.company,
           title: this.state.title,

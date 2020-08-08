@@ -56,7 +56,7 @@ class EditEducation extends Component {
             degree: currentEducation.degree,
             fieldofstudy: currentEducation.fieldofstudy,
             from: formatDate(currentEducation.from),
-            to: formatDate(currentEducation.to),
+            to: currentEducation.to ? formatDate(currentEducation.to) : "",
             current: currentEducation.current,
             description: currentEducation.description
         })

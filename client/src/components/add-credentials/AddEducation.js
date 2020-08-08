@@ -77,6 +77,16 @@ class AddEducation extends Component {
     // same as const errors = this.state.errors
     const { errors } = this.state;
 
+    let toInput = <div> <h6>To Date</h6>
+    <DatePickerGroup
+      name=""
+      placeholder="MM/YYYY"
+      value={this.state.to}
+      onChange={this.onChangeTo}
+      dateFormat="MM/yyyy"
+      showMonthYearPicker
+    /></div>
+
     return (
       <div className="add-education">
         <div className="container">
@@ -121,15 +131,7 @@ class AddEducation extends Component {
                   dateFormat="MM/yyyy"
                   showMonthYearPicker
                 />
-                <h6>To Date</h6>
-                <DatePickerGroup
-                  name=""
-                  placeholder="MM/YYYY"
-                  value={this.state.to}
-                  onChange={this.onChangeTo}
-                  dateFormat="MM/yyyy"
-                  showMonthYearPicker
-                />
+                {!this.state.current ? toInput : ""}
                 <div className="form-check mb-4">
                   <input
                     type="checkbox"
