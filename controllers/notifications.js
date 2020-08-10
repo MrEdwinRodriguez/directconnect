@@ -58,3 +58,74 @@ function commentNotification () {
 
 }
 exports.commentNotification  = commentNotification;
+
+//sendingChapter chapter ID
+//include array of chapters to include in email.  Including sendingFrom chapter
+//include is optional
+// function getEmailAddress (sendTo, sendingChapter, include) {
+
+//     let emails = null;
+//     if(sendTo == 'chapter') {
+//         emails = getChapterEmails(sendingChapter)
+//         .then(emails => {
+//             return emails
+//         })
+//     } else if (sendTo == 'linked') {
+//         emails = getLinkedChapterEmails(include)
+//         .then(emails => {
+//             return emails
+//         })
+//     } else if (sendTo == 'local') {
+//         emails = getLocalChapterEmails()
+//         .then(emails => {
+//             return emails
+//         })
+//     } else {
+//         emails = getFullNetworkEmails()
+//         .then(emails => {
+//             return emails
+//         })
+//     }
+    
+// }
+
+function getChapterEmails (chapter) {
+    return new Promise(function (resolve, reject) {
+    User.find({ chapter: chapter, "email_permissions.chapterNotification": true }).exec()
+    .then(users => {
+        return users;
+    })
+    return resolve (users);
+    })
+}
+
+function getLinkedChapterEmails () {
+    return new Promise(function (resolve, reject) {
+        User.find({ chapter: { $in: include }, "email_permissions.linkedChapterNotification": true }).exec()
+        .then(users => {
+            return users;
+        })
+        return resolve (users);
+        })
+}
+
+function getLocalChapterEmails () {
+    return new Promise(function (resolve, reject) {
+        User.find({ chapter: { $in: include }, "email_permissions.localChaptersNotification": true }).exec()
+        .then(users => {
+            return users;
+        })
+        return resolve (users);
+        })
+
+}
+
+function getFullNetworkEmails () {
+    return new Promise(function (resolve, reject) {
+        User.find({ chapter: { $in: include }, "email_permissions.fullNetworkNotification": true }).exec()
+        .then(users => {
+            return users;
+        })
+        return resolve (users);
+        })
+}

@@ -18,10 +18,13 @@ const UserSchema = new Schema ({
 	email_permissions : {
 		commentNotification : { type: Boolean, required: true, default: true},
 		chapterNotification: { type: Boolean, required: true, default: true},
+		linkedChapterNotification: { type: Boolean, required: true, default: true},
 		localChaptersNotification : { type: Boolean, required: true, default: true},
 		fullNetworkNotification: { type: Boolean, required: true, default: true},
 	},
 	last_login: { type: Date, default: Date.now},
+	is_admin: { type: Boolean, default: false},
+	is_org_officer: { type: Boolean, default: false},
 
 });
 
