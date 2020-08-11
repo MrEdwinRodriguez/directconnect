@@ -27,6 +27,7 @@ import AddHiring from './components/hiring/AddHiring';
 import EditHiring from './components/hiring/EditHiring';
 import Profiles from './components/profiles/Profiles';
 import Profile from './components/profile/Profile';
+import SendEmail from './components/email/SendEmail';
 import NotFound from './components/not-found/NotFound';
 import Posts from './components/posts/Posts';
 import Post from './components/post/Post';
@@ -120,6 +121,9 @@ class App extends Component {
               </Switch>
               <Switch>
                 <PrivateRoute exact path="/profiles" component={Profiles} />
+              </Switch>
+              <Switch>
+                <PrivateRoute exact path="/send-email" component={SendEmail} />
               </Switch>
               <Switch>
                 <PrivateRoute exact path="/profiles/orginization/phi_beta_sigma" component={Profiles} />

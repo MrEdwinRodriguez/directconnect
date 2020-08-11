@@ -11,6 +11,7 @@ const hire = require('./routes/api/hire');
 const pinned = require('./routes/api/pinned');
 const business = require('./routes/api/business');
 const content = require('./routes/api/content');
+const orginization = require('./routes/api/orginization');
 const path = require('path');
 var cron = require('node-cron');
 var notifications = require('./controllers/notifications');
@@ -42,6 +43,7 @@ app.use('/api/hire', hire);
 app.use('/api/business', business);
 app.use('/api/pinned', pinned);
 app.use('/api/content', content);
+app.use('/api/orginization', orginization);
 
 //serve static assets in production
 if (process.env.NODE_ENV === 'production') {

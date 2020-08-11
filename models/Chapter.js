@@ -3,6 +3,8 @@ const Schema = mongoose.Schema;
 
 const ChapterSchema = new Schema ({
     orginization: { type: Schema.Types.ObjectId, ref: 'orginization' },
+    linkedChapter: { type: Schema.Types.ObjectId, ref: 'chapter' },
+    region: { type: String, required: true},
 	name: { type: String, required: true},
 	value: { type: String, required: true},
     chartered: { type: String, required: true},

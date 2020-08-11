@@ -31,6 +31,8 @@ function sanitizeUserObject(user) {
 	userObject.name = user.name;
 	userObject.email = user.email;
 	userObject.viewed_pinned_messages = user.viewed_pinned_messages;
+	userObject.is_admin = user.is_admin;
+	userObject.is_org_officer = user.is_org_officer;
 	userObject.email_permissions= user.email_permissions;
 	return userObject
 }

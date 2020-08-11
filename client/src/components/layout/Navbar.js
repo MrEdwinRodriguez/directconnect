@@ -41,6 +41,7 @@ class Navbar extends Component {
     let navProfileLink = user && user.profileHandle ? <Link to={`/myprofile/${user.profileHandle}`} className="nav-link">Profile</Link> : profile && profile.handle ? <Link to={`/myprofile/${profile.handle}`} className="nav-link">Profile</Link>: "";
     let profileLink = user && user.profileHandle ? <Link to={`/myprofile/${user.profileHandle}`} className="dropdown-item "><i className="fas fa-id-card text-royal mr-1"></i>Profile</Link> : profile && profile.handle ?  <Link to={`/myprofile/${profile.handle}`} className="dropdown-item "><i className="fas fa-id-card text-royal mr-1"></i> Profile</Link>: "";
     let editProfileLink = profile && profile._id ?<Link to="/edit-profile" className="dropdown-item"> <i className="fas fa-user-edit text-royal mr-1"></i>Edit Profile</Link> : "";
+    let sendEmail = user && (user.is_admin || user.is_org_officer) ? <Link to="/send-email" className="dropdown-item"> <i className="fas fa-user-edit text-royal mr-1"></i>Send Email</Link> : "";
     let createProfileLink = !profile|| (profile && !profile._id) ? <Link to="/create-profile" className="dropdown-item"> <i className="fas fa-user-edit text-royal mr-1"></i> Create Profile</Link> : "";
     const inNetworkLinks = (
       <ul className="navbar-nav mr-auto">
@@ -110,6 +111,7 @@ class Navbar extends Component {
             {profileLink}
             {editProfileLink}
             {createProfileLink}
+            {sendEmail}
             <Link to="/account" className="dropdown-item ">
               <i className="fas fa-user-circle text-royal mr-1"></i>
             Account

@@ -119,6 +119,8 @@ router.post('/login', (req, res) => {
 						first_name: authUser.first_name,
 						last_name: authUser.last_name,
 						inviteCode: authUser.inviteCode,
+						is_admin: authUser.is_admin ? authUser.is_admin : false,
+						is_org_officer: authUser.is_org_officer ? authUser.is_org_officer : false,
 						profileHandle: authProfile && authProfile.handle ? authProfile.handle : null,
 						profileImage : authProfile && authProfile.profileImage ? authProfile.profileImage : null ,
 					};
@@ -219,6 +221,8 @@ router.get('/current', passport.authenticate('jwt', { session: false }), (req, r
 			first_name: user.first_name,
 			last_name: user.last_name,
 			email: user.email,
+			is_admin: user.is_admin,
+			is_org_officer: user.is_org_officer,
 			profileHandle: profile && profile.handle ? profile.handle : null ,
 			profileImage : profile && profile.profileImage ? profile.profileImage : null ,
 			commentNotification: user.email_permissions && user.email_permissions.commentNotification != null && user.email_permissions.commentNotification != undefined ? user.email_permissions.commentNotification : true,
