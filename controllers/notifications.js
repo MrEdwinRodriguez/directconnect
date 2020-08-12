@@ -75,12 +75,17 @@ exports.commentNotification  = commentNotification;
 //         .then(emails => {
 //             return emails
 //         })
-//     } else if (sendTo == 'local') {
-//         emails = getLocalChapterEmails()
+//     } else if (sendTo == 'region') {
+//         emails = getRegionChapterEmails()
 //         .then(emails => {
 //             return emails
 //         })
-//     } else {
+    //   } else if (sendTo == 'region_orginization') {
+//         emails = getRegionOrginizationChapterEmails()
+//         .then(emails => {
+//             return emails
+//         })
+//      } else {
 //         emails = getFullNetworkEmails()
 //         .then(emails => {
 //             return emails
@@ -109,7 +114,18 @@ function getLinkedChapterEmails () {
         })
 }
 
-function getLocalChapterEmails () {
+function getRegionOrginizationChapterEmails () {
+    return new Promise(function (resolve, reject) {
+        User.find({ chapter: { $in: include }, "email_permissions.localChaptersNotification": true }).exec()
+        .then(users => {
+            return users;
+        })
+        return resolve (users);
+        })
+
+}
+
+function getRegionChapterEmails () {
     return new Promise(function (resolve, reject) {
         User.find({ chapter: { $in: include }, "email_permissions.localChaptersNotification": true }).exec()
         .then(users => {

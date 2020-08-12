@@ -9,6 +9,7 @@ import contentReducer from './contentReducer';
 import positionReducer from './positionReducer';
 import businessReducer from './businessReducer';
 import hireReducer from './hireReducer';
+import orginizationReducer from './orginizationReducer';
 
 export default combineReducers({
     auth: authReducer,
@@ -21,4 +22,5 @@ export default combineReducers({
     post: postReducer,
     position: positionReducer,
     business: businessReducer,
+    orginization: orginizationReducer,
 })

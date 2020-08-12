@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import TextFieldGroup from '../common/TextFieldGroup';
 import TextAreaFieldGroup from '../common/TextAreaFieldGroup';
 import SelectListGroup from '../common/SelectListGroup';
-import { getProfiles } from '../../actions/profileActions';
+import { getUserAssociatedChapters } from '../../actions/orginizationActions';
 
 
 class SendEmail extends Component {
@@ -18,7 +18,7 @@ class SendEmail extends Component {
       }
 
     componentDidMount () {
-        
+        this.props.getUserAssociatedChapters();
     }
     componentWillUpdate() {
         console.log(this)
@@ -26,15 +26,22 @@ class SendEmail extends Component {
 
 
   render() {
-    const { errors } = this.state;
+    const { errors} = this.state;
     const { user } = this.props.auth;
-    let chapters = [
-        {label: "* Chapters", value: 0},
-        {label: "Iota Rho", value: "iota_rho"},
-        {label: "Gamma Delta Sigma", value: "gamma_delta_sigma"},
-        {label: "Sigma Epsilon", value: "sigma_epsilon"},
-        {label: "Epsilon Zeta Zeta", value: "epsilon_zeta_zeta"}
-    ];
+    let chapterInfo = this.props.orginization.chapter && this.props.orginization.chapter[0] ? this.props.orginization.chapter[0] : "";
+    console.log(chapterInfo)
+    let chapterName = chapterInfo.name;
+    let chapters = [];
+    if (chapterInfo) {
+        chapters = [
+            {label: "Send To: ", value: 0},
+            {label: chapterName, value: 'chapter'},
+            {label: chapterName + " and " + chapterInfo.linkedChapter.name , value: 'linked'},
+            {label: chapterInfo.orginization.name + " ("+ chapterInfo.region + ") "  , value: 'region'},
+            {label: chapterInfo.orginization.name + " and " + chapterInfo.linkedChapter.orginization.name + " ("+ chapterInfo.region + ") " , value: 'region_orginization'},
+            {label: "Full Network", value: 'full_network'},
+        ];
+    }
     let displaySendEmail = <h1>You do no have Email Permisions </h1>
     if (user.is_admin || user.is_org_officer) {
         displaySendEmail = 
@@ -94,7 +101,8 @@ SendEmail.propTypes = {
 
 const mapStateToProps = state => ({
     profile: state.profile,
-    auth: state.auth
+    auth: state.auth,
+    orginization: state.orginization
 })
 
-export default connect(mapStateToProps, { getProfiles})(SendEmail);
+export default connect(mapStateToProps, { getUserAssociatedChapters})(SendEmail);
