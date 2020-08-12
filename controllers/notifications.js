@@ -1,4 +1,6 @@
 const Post = require('../models/Post');
+const Chapter = require('../models/Chapter');
+const User = require('../models/User');
 const Emails = require('./emails');
 
 function commentNotification () {
@@ -59,89 +61,42 @@ function commentNotification () {
 }
 exports.commentNotification  = commentNotification;
 
-//sendingChapter chapter ID
-//include array of chapters to include in email.  Including sendingFrom chapter
-//include is optional
-// function getEmailAddress (sendTo, sendingChapter, include) {
-
-//     let emails = null;
-//     if(sendTo == 'chapter') {
-//         emails = getChapterEmails(sendingChapter)
-//         .then(emails => {
-//             return emails
-//         })
-//     } else if (sendTo == 'linked') {
-//         emails = getLinkedChapterEmails(include)
-//         .then(emails => {
-//             return emails
-//         })
-//     } else if (sendTo == 'region') {
-//         emails = getRegionChapterEmails()
-//         .then(emails => {
-//             return emails
-//         })
-    //   } else if (sendTo == 'region_orginization') {
-//         emails = getRegionOrginizationChapterEmails()
-//         .then(emails => {
-//             return emails
-//         })
-//      } else {
-//         emails = getFullNetworkEmails()
-//         .then(emails => {
-//             return emails
-//         })
-//     }
-    
-// }
-
-function getChapterEmails (chapter) {
+function getEmailAddresses (sendingChapter, chapters, orginization, region) {
     return new Promise(function (resolve, reject) {
-    User.find({ chapter: chapter, "email_permissions.chapterNotification": true }).exec()
-    .then(users => {
-        return users;
-    })
-    return resolve (users);
+        console.log('getEmailAddress', sendingChapter, chapters, orginization, region)
+        let chapterParameters = {};
+        let userParameters = {}
+        if (chapters) {
+            chapterParameters._id = {$in: chapters};
+            userParameters['email_permissions.linkedChapterNotificationn']= true;
+        } else if (sendingChapter) {
+            chapterParameters._id = sendingChapter;
+            userParameters['email_permissions.localChaptersNotification']= true;
+        }
+        if (region) {
+            chapterParameters.region = region;
+            userParameters['email_permissions.localChaptersNotification']= true;
+        }
+        if (orginization) {
+            chapterParameters.orginization = orginization;
+            userParameters['email_permissions.localChaptersNotification']= true;
+        }
+        Chapter.find(chapterParameters).exec()
+        .then(chapters => {
+            let chapterIds = chapters.map(chapter => {
+                return chapter._id
+            })
+            userParameters.chapter = {$in: chapterIds}
+            return User.find(userParameters, {email: 1, first_name: 1, last_name: 1, email_permissions: 1})
+            }).then(aUsers => {
+                console.los('users found: ', aUsers)
+            return resolve(aUsers);
+        })
     })
 }
 
-function getLinkedChapterEmails () {
-    return new Promise(function (resolve, reject) {
-        User.find({ chapter: { $in: include }, "email_permissions.linkedChapterNotification": true }).exec()
-        .then(users => {
-            return users;
-        })
-        return resolve (users);
-        })
-}
+exports.getEmailAddresses  = getEmailAddresses;
 
-function getRegionOrginizationChapterEmails () {
-    return new Promise(function (resolve, reject) {
-        User.find({ chapter: { $in: include }, "email_permissions.localChaptersNotification": true }).exec()
-        .then(users => {
-            return users;
-        })
-        return resolve (users);
-        })
 
-}
 
-function getRegionChapterEmails () {
-    return new Promise(function (resolve, reject) {
-        User.find({ chapter: { $in: include }, "email_permissions.localChaptersNotification": true }).exec()
-        .then(users => {
-            return users;
-        })
-        return resolve (users);
-        })
 
-}
-
-function getFullNetworkEmails () {
-    return new Promise(function (resolve, reject) {
-        User.find({ chapter: { $in: include }, "email_permissions.fullNetworkNotification": true }).exec()
-        .then(users => {
-            return users;
-        })
-        return resolve (users);
-        })
-}

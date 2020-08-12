@@ -4,24 +4,43 @@ import PropTypes from 'prop-types';
 import TextFieldGroup from '../common/TextFieldGroup';
 import TextAreaFieldGroup from '../common/TextAreaFieldGroup';
 import SelectListGroup from '../common/SelectListGroup';
-import { getUserAssociatedChapters } from '../../actions/orginizationActions';
+import { getUserAssociatedChapters, sendEmail } from '../../actions/orginizationActions';
 
 
 class SendEmail extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            search: '',
-            update: false,
+            sendTo: '',
+            email_subject: "",
+            email_content: "",
             errors: {},
           };
+          this.onSumitEmail = this.onSumitEmail.bind(this);
+          this.onChange = this.onChange.bind(this);
       }
 
     componentDidMount () {
         this.props.getUserAssociatedChapters();
     }
     componentWillUpdate() {
-        console.log(this)
+    }
+
+    onSumitEmail(e) {
+        e.preventDefault();
+        console.log('here ', this.state)
+        const emailData = {
+            subject: this.state.email_subject,
+            content: this.state.email_content,
+            sendTo: this.state.sendTo,
+        }
+        console.log(emailData)
+        this.props.sendEmail(emailData, this.props.history);
+    }
+
+    onChange(e) {
+        console.log(e.target.name, e.target.value)
+        this.setState({[e.target.name]: e.target.value})
     }
 
 
@@ -39,22 +58,22 @@ class SendEmail extends Component {
             {label: chapterName + " and " + chapterInfo.linkedChapter.name , value: 'linked'},
             {label: chapterInfo.orginization.name + " ("+ chapterInfo.region + ") "  , value: 'region'},
             {label: chapterInfo.orginization.name + " and " + chapterInfo.linkedChapter.orginization.name + " ("+ chapterInfo.region + ") " , value: 'region_orginization'},
-            {label: "Full Network", value: 'full_network'},
+            // {label: "Full Network", value: 'full_network'}, //uncomment after more chapters are added
         ];
     }
     let displaySendEmail = <h1>You do no have Email Permisions </h1>
     if (user.is_admin || user.is_org_officer) {
         displaySendEmail = 
         <div className="col-md-12">
-            <form onSubmit={this.onSubmit}>
-            <SelectListGroup 
-                        placeholder="Chapter"
-                        name='chapter'
-                        value={this.state.chapter}
-                        onChange={this.onChange}
-                        options={chapters}
-                        error={errors.chapter}
-                        info="What chapter did you pledge?"/>
+            <form onSubmit={this.onSumitEmail}>
+                <SelectListGroup 
+                    placeholder="Send To"
+                    name='sendTo'
+                    value={this.state.sendTo}
+                    onChange={this.onChange}
+                    options={chapters}
+                    error={errors.sendTo}
+                    info="Who is the email being sent to?"/>
                 <TextFieldGroup 
                     placeholder="Subject"
                     name="email_subject"
@@ -71,7 +90,7 @@ class SendEmail extends Component {
                     info="Content of the Email."/>
                 <input
                   type="submit"
-                  value="Edit Position"
+                  value="Send Email"
                   className="btn btn-royal btn-block text-white mt-4"
                 />
               </form>
@@ -94,10 +113,6 @@ class SendEmail extends Component {
   }
 }
 
-SendEmail.propTypes = {
-    getProfiles: PropTypes.func.isRequired,
-    profile: PropTypes.object.isRequired
-}
 
 const mapStateToProps = state => ({
     profile: state.profile,
@@ -105,4 +120,4 @@ const mapStateToProps = state => ({
     orginization: state.orginization
 })
 
-export default connect(mapStateToProps, { getUserAssociatedChapters})(SendEmail);
+export default connect(mapStateToProps, { getUserAssociatedChapters, sendEmail })(SendEmail);

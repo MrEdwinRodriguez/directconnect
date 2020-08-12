@@ -205,7 +205,7 @@ class EditAccount extends Component {
                   </div>
                   <div className="custom-control custom-switch">
                     <input type="checkbox" className="custom-control-input" id="localChapterNotification" onChange={this.localChaptersNotification} checked={this.state.localChaptersNotification} />
-                    <label className="custom-control-label" htmlFor="localChapterNotification">Local Chapter Notifications (if more than one chapter in your area)</label>
+                    <label className="custom-control-label" htmlFor="localChapterNotification">Local Chapters Notifications (if more than one chapter in your area)</label>
                   </div>
                   <div className="custom-control custom-switch">
                     <input type="checkbox" className="custom-control-input" id="fullNetworkNotification" onChange={this.fullNetworkNotification} checked={this.state.fullNetworkNotification} />

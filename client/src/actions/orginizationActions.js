@@ -16,5 +16,17 @@ export const getUserAssociatedChapters = () => dispatch => {
             }))
  }
 
+ //add business
+export const sendEmail = (emailData, history) => dispatch => {
+    axios
+        .post("api/orginization/sendEmail", emailData)
+        .then(res => history.push("/send-email"))
+        .catch(err => 
+            dispatch({
+                type: GET_ERRORS,
+                payload: err.response.data
+            })
+            );
+}
 
 
