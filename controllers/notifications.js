@@ -67,19 +67,19 @@ function getEmailAddresses (sendingChapter, chapters, orginization, region) {
         let chapterParameters = {};
         let userParameters = {}
         if (chapters) {
-            chapterParameters._id = {$in: chapters};
-            userParameters['email_permissions.linkedChapterNotificationn']= true;
+            chapterParameters._id = {$in: chapters}; 
+            userParameters['email_permissions.linkedChapterNotification']= {$ne: false};
         } else if (sendingChapter) {
             chapterParameters._id = sendingChapter;
-            userParameters['email_permissions.localChaptersNotification']= true;
+            userParameters['email_permissions.chapterNotification']= {$ne: false};
         }
         if (region) {
             chapterParameters.region = region;
-            userParameters['email_permissions.localChaptersNotification']= true;
+            userParameters['email_permissions.localChaptersNotification']= {$ne: false};
         }
         if (orginization) {
             chapterParameters.orginization = orginization;
-            userParameters['email_permissions.localChaptersNotification']= true;
+            userParameters['email_permissions.localChaptersNotification']= {$ne: false};
         }
         Chapter.find(chapterParameters).exec()
         .then(chapters => {
@@ -89,14 +89,16 @@ function getEmailAddresses (sendingChapter, chapters, orginization, region) {
             userParameters.chapter = {$in: chapterIds}
             return User.find(userParameters, {email: 1, first_name: 1, last_name: 1, email_permissions: 1})
             }).then(aUsers => {
-                console.log('users found: ', aUsers)
-            return resolve(aUsers);
+                let emailList = [];
+                aUsers.forEach(user => {
+                    emailList.push(user.email);
+                })
+                console.log('email list: ', emailList)
+                return resolve(emailList);
         })
     })
 }
 
 exports.getEmailAddresses  = getEmailAddresses;
-
-
 
 

@@ -150,3 +150,40 @@ function sendCommentNotifications(user, listString) {
 }
 
 exports.sendCommentNotifications = sendCommentNotifications;
+
+function adminSendEmail(emails, email_subject, html_content) {
+    return new Promise(function (resolve, reject) {
+        console.log('in admin send email')
+        const transporter = nodemailer.createTransport({
+            host: "smtp.mail.yahoo.com",
+            port: 465,
+            secure: false,
+            service: 'yahoo',
+            auth: {
+                user: mailerCredentials.email,
+                pass: mailerCredentials.password
+            },
+            debug: false,
+            logger: true
+        });
+        // const emailBody = 'You have ' + commentCount+" new comments on post: " +post;
+
+        const mailOptions = {
+            from: '"BlueAndWhiteConnect"'+ mailerCredentials.email,
+            bcc: emails,
+            subject: email_subject,
+            // text:  emailBody,
+            html: html_content
+        }
+        // console.log('sending email now to: ', user.email)
+        transporter.sendMail(mailOptions, function(err, res) {
+            if (err) {
+                return reject(err);
+            } else {
+                return resolve({'success': 'Email has been sent'})
+            }
+        })
+    })
+}
+
+exports.adminSendEmail = adminSendEmail;
