@@ -5,6 +5,11 @@ import TextFieldGroup from '../common/TextFieldGroup';
 import TextAreaFieldGroup from '../common/TextAreaFieldGroup';
 import SelectListGroup from '../common/SelectListGroup';
 import { getUserAssociatedChapters, sendEmail } from '../../actions/orginizationActions';
+import { EditorState, convertToRaw } from 'draft-js';
+import { Editor } from 'react-draft-wysiwyg';
+import draftToHtml from 'draftjs-to-html';
+import '../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import '../../css/style.css';
 
 
 class SendEmail extends Component {
@@ -14,10 +19,13 @@ class SendEmail extends Component {
             sendTo: '',
             email_subject: "",
             email_content: "",
+            html_content: "",
+            editorState: EditorState.createEmpty(),
             errors: {},
           };
           this.onSumitEmail = this.onSumitEmail.bind(this);
           this.onChange = this.onChange.bind(this);
+          this.onEditorStateChange = this.onEditorStateChange.bind(this);
       }
 
     componentDidMount () {
@@ -26,12 +34,17 @@ class SendEmail extends Component {
     componentWillUpdate() {
     }
 
+    onEditorStateChange (editorState) {
+        this.setState({
+          editorState,
+        });
+      };
+
     onSumitEmail(e) {
         e.preventDefault();
-        console.log('here ', this.state)
         const emailData = {
             subject: this.state.email_subject,
-            content: this.state.email_content,
+            content: this.state.html_content,
             sendTo: this.state.sendTo,
         }
         console.log(emailData)
@@ -39,16 +52,19 @@ class SendEmail extends Component {
     }
 
     onChange(e) {
-        console.log(e.target.name, e.target.value)
-        this.setState({[e.target.name]: e.target.value})
+        if(e && e.target && e.target.name && e.target.value)
+            this.setState({[e.target.name]: e.target.value})
+        else if (this.state.editorState ) {
+            this.setState({html_content: draftToHtml(convertToRaw(this.state.editorState.getCurrentContent()))})
+        }
     }
 
 
   render() {
-    const { errors} = this.state;
+    const { errors } = this.state;
+    const { editorState } = this.state;
     const { user } = this.props.auth;
     let chapterInfo = this.props.orginization.chapter && this.props.orginization.chapter[0] ? this.props.orginization.chapter[0] : "";
-    console.log(chapterInfo)
     let chapterName = chapterInfo.name;
     let chapters = [];
     if (chapterInfo) {
@@ -81,13 +97,17 @@ class SendEmail extends Component {
                     onChange={this.onChange}
                     error={errors.email_subject}
                     info="Email Subject Line."/>              
-                <TextAreaFieldGroup
-                    placeholder="Email"
-                    name='email_content'
-                    value={this.email_content}
+                <Editor
+                    placeholder="Email Body"
+                    editorState={editorState}
+                    onEditorStateChange={this.onEditorStateChange}
                     onChange={this.onChange}
+                    name="email_content"
                     error={errors.email_content}
-                    info="Content of the Email."/>
+                    wrapperClassName="form-group"
+                    editorClassName="form-control form-control-lg textAreaSize"
+                    info="Email Body." 
+                    />
                 <input
                   type="submit"
                   value="Send Email"

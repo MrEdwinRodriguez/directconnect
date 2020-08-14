@@ -89,7 +89,7 @@ function getEmailAddresses (sendingChapter, chapters, orginization, region) {
             userParameters.chapter = {$in: chapterIds}
             return User.find(userParameters, {email: 1, first_name: 1, last_name: 1, email_permissions: 1})
             }).then(aUsers => {
-                console.los('users found: ', aUsers)
+                console.log('users found: ', aUsers)
             return resolve(aUsers);
         })
     })

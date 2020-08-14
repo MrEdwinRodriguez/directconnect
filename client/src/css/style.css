@@ -159,6 +159,13 @@ li .profile {
        padding-top: 10px !important;
    }
 
+   .public-DraftStyleDefault-block {
+       margin: 0px !important;
+   }
+
+   .textAreaSize {
+    height: 300px !important;
+   }
 
    .center {
     display: flex !important;

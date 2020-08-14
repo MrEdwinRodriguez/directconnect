@@ -71,9 +71,7 @@ router.post('/sendEmail', passport.authenticate('jwt', { session: false }), (req
         } else {
             return res.status(400).json({sendTo: "Please select who to send this email to."});
         }
-        // console.log('after getEmailAddresses finished')
-        // console.log(emailAddresses)
-        // res.json({ sent: true });
+       
     })
 
 
