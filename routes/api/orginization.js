@@ -29,7 +29,6 @@ router.get('/getEmailList', passport.authenticate('jwt', { session: false }), (r
 //post API/orginization/sendEmail
 //send email to orginization
 //private
-// getEmailAddress (sendingChapter,  orginization, region)
 router.post('/sendEmail', passport.authenticate('jwt', { session: false }), (req, res) => {
     console.log('send email to org')
     let sendTo = req.body.sendTo;
@@ -79,8 +78,6 @@ router.post('/sendEmail', passport.authenticate('jwt', { session: false }), (req
        
     })
 
-
-    // res.json({ sent: true });
 	
 });
 module.exports = router;

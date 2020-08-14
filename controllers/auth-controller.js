@@ -37,3 +37,24 @@ function sanitizeUserObject(user) {
 	return userObject
 }
 exports.sanitizeUserObject = sanitizeUserObject;
+
+function sanitizeArrayUserObject(userArray) {
+	//only returning relavent user info
+	let cleanUserObjs = []
+	userArray.forEach(user => {
+		let userObject = {};
+		userObject._id = user._id;
+		userObject.first_name = user.first_name;
+		userObject.last_name = user.last_name;
+		userObject.name = user.name;
+		userObject.email = user.email;
+		userObject.viewed_pinned_messages = user.viewed_pinned_messages;
+		userObject.is_admin = user.is_admin;
+		userObject.is_org_officer = user.is_org_officer;
+		userObject.email_permissions= user.email_permissions;
+		cleanUserObjs.push(userObject)
+	});
+
+	return cleanUserObjs
+}
+exports.sanitizeArrayUserObject = sanitizeArrayUserObject;

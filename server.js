@@ -10,6 +10,7 @@ const posts = require('./routes/api/posts');
 const hire = require('./routes/api/hire');
 const pinned = require('./routes/api/pinned');
 const business = require('./routes/api/business');
+const admin= require('./routes/api/admin');
 const content = require('./routes/api/content');
 const orginization = require('./routes/api/orginization');
 const path = require('path');
@@ -44,6 +45,7 @@ app.use('/api/business', business);
 app.use('/api/pinned', pinned);
 app.use('/api/content', content);
 app.use('/api/orginization', orginization);
+app.use('/api/admin', admin);
 
 //serve static assets in production
 if (process.env.NODE_ENV === 'production') {

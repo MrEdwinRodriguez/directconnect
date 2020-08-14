@@ -12,6 +12,7 @@ import Footer from './components/layout/Footer';
 import Landing from './components/layout/Landing';
 import Register from './components/auth/Register';
 import Login from './components/auth/Login';
+import Admin from './components/admin/Admin';
 import Dashboard from './components/dashboard/Dashboard';
 import CreateProfile from './components/create-profile/CreateProfile';
 import EditProfile from './components/edit-profile/EditProfile';
@@ -91,6 +92,9 @@ class App extends Component {
               </Switch>
               <Switch>
                 <PrivateRoute exact path="/account" component={EditAccount} />
+              </Switch>
+              <Switch>
+                <PrivateRoute exact path="/admin" component={Admin} />
               </Switch>
               <Switch>
                 <PrivateRoute exact path="/account-reset-password" component={AccountResetPassword} />
