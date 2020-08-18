@@ -39,7 +39,7 @@ router.get('/chapter/:chapter', passport.authenticate('jwt', {session: false }),
     .then(user => {
         if (!user) return res.status(404).json({errors : "You are not an authorized admin user"})
         
-        return Chapter.findOne({_id: req.params.chapter}).exec()
+        return Chapter.findOne({_id: req.params.chapter}).populate('linkedChapter').exec()
     }).then(chapter => {
         res.json(chapter);
     })

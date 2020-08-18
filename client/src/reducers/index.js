@@ -9,6 +9,7 @@ import contentReducer from './contentReducer';
 import positionReducer from './positionReducer';
 import businessReducer from './businessReducer';
 import hireReducer from './hireReducer';
+import adminReducer from './adminReducer';
 import orginizationReducer from './orginizationReducer';
 
 export default combineReducers({
@@ -23,4 +24,5 @@ export default combineReducers({
     position: positionReducer,
     business: businessReducer,
     orginization: orginizationReducer,
+    admin: adminReducer,
 })

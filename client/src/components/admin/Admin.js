@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+import ReactShadowScroll from 'react-shadow-scroll';
+import AdminChapterModal from './AdminChapterModal';
 import PropTypes from 'prop-types';
 import { deleteAccount } from './../../actions/profileActions';
 import { updateCurrentUser, getCurrentUser } from './../../actions/authActions';
+import { adminGetChapters, adminGetChapter } from './../../actions/adminActions';
 import '../../css/style.css';
 
 
@@ -13,14 +16,18 @@ class Admin extends Component {
       super(props);
       this.state = {
           add_chapter: false,
-          edit_chapter: false,
+          showEditChapterList: false,
+          showUpdateChapter: false,
           add_officer: false,
           edit_officer: false,
           errors: {},
       };
   
       this.onChange = this.onChange.bind(this);
+      this.onChangeChapter = this.onChangeChapter.bind(this);
       this.onSubmit = this.onSubmit.bind(this);
+      this.onAddChapter = this.onAddChapter.bind(this);
+      this.onEditChapter = this.onEditChapter.bind(this);
     }
   
     componentDidMount() {
@@ -31,6 +38,7 @@ class Admin extends Component {
       if (nextProps.errors || !nextProps.education) {
           this.setState({ errors: nextProps.errors });
       }
+      console.log('line 38', nextProps)
 
     }
   
@@ -53,15 +61,96 @@ class Admin extends Component {
       this.setState({ [e.target.name]: e.target.value });
     }
   
+    onAddChapter(e) {
+        console.log('hello', e)
+        // this.setState({
+        //   disabled: !this.state.disabled,
+        //   current: !this.state.current
+        // });
+      }
 
+      onEditChapter(e) {
+        console.log('edit chapters')
+        this.props.adminGetChapters()
+        this.setState({
+          showEditChapterList: !this.state.showEditChapterList,
+        });
+        
+      }
+
+      getChapter(e) {
+        console.log(this)
+        console.log(e)
+        this.props.adminGetChapter(e)
+        this.setState({
+            showEditChapterList: !this.state.showEditChapterList,
+            showUpdateChapter: !this.state.showUpdateChapter,
+          });
+      }
+
+      onChangeChapter(e) {
+        console.log('line 91')
+        console.log(e)
+      }
 
 
     render() {
       const { errors } = this.state;
+      const { admin, auth } = this.props;
 
       if (this.state.updated) {
         setTimeout(this.updated, 5000)
       }
+
+      let showChapters = "";
+      if (admin && admin.chapters && this.state.showEditChapterList) {
+        const chapterNames = admin.chapters.map((chapter) =>
+        <li className='list-group-item borderlist' key={chapter._id} id={chapter._id} onClick={this.getChapter.bind(this, chapter._id)}>{chapter.name}</li>
+        )
+        showChapters=  
+            <ReactShadowScroll>  
+                <ul className='list-group list-group-flush'>{chapterNames}</ul>
+            </ReactShadowScroll>
+
+      }
+
+      let upDateChapter = null;
+
+      if (admin.chapter && admin.chapter.name && this.state.showUpdateChapter) {
+
+        //   <AdminChapterModal admin={admin} />
+    //    upDateChapter = 
+    //    <form>
+    //     <div class="form-group">
+    //         <input type="text" class="form-control" placeholder="name" value={admin.chapter.name}  onChange={this.onChangeChapter} />
+    //         <input type="text" class="form-control" placeholder="invite_code" value={admin.chapter.invite_code}  onChange={this.onChangeChapter}/>
+    //         <input type="text" class="form-control" placeholder="region" value={admin.chapter.region}  onChange={this.onChangeChapter} />
+    //         <input type="text" class="form-control" placeholder="value" value={admin.chapter.value}  onChange={this.onChangeChapter} />
+    //         <input type="text" class="form-control" placeholder="chartered" value={admin.chapter.chartered}  onChange={this.onChangeChapter} />
+    //         <input type="text" class="form-control" placeholder="linkedchapter" value={admin.chapter.linkedChapter.name}  onChange={this.onChangeChapter} />
+    //     </div>
+    //     <button type="submit" class="btn btn-primary">Update Chapter</button>
+    //    </form>
+      }
+
+      let displayAdmin = <h1>You do no have Admin Permission </h1>
+      console.log(auth.user.is_admin)
+    if (auth.user.is_admin) {
+        displayAdmin = <div>
+        <h1 className="display-4 text-center">Admin</h1>
+        <ul class="list-group">
+            <li class="list-group-item" onClick={this.onAddChapter}>Add Chapter</li>
+                { this.state.add_chapter ?  <div className= "alert alert-success">Add Chapter Here</div> : <div></div>}
+            <li class="list-group-item" onClick={this.onEditChapter}>Edit Chapters</li>
+                { this.state.showEditChapterList ? <div className= "adminScrollBox">{showChapters}</div> : <div></div>}
+                { this.state.showUpdateChapter ? <div className= "adminScrollBox">{upDateChapter}</div> : <div></div>}
+            <li class="list-group-item">Edit Chapter Officers</li>
+                { this.state.add_officers ? <div className= "alert alert-success">BUILD ADD OFFICERS HERE</div> : <div></div>}
+            <li class="list-group-item">Send Email</li>
+                { this.state.edit_officers ? <div className= "alert alert-success">BUILD EDIT OFFICERS HERE</div> : <div></div>}
+        </ul>  
+        </div>
+    }
       return (
         <div className="add-business">
           <div className="container">
@@ -70,18 +159,7 @@ class Admin extends Component {
                 <Link to="/dashboard" className="btn btn-light">
                   Go Back
                 </Link>
-                <h1 className="display-4 text-center">Admin</h1>
-                <ul class="list-group">
-                    <li class="list-group-item">Add Chapter</li>
-                        { this.state.add_chapter ? <div className= "alert alert-success">BUILD ADD CHAPTER HERE</div> : <div></div>}
-                    <li class="list-group-item">Edit Chapters</li>
-                        { this.state.edit_chapters ? <div className= "alert alert-success">BUILD EDIT CHAPTERS HERE</div> : <div></div>}
-                    <li class="list-group-item">Edit Chapter Officers</li>
-                        { this.state.add_officers ? <div className= "alert alert-success">BUILD ADD OFFICERS HERE</div> : <div></div>}
-                    <li class="list-group-item">Send Email</li>
-                        { this.state.edit_officers ? <div className= "alert alert-success">BUILD EDIT OFFICERS HERE</div> : <div></div>}
-                    <li class="list-group-item">Vestibulum at eros</li>
-                </ul>
+                {displayAdmin}
               </div>
             </div>
           </div>
@@ -91,7 +169,7 @@ class Admin extends Component {
   }
   
   Admin.propTypes = {
-    deleteAccount: PropTypes.func.isRequired,
+    adminGetChapters: PropTypes.func.isRequired,
     getCurrentUser: PropTypes.func.isRequired,
     updateCurrentUser: PropTypes.func.isRequired,
     auth: PropTypes.object.isRequired,
@@ -101,10 +179,11 @@ class Admin extends Component {
   
   const mapStateToProps = state => ({
     profile: state.profile,
+    admin: state.admin,
     auth: state.auth,
     errors: state.errors
   });
   
-  export default connect(mapStateToProps, { deleteAccount, updateCurrentUser, getCurrentUser})(
+  export default connect(mapStateToProps, { adminGetChapters, adminGetChapter, updateCurrentUser, getCurrentUser})(
     withRouter(Admin )
   );
