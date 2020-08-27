@@ -40,6 +40,24 @@ export const adminGetChapter = (id) => dispatch => {
             );
 }
 
+//update business
+export const updateChapters = (id, chapterData) => dispatch => {
+    axios
+        .put(`/api/admin/chapter/${id}`, chapterData)
+        .then(res => 
+            dispatch({
+                type: ADMIN_GET_CHAPTER,
+                payload: res.data
+            })
+            )
+            .catch(err =>
+                dispatch({
+                    type: ADMIN_GET_CHAPTER,
+                    payload: null
+                })
+            );
+}
+
 
 //set loading state
 export const setAdminLoading = () => {

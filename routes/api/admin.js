@@ -45,6 +45,29 @@ router.get('/chapter/:chapter', passport.authenticate('jwt', {session: false }),
     })
 })
 
+//PUT API/admin/chapter/:chapter
+//put one chapter
+//private
+router.put('/chapter/:chapter', passport.authenticate('jwt', {session: false }), (req, res) => {
+    console.log('inside update chapter', req.body)
+    User.findById({_id: req.user.id, is_admin: true}).exec()
+    .then(user => {
+        if (!user) return res.status(404).json({errors : "You are not an authorized admin user"})
+        return Chapter.findOne({_id: req.params.chapter}).exec()
+    }).then(chapter => {
+        chapter.orginization = req.body.orginization;
+        chapter.name = req.body.name;
+        chapter.region = req.body.region;
+        chapter.value = req.body.value;
+        chapter.chartered = req.body.chartered;
+        chapter.level = req.body.level;
+        chapter.invite_code = req.body.invite_code;
+        chapter.linkedChapter = req.body.linkedChapter;
+        chapter.save()
+        .then(chapter => res.json(chapter))
+    })
+})
+
 //GET API/admin/users
 //get all users
 //private

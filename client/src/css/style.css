@@ -74,6 +74,18 @@
     font-size: 12px;
 }
 
+.mr-ml-10{
+    margin-right: 10px !important;
+    margin-left: 10px !important;
+}
+.ml-10{
+    margin-left: 10px !important;
+}
+
+.mt-8{
+    margin-top: 8px !important;
+}
+
 .phantom {
     display: block;
     padding: 20px;

@@ -6,7 +6,7 @@ import AdminChapterModal from './AdminChapterModal';
 import PropTypes from 'prop-types';
 import { deleteAccount } from './../../actions/profileActions';
 import { updateCurrentUser, getCurrentUser } from './../../actions/authActions';
-import { adminGetChapters, adminGetChapter } from './../../actions/adminActions';
+import { adminGetChapters, adminGetChapter} from './../../actions/adminActions';
 import '../../css/style.css';
 
 
@@ -28,6 +28,7 @@ class Admin extends Component {
       this.onSubmit = this.onSubmit.bind(this);
       this.onAddChapter = this.onAddChapter.bind(this);
       this.onEditChapter = this.onEditChapter.bind(this);
+      this.closeEditChapterModal = this.closeEditChapterModal.bind(this);
     }
   
     componentDidMount() {
@@ -38,7 +39,6 @@ class Admin extends Component {
       if (nextProps.errors || !nextProps.education) {
           this.setState({ errors: nextProps.errors });
       }
-      console.log('line 38', nextProps)
 
     }
   
@@ -83,8 +83,8 @@ class Admin extends Component {
         console.log(e)
         this.props.adminGetChapter(e)
         this.setState({
-            showEditChapterList: !this.state.showEditChapterList,
-            showUpdateChapter: !this.state.showUpdateChapter,
+            showEditChapterList: false,
+            showUpdateChapter: true,
           });
       }
 
@@ -93,6 +93,17 @@ class Admin extends Component {
         console.log(e)
       }
 
+      closeEditChapterModal () {
+          console.log('close edit modal')
+        this.setState({
+            showEditChapterList: true,
+            showUpdateChapter: false,
+        });
+    }
+
+      updateChapters(e) {
+        
+      }
 
     render() {
       const { errors } = this.state;
@@ -115,22 +126,13 @@ class Admin extends Component {
       }
 
       let upDateChapter = null;
-
       if (admin.chapter && admin.chapter.name && this.state.showUpdateChapter) {
-
-        //   <AdminChapterModal admin={admin} />
-    //    upDateChapter = 
-    //    <form>
-    //     <div class="form-group">
-    //         <input type="text" class="form-control" placeholder="name" value={admin.chapter.name}  onChange={this.onChangeChapter} />
-    //         <input type="text" class="form-control" placeholder="invite_code" value={admin.chapter.invite_code}  onChange={this.onChangeChapter}/>
-    //         <input type="text" class="form-control" placeholder="region" value={admin.chapter.region}  onChange={this.onChangeChapter} />
-    //         <input type="text" class="form-control" placeholder="value" value={admin.chapter.value}  onChange={this.onChangeChapter} />
-    //         <input type="text" class="form-control" placeholder="chartered" value={admin.chapter.chartered}  onChange={this.onChangeChapter} />
-    //         <input type="text" class="form-control" placeholder="linkedchapter" value={admin.chapter.linkedChapter.name}  onChange={this.onChangeChapter} />
-    //     </div>
-    //     <button type="submit" class="btn btn-primary">Update Chapter</button>
-    //    </form>
+        upDateChapter = 
+        <AdminChapterModal 
+        closeEditChapterModal={this.closeEditChapterModal} 
+        chapter = {admin.chapter}
+        chapters = {admin.chapters}
+        admin={admin} />
       }
 
       let displayAdmin = <h1>You do no have Admin Permission </h1>
@@ -143,7 +145,7 @@ class Admin extends Component {
                 { this.state.add_chapter ?  <div className= "alert alert-success">Add Chapter Here</div> : <div></div>}
             <li class="list-group-item" onClick={this.onEditChapter}>Edit Chapters</li>
                 { this.state.showEditChapterList ? <div className= "adminScrollBox">{showChapters}</div> : <div></div>}
-                { this.state.showUpdateChapter ? <div className= "adminScrollBox">{upDateChapter}</div> : <div></div>}
+                { this.state.showUpdateChapter ? <div>{upDateChapter}</div> : <div></div>}
             <li class="list-group-item">Edit Chapter Officers</li>
                 { this.state.add_officers ? <div className= "alert alert-success">BUILD ADD OFFICERS HERE</div> : <div></div>}
             <li class="list-group-item">Send Email</li>
