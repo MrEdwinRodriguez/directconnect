@@ -31,6 +31,24 @@ router.get('/chapters', passport.authenticate('jwt', {session: false }), (req, r
 
 })
 
+//GET API/admin/orginization
+//get all orginizations
+//private
+router.get('/orginizations', passport.authenticate('jwt', {session: false }), (req, res) => {
+
+    User.findById({_id: req.user.id, is_admin: true}).exec()
+    .then(user => {
+        if (!user) return res.status(404).json({errors : "You are not an authorized admin user"})
+        
+        return Orginization.find().sort('name').exec()
+    }).then(aOrginizations => {
+
+        res.json(aOrginizations);
+
+    })
+
+})
+
 //GET API/admin/chapter/:chapter
 //get one chapter
 //private
@@ -42,6 +60,29 @@ router.get('/chapter/:chapter', passport.authenticate('jwt', {session: false }),
         return Chapter.findOne({_id: req.params.chapter}).populate('linkedChapter').exec()
     }).then(chapter => {
         res.json(chapter);
+    })
+})
+
+//POST API/admin/chapter
+//post one chapter
+//private
+router.post('/chapter', passport.authenticate('jwt', {session: false }), (req, res) => {
+    console.log('inside post chapter', req.body)
+    User.findById({_id: req.user.id, is_admin: true}).exec()
+    .then(user => {
+        if (!user) return res.status(404).json({errors : "You are not an authorized admin user"})
+        let chapter = new Chapter();
+        chapter.orginization = req.body.orginization;
+        chapter.name = req.body.name;
+        chapter.region = req.body.region;
+        chapter.value = req.body.value;
+        chapter.chartered = req.body.chartered;
+        chapter.level = req.body.level;
+        chapter.invite_code = req.body.invite_code;
+        if(req.body.linkedChapter)
+            chapter.linkedChapter = req.body.linkedChapter;
+        chapter.save()
+        .then(chapter => res.json(chapter))
     })
 })
 

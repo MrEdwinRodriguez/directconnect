@@ -97,6 +97,11 @@ ul {
     list-style: none;
     margin-left: 0
 }
+.adminError {
+    color: red;
+    margin-left: 20px;
+    font-size: 14px
+}
 
 li .profile {
     width: 250px;

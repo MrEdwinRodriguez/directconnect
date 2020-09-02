@@ -53,7 +53,7 @@ class AdminChapterModal extends Component {
             chartered: this.state.chartered ? this.state.chartered : chapter.chartered,
             level: this.state.level ? this.state.level : chapter.level,
             invite_code: this.state.invite_code ? this.state.invite_code : chapter.invite_code,
-            linkedChapter: this.state.linkedChapter ? this.state.linkedChapter : chapter.linkedChapter._id,
+            linkedChapter: this.state.linkedChapter ? this.state.linkedChapter : chapter.linkedChapter && chapter.linkedChapter._id ? chapter.linkedChapter._id : "",
         }
         console.log(chapterData)
         this.props.updateChapters(this.props.chapter._id, chapterData);
@@ -68,10 +68,10 @@ class AdminChapterModal extends Component {
   render() {
     const { admin, chapter, chapters } = this.props;
     console.log('rendering', this.props)
-    let chapterSelections = [];  
+    let chapterSelections = [<option key={1} value="" selected >Select a Linked Chapter</option>];  
     if (chapters) {
         for (let i = 0; i < chapters.length ; i++) {  
-            if (chapter.linkedChapter._id == chapters[i]._id ) {
+            if (chapter.linkedChapter && chapter.linkedChapter._id == chapters[i]._id ) {
                 chapterSelections.push(<option key={chapters[i]._id} value={chapters[i]._id} selected >{chapters[i].name}</option>);  
             } else {
                 chapterSelections.push(<option key={chapters[i]._id} value={chapters[i]._id} >{chapters[i].name}</option>); 

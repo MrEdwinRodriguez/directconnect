@@ -3,10 +3,11 @@ import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import ReactShadowScroll from 'react-shadow-scroll';
 import AdminChapterModal from './AdminChapterModal';
+import AdminAddChapter from './AdminAddChapter';
 import PropTypes from 'prop-types';
 import { deleteAccount } from './../../actions/profileActions';
 import { updateCurrentUser, getCurrentUser } from './../../actions/authActions';
-import { adminGetChapters, adminGetChapter} from './../../actions/adminActions';
+import { adminGetChapters, adminGetChapter, getOrginizations} from './../../actions/adminActions';
 import '../../css/style.css';
 
 
@@ -16,6 +17,7 @@ class Admin extends Component {
       super(props);
       this.state = {
           add_chapter: false,
+          showAddChapter: false,
           showEditChapterList: false,
           showUpdateChapter: false,
           add_officer: false,
@@ -33,6 +35,8 @@ class Admin extends Component {
   
     componentDidMount() {
       this.props.getCurrentUser();
+      this.props.getOrginizations();
+      this.props.adminGetChapters();
     }
   
     componentWillReceiveProps(nextProps) {
@@ -62,11 +66,9 @@ class Admin extends Component {
     }
   
     onAddChapter(e) {
-        console.log('hello', e)
-        // this.setState({
-        //   disabled: !this.state.disabled,
-        //   current: !this.state.current
-        // });
+        this.setState({
+          showAddChapter: !this.state.showAddChapter,
+        });
       }
 
       onEditChapter(e) {
@@ -140,15 +142,21 @@ class Admin extends Component {
     if (auth.user.is_admin) {
         displayAdmin = <div>
         <h1 className="display-4 text-center">Admin</h1>
-        <ul class="list-group">
-            <li class="list-group-item" onClick={this.onAddChapter}>Add Chapter</li>
-                { this.state.add_chapter ?  <div className= "alert alert-success">Add Chapter Here</div> : <div></div>}
-            <li class="list-group-item" onClick={this.onEditChapter}>Edit Chapters</li>
+        <ul className="list-group">
+            <li className="list-group-item" onClick={this.onAddChapter}>Add Chapter</li>
+                { this.state.showAddChapter ? 
+                    <AdminAddChapter
+                    // closeEditChapterModal={this.closeEditChapterModal} 
+                    getOrginizations = {admin.orginizations}
+                    chapters = {admin.chapters}
+                    admin={admin} />
+                  : <div></div>}
+            <li className="list-group-item" onClick={this.onEditChapter}>Edit Chapters</li>
                 { this.state.showEditChapterList ? <div className= "adminScrollBox">{showChapters}</div> : <div></div>}
                 { this.state.showUpdateChapter ? <div>{upDateChapter}</div> : <div></div>}
-            <li class="list-group-item">Edit Chapter Officers</li>
+            <li className="list-group-item">Edit Chapter Officers</li>
                 { this.state.add_officers ? <div className= "alert alert-success">BUILD ADD OFFICERS HERE</div> : <div></div>}
-            <li class="list-group-item">Send Email</li>
+            <li className="list-group-item">Send Email</li>
                 { this.state.edit_officers ? <div className= "alert alert-success">BUILD EDIT OFFICERS HERE</div> : <div></div>}
         </ul>  
         </div>
@@ -186,6 +194,6 @@ class Admin extends Component {
     errors: state.errors
   });
   
-  export default connect(mapStateToProps, { adminGetChapters, adminGetChapter, updateCurrentUser, getCurrentUser})(
+  export default connect(mapStateToProps, { adminGetChapters, adminGetChapter, updateCurrentUser, getCurrentUser, getOrginizations})(
     withRouter(Admin )
   );
