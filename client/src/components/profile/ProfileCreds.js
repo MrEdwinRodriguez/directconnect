@@ -60,7 +60,7 @@ class ProfileCreds extends Component {
          {edu.current === true ? (' Current') : <Moment format="MM/YYYY">{edu.to}</Moment>}
        </p>
        <p><strong>Degree:</strong> {edu.degree}</p>
-       <p><strong>Field Of Stufy:</strong> {edu.fieldofstudy}</p>
+       <p><strong>Field Of Study:</strong> {edu.fieldofstudy}</p>
        <p>
          {edu.description=== "" ? null : (<span><strong>Description: </strong>{edu.description}</span>)}
        </p>
