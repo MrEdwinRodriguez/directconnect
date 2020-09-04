@@ -29,7 +29,6 @@ class AdminChapterModal extends Component {
         if (nextProps.errors || !nextProps.education) {
             this.setState({ errors: nextProps.errors });
         }
-        console.log('line 31')
         this.setState({ 
             name: nextProps.name, 
             invite_code: nextProps.invite_code, 

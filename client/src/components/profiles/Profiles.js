@@ -12,6 +12,7 @@ class Profiles extends Component {
         this.state = {
             search: '',
             update: false,
+            skip: 0,
             errors: {},
           };
         this.searchClicked = this.searchClicked.bind(this);
@@ -25,7 +26,7 @@ class Profiles extends Component {
         if(org == 'phi_beta_sigma' || org =='zeta_phi_beta') {
             this.props.getProfilesByOrginization(org)
         } else {
-            this.props.getProfiles();
+            this.props.getProfiles(this.state.skip);
         }
         if(this.props.match.params.orginization !== undefined) {
             switch (this.props.match.params.orginization) {
@@ -51,7 +52,7 @@ class Profiles extends Component {
         if (this.state.search != "") {
             this.props.getProfilesBySearchCriteria(this.state.search)
         } else {
-            this.props.getProfiles();  
+            this.props.getProfiles(this.state.skip);  
         }
       }
 

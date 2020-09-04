@@ -248,10 +248,15 @@ export const  addHiring = (hiringData, history) => dispatch => {
 
 
 //get all profiles
-export const  getProfiles = () => dispatch => {
+export const  getProfiles = (skip) => dispatch => {
     dispatch(setProfileLoading());
     axios
-        .get("/api/profile/all")
+        .get("/api/profile/all", {
+            params: {
+                limit: 25,
+                skip: skip,
+               }
+        })
         .then(res => 
             dispatch({
                 type: GET_PROFILES,

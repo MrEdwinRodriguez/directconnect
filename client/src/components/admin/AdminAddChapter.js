@@ -73,7 +73,7 @@ class AdminAddChapter extends Component {
             invite_code: this.state.invite_code,
             linkedChapter: this.state.linkedChapter,
         }
-        console.log(chapterData)
+        console.log("Chapter Data: ",  chapterData)
         this.props.addChapter(chapterData);
       }
 

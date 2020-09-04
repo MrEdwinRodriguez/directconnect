@@ -70,7 +70,10 @@ router.get('/', passport.authenticate('jwt', {session: false }), (req, res) => {
 //public
 router.get('/all', (req, res) => {
 	const errors = {};
-	Profile.find()
+	let limit = parseInt(req.query.limit) || 1000;
+	let skip= parseInt(req.query.skip) || 0;
+	console.log('line 74', req.query)
+	Profile.find().limit(limit).skip(skip)
 		.populate('user', ['name', 'email', 'avatar', 'last_name', 'first_name']).lean()
 		.then(profiles => {
 			if(!profiles) {
