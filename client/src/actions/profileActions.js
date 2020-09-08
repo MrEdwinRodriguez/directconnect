@@ -270,10 +270,15 @@ export const  getProfiles = (skip) => dispatch => {
             );
 }
 
-export const getProfilesByOrginization = (orginization) => dispatch => {
+export const getProfilesByOrginization = (orginization, skip) => dispatch => {
     dispatch(setProfileLoading());
     axios
-        .get(`/api/profile/orginization/${orginization}`)
+        .get(`/api/profile/orginization/${orginization}`, {
+            params: {
+                limit: 25,
+                skip: skip,
+               }
+        })
         .then(res => 
             dispatch({
                 type: GET_PROFILES,
@@ -290,9 +295,14 @@ export const getProfilesByOrginization = (orginization) => dispatch => {
 }
 
 //get profiles by search criteria
-export const getProfilesBySearchCriteria = (criteria) => dispatch => {
+export const getProfilesBySearchCriteria = (criteria, skip) => dispatch => {
     dispatch(setProfileLoading());
-    axios.get(`/api/profile/search/${criteria}`)
+    axios.get(`/api/profile/search/${criteria}`, {
+        params: {
+            limit: 25,
+            skip: skip,
+           }
+    })
     .then(res => 
         dispatch({
                 type: GET_PROFILES_CRITERIA,

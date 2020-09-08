@@ -72,18 +72,24 @@ router.get('/all', (req, res) => {
 	const errors = {};
 	let limit = parseInt(req.query.limit) || 1000;
 	let skip= parseInt(req.query.skip) || 0;
-	console.log('line 74', req.query)
-	Profile.find().limit(limit).skip(skip)
-		.populate('user', ['name', 'email', 'avatar', 'last_name', 'first_name']).lean()
-		.then(profiles => {
-			if(!profiles) {
-				errors.noprofile = "There are no profiles";
-			return res.status(404).json(errors)
-			}
-			let sortedProfiles = utils.sortProfileByUserName(profiles)
-			return res.json(sortedProfiles)
-		})
-		.catch(err => res.status(404).json({profile: "There is no profiles"}));
+	let sendObj = {}
+	Profile.count()
+	.then(count => {
+		sendObj.total = count;
+		return Profile.find().populate('user', ['name', 'email', 'avatar', 'last_name', 'first_name']).lean()
+	}).then(profiles => {
+		if(!profiles) {
+			errors.noprofile = "There are no profiles";
+		return res.status(404).json(errors)
+		}
+		let sortedProfiles = utils.sortProfileByUserName(profiles)
+		//adding the skip and limit to the query was kicking profiles out of order since the name
+		// is in the user object.  Using Slice as an 'ugly' replacement to skip and limit
+		let skipAndLimit = sortedProfiles.slice(skip, skip+limit);
+		sendObj.sortedProfiles = skipAndLimit;
+		return res.json(sendObj)
+	})
+	.catch(err => res.status(404).json({profile: "There is no profiles"}));
 });
 
 //GET API/profile/orginization/:orginization
@@ -91,18 +97,25 @@ router.get('/all', (req, res) => {
 //public
 router.get('/orginization/:orginization', (req, res) => {
 	const errors = {};
-
-	Profile.find({ orginization: req.params.orginization })
-		.populate('user', ['name', 'avatar', 'email', 'last_name', 'first_name'])
-		.then(profiles => {
-			if(!profiles) {
-				errors.noprofile = "There are no profiles for this orginization";
-				res.status(400). json(errors)
-			}
-			let sortedProfiles = utils.sortProfileByUserName(profiles)
-			return res.json(sortedProfiles)
-		})
-		.catch(err => res.status(404).json(err));
+	let limit = parseInt(req.query.limit) || 1000;
+	let skip= parseInt(req.query.skip) || 0;
+	let sendObj = {}
+	Profile.count({ orginization: req.params.orginization }).exec()
+	.then(count => {
+		sendObj.total = count;
+		return Profile.find({ orginization: req.params.orginization })
+		.populate('user', ['name', 'avatar', 'email', 'last_name', 'first_name']).exec()
+	}).then(profiles => {
+		if(!profiles) {
+			errors.noprofile = "There are no profiles for this orginization";
+			res.status(400). json(errors)
+		}
+		let sortedProfiles = utils.sortProfileByUserName(profiles)
+		let skipAndLimit = sortedProfiles.slice(skip, skip+limit);
+		sendObj.sortedProfiles = skipAndLimit;
+		return res.json(sendObj)
+	})
+	.catch(err => res.status(404).json(err));
 
 });
 
@@ -112,6 +125,9 @@ router.get('/orginization/:orginization', (req, res) => {
 router.get('/search/:criteria', passport.authenticate('jwt', {session: false }), (req, res) => {
 	const criteria = req.params.criteria;
 	var profile_parameters = {};
+	let limit = parseInt(req.query.limit) || 1000;
+	let skip= parseInt(req.query.skip) || 0;
+	let sendObj = {}
 	if (criteria == null || criteria == undefined) {
 		return res.send(400)
     }
@@ -162,13 +178,20 @@ router.get('/search/:criteria', passport.authenticate('jwt', {session: false }),
 		if (included_user_ids.length > 0) {
 			profile_parameters.$or.push({user: {$in: included_user_ids}})
 		}
+		return Profile.count(profile_parameters).exec()
+		.then(count => {
+			sendObj.total = count;
 		return Profile.find(profile_parameters).populate('user', ['name', 'first_name', 'last_name']).lean().exec()
-		.then(profiles => {
+		}).then(profiles => {
 			if(!profiles || profiles == null) {
 				res.json({noprofiles: "There were no profiles found for "+criteria})
 			}
 			let sortedProfiles = utils.sortProfileByUserName(profiles)
-			return res.json(sortedProfiles)
+			//adding the skip and limit to the query was kicking profiles out of order since the name
+			// is in the user object.  Using Slice as an 'ugly' replacement to skip and limit
+			let skipAndLimit = sortedProfiles.slice(skip, skip+limit);
+			sendObj.sortedProfiles = sortedProfiles;
+			return res.json(sendObj)
 		})
 	})
 	.catch(err => res.status(404).json(err));

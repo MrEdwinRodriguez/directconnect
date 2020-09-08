@@ -23,7 +23,8 @@ export default function(state = initialState, action) {
         case GET_PROFILES:
             return {
                 ...state,
-                profiles: action.payload,
+                profiles: action.payload.sortedProfiles,
+                total: action.payload.total,
                 loading: false
             }
         case CLEAR_CURRENT_PROFILE:
@@ -34,7 +35,8 @@ export default function(state = initialState, action) {
         case GET_PROFILES_CRITERIA:
             return {
                 ...state,
-                profiles: action.payload,
+                profiles: action.payload.sortedProfiles,
+                total: action.payload.total,
                 loading: false
             }
         case DELETE_HIRE:

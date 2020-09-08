@@ -12,11 +12,13 @@ class Profiles extends Component {
         this.state = {
             search: '',
             update: false,
+            current_page: 1,
             skip: 0,
             errors: {},
           };
         this.searchClicked = this.searchClicked.bind(this);
         this.searchChanged = this.searchChanged.bind(this);
+        this.jumpToPage = this.jumpToPage.bind(this);
       }
 
     componentDidMount () {
@@ -24,7 +26,7 @@ class Profiles extends Component {
         let index = path.length -1;
         let org = path[index]
         if(org == 'phi_beta_sigma' || org =='zeta_phi_beta') {
-            this.props.getProfilesByOrginization(org)
+            this.props.getProfilesByOrginization(org, this.state.skip)
         } else {
             this.props.getProfiles(this.state.skip);
         }
@@ -56,8 +58,62 @@ class Profiles extends Component {
         }
       }
 
+    jumpToPage = (e, data) => {
+        let skip = 0;
+        if (data != 1) skip = (data-1) * 25;
+        this.setState({current_page: data})
+        this.setState({skip: skip})
+        let path = window.location.pathname.split("/")
+        let index = path.length -1;
+        let org = path[index]
+        if(org == 'phi_beta_sigma' || org =='zeta_phi_beta') {
+            this.props.getProfilesByOrginization(org, skip)
+        } else if (this.state.search != "") {
+            this.props.getProfilesBySearchCriteria(this.state.search, skip)
+        } else {
+            this.props.getProfiles(skip);  
+        }
+    }
+
+    nextPage = () => {
+        let skip = 0;
+        let new_current_page = this.state.current_page + 1;
+        if (new_current_page != 1) skip = this.state.skip + 25;
+        this.setState({skip: skip});
+        this.setState({current_page: new_current_page});
+        let path = window.location.pathname.split("/")
+        let index = path.length -1;
+        let org = path[index]
+        if(org == 'phi_beta_sigma' || org =='zeta_phi_beta') {
+            this.props.getProfilesByOrginization(org, skip)
+        } else if (this.state.search != "") {
+            this.props.getProfilesBySearchCriteria(this.state.search, skip)
+        } else {
+            this.props.getProfiles(skip);  
+        }
+    }
+
+    previousPage = () => {
+        let skip = 0;
+        let new_current_page = this.state.current_page - 1;
+        if (new_current_page != 1) skip = this.state.skip - 25;
+        this.setState({current_page: new_current_page});
+        this.setState({skip: skip});
+        let path = window.location.pathname.split("/")
+        let index = path.length -1;
+        let org = path[index]
+        if(org == 'phi_beta_sigma' || org =='zeta_phi_beta') {
+            this.props.getProfilesByOrginization(org, skip)
+        } else if (this.state.search != "") {
+            this.props.getProfilesBySearchCriteria(this.state.search, skip)
+        } else {
+            this.props.getProfiles(skip);  
+        }
+    }
+
   render() {
     const { profiles, loading } = this.props.profile;
+    const { profile } = this.props;
 
     let profileItems;
 
@@ -73,6 +129,20 @@ class Profiles extends Component {
         }
     }
 
+    const pageNumbers = [];
+    for (let i = 1; i <= Math.ceil(profile.total / 25); i++) {
+        pageNumbers.push(i);
+    }
+
+    let renderPageNumbers = pageNumbers.map(number => {
+        let classes = this.state.current_page === number ? "page-item active" : 'page-item';
+        return (
+            <li className={classes} key={'key'+number}><a  className="page-link" onClick={((e) => this.jumpToPage(e, number))} value={number}>{number}</a></li>
+        );
+      });
+
+    let previousClasses = this.state.current_page === 1 ? "page-item disabled" : "page-item";
+    let nextClasses = this.state.current_page === pageNumbers.length ? "page-item disabled" : "page-item";
     return (
         <div className="profiles">
             <div className="container">
@@ -89,6 +159,18 @@ class Profiles extends Component {
                             </div>
                        </div>  
                         {profileItems}
+                    </div>
+                </div>
+                <div className='row'>
+                    <div className='col-md-12'>
+                        <nav aria-label="Page navigation example">
+                            {profile.total > 25 ?
+                            <ul className="pagination justify-content-center"  id='pagination'>
+                            <li class={previousClasses}><a class="page-link" onClick={this.previousPage}>Previous</a></li>
+                            {renderPageNumbers}
+                            <li class={nextClasses}><a class="page-link" onClick={this.nextPage}>Next</a></li>
+                            </ul> : ""}
+                        </nav>
                     </div>
                 </div>
             </div>
