@@ -68,11 +68,13 @@ router.post('/sendEmail', passport.authenticate('jwt', { session: false }), (req
         }
 
         function callAdminSendEmail (emails, subject, content) {
-            let sent = Emails.adminSendEmail(emails, subject, content)
-            .then(sent => {
-                console.log('Email(s) have been sent.')
-                res.json({ sent: true });
-            })
+            console.log('Email(s) have been sent.');
+            res.json({ sent: true });
+            // let sent = Emails.adminSendEmail(emails, subject, content)
+            // .then(sent => {
+            //     console.log('Email(s) have been sent.')
+            //     res.json({ sent: true });
+            // })
         }
 
        

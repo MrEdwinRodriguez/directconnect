@@ -247,7 +247,6 @@ router.get('/search/:criteria', passport.authenticate('jwt', {session: false }),
 			console.log('line 236', included_user_ids)
 			return User.find({_id: {$in: included_user_ids}}).sort('last_name first_name').skip(skip).limit(limit).exec()
 		}).then(aUsers => {
-			console.log('line 239', aUsers)
 			let profileList = [];
 			aUsers.forEach(user => {
 				const foundProfile = allProfiles.find(profile => {
@@ -261,23 +260,6 @@ router.get('/search/:criteria', passport.authenticate('jwt', {session: false }),
 					profileList.push(cleanUser);
 				} 
 			})
-			// allUsers.forEach(user => {
-			// 	const foundProfile = profiles.find(profile => {
-			// 		if (profile.user._id+"" == user._id+'') {
-			// 			profileList.push(profile);
-			// 			return profile
-			// 		}
-			// 	})
-			// 	if (typeof foundProfile === 'undefined') {
-			// 		var cleanUser = authController.sanitizeUserObject(user)
-			// 		profileList.push(cleanUser);
-			// 	} 
-			// })
-			// let sortedProfiles = utils.sortProfileByUserName(profiles)
-			//adding the skip and limit to the query was kicking profiles out of order since the name
-			// is in the user object.  Using Slice as an 'ugly' replacement to skip and limit
-			// let skipAndLimit = sortedProfiles.slice(skip, skip+limit);
-			// sendObj.sortedProfiles = sortedProfiles;
 			sendObj.sortedProfiles = profileList;
 			return res.json(sendObj)
 		})
