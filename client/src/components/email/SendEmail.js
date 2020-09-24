@@ -77,7 +77,9 @@ class SendEmail extends Component {
             // {label: "Full Network", value: 'full_network'}, //uncomment after more chapters are added
         ];
     }
-    let displaySendEmail = 
+    let displaySendEmail = <h1>You do no have Email Permisions </h1>
+    if (user.is_admin || user.is_org_officer) {
+        displaySendEmail = 
         <div className="col-md-12">
             <form onSubmit={this.onSumitEmail}>
                 <SelectListGroup 
@@ -113,7 +115,7 @@ class SendEmail extends Component {
                 />
               </form>
         </div>
-    
+    }
     return (
         <div className="sendEmail">
             <div className="container">
