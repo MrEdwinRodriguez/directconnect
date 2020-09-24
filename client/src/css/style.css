@@ -248,6 +248,12 @@ li .profile {
  .mb15 {
     margin-bottom: 15px;
  }
+ .mb5 {
+    margin-bottom: 5px;
+ }
+ .mb0 {
+    margin-bottom: 0px;
+ }
  .test {
      margin-bottom: 15px !important;
  }
@@ -256,6 +262,10 @@ li .profile {
     position: relative;
  }
 
+ .skills {
+     padding-top: 5px;
+     padding-bottom: 5px;
+ }
  .contentInput {
      margin-left: 20px !important;
  }

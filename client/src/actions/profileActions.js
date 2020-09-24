@@ -295,12 +295,13 @@ export const getProfilesByOrginization = (orginization, skip) => dispatch => {
 }
 
 //get profiles by search criteria
-export const getProfilesBySearchCriteria = (criteria, skip) => dispatch => {
+export const getProfilesBySearchCriteria = (criteria, org, skip) => dispatch => {
     dispatch(setProfileLoading());
     axios.get(`/api/profile/search/${criteria}`, {
         params: {
             limit: 25,
             skip: skip,
+            org: org,
            }
     })
     .then(res => 

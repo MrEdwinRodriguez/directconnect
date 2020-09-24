@@ -51,8 +51,17 @@ class Profiles extends Component {
         this.setState({search: e.target.value})
     }
     searchClicked(e) {
+        let path = window.location.pathname.split("/")
+        let index = path.length -1;
+        let org = path[index]
         if (this.state.search != "") {
-            this.props.getProfilesBySearchCriteria(this.state.search)
+            if(org == 'phi_beta_sigma' || org =='zeta_phi_beta') {
+                this.props.getProfilesBySearchCriteria(this.state.search, org)
+            }
+            else {
+                this.props.getProfilesBySearchCriteria(this.state.search)
+            }
+           
         } else {
             this.props.getProfiles(this.state.skip);  
         }
@@ -66,10 +75,15 @@ class Profiles extends Component {
         let path = window.location.pathname.split("/")
         let index = path.length -1;
         let org = path[index]
-        if(org == 'phi_beta_sigma' || org =='zeta_phi_beta') {
+        if(this.state.search == "" && (org == 'phi_beta_sigma' || org =='zeta_phi_beta')) {
             this.props.getProfilesByOrginization(org, skip)
         } else if (this.state.search != "") {
-            this.props.getProfilesBySearchCriteria(this.state.search, skip)
+            if(org == 'phi_beta_sigma' || org =='zeta_phi_beta') {
+                this.props.getProfilesBySearchCriteria(this.state.search, org, skip)
+            }
+            else {
+                this.props.getProfilesBySearchCriteria(this.state.search, null, skip)
+            }
         } else {
             this.props.getProfiles(skip);  
         }
@@ -84,10 +98,14 @@ class Profiles extends Component {
         let path = window.location.pathname.split("/")
         let index = path.length -1;
         let org = path[index]
-        if(org == 'phi_beta_sigma' || org =='zeta_phi_beta') {
+        if(this.state.search == "" && (org == 'phi_beta_sigma' || org =='zeta_phi_beta')) {
             this.props.getProfilesByOrginization(org, skip)
         } else if (this.state.search != "") {
-            this.props.getProfilesBySearchCriteria(this.state.search, skip)
+            if(org == 'phi_beta_sigma' || org =='zeta_phi_beta') {
+                this.props.getProfilesBySearchCriteria(this.state.search, org, skip)
+            } else {
+                this.props.getProfilesBySearchCriteria(this.state.search, null, skip)
+            }
         } else {
             this.props.getProfiles(skip);  
         }
@@ -102,10 +120,14 @@ class Profiles extends Component {
         let path = window.location.pathname.split("/")
         let index = path.length -1;
         let org = path[index]
-        if(org == 'phi_beta_sigma' || org =='zeta_phi_beta') {
+        if(this.state.search == "" && (org == 'phi_beta_sigma' || org =='zeta_phi_beta')) {
             this.props.getProfilesByOrginization(org, skip)
         } else if (this.state.search != "") {
-            this.props.getProfilesBySearchCriteria(this.state.search, skip)
+            if(org == 'phi_beta_sigma' || org =='zeta_phi_beta') {
+                this.props.getProfilesBySearchCriteria(this.state.search, org, skip)
+            } else {
+                this.props.getProfilesBySearchCriteria(this.state.search, null, skip)
+            }
         } else {
             this.props.getProfiles(skip);  
         }

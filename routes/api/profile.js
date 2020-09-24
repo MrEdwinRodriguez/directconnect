@@ -7,7 +7,9 @@ const Profile = require('../../models/Profile');
 const User = require('../../models/User');
 const Hire = require('../../models/HiringFor');
 const Business = require('../../models/Business');
+const Orginization = require('../../models/Orginization');
 const Post = require('../../models/Post');
+const authController = require('../../controllers/auth-controller');
 const validateProfileInput = require('../../validation/profile');
 const validateExperienceInput = require('../../validation/experience');
 const validateEducationInput = require('../../validation/education');
@@ -68,69 +70,113 @@ router.get('/', passport.authenticate('jwt', {session: false }), (req, res) => {
 //GET API/profile/all
 //get all profiles
 //public
-router.get('/all', (req, res) => {
+router.get('/all', async (req, res) => {
 	const errors = {};
 	let limit = parseInt(req.query.limit) || 1000;
 	let skip= parseInt(req.query.skip) || 0;
 	let sendObj = {}
-	Profile.count()
-	.then(count => {
+	try {
+		const count = await User.count();
 		sendObj.total = count;
-		return Profile.find().populate('user', ['name', 'email', 'avatar', 'last_name', 'first_name']).lean()
-	}).then(profiles => {
-		if(!profiles) {
-			errors.noprofile = "There are no profiles";
-		return res.status(404).json(errors)
+		const allUsers = await User.find().sort('last_name first_name').skip(skip).limit(limit);
+		if(!allUsers) {
+			errors.noprofile = "There were no users found";
+			return res.status(404).json(errors)
 		}
-		let sortedProfiles = utils.sortProfileByUserName(profiles)
-		//adding the skip and limit to the query was kicking profiles out of order since the name
-		// is in the user object.  Using Slice as an 'ugly' replacement to skip and limit
-		let skipAndLimit = sortedProfiles.slice(skip, skip+limit);
-		sendObj.sortedProfiles = skipAndLimit;
-		return res.json(sendObj)
-	})
-	.catch(err => res.status(404).json({profile: "There is no profiles"}));
+		const allProfiles = await Profile.find().populate('user', ['name', 'email', 'avatar', 'last_name', 'first_name']).lean();
+		if(!allProfiles) {
+			errors.noprofile = "There are no profiles found";
+			return res.status(404).json(errors)
+		}
+		let profileList = [];
+		allUsers.forEach(user => {
+			const foundProfile = allProfiles.find(profile => {
+				if (profile.user._id+"" == user._id+'') {
+					profileList.push(profile);
+					return profile
+				}
+            })
+            if (typeof foundProfile === 'undefined') {
+				var cleanUser = authController.sanitizeUserObject(user)
+                profileList.push(cleanUser);
+            } 
+		})
+		sendObj.sortedProfiles = profileList;
+		res.status(200).json(sendObj); 
+	} catch (err) {
+		console.error(err.message);
+		res.status(500).send('Server Error')
+	}
 });
 
 //GET API/profile/orginization/:orginization
 //get profile by orginization
 //public
-router.get('/orginization/:orginization', (req, res) => {
+router.get('/orginization/:orginization', async (req, res) => {
 	const errors = {};
+	const orginization = req.params.orginization;
 	let limit = parseInt(req.query.limit) || 1000;
 	let skip= parseInt(req.query.skip) || 0;
-	let sendObj = {}
-	Profile.count({ orginization: req.params.orginization }).exec()
-	.then(count => {
+	let sendObj = {};
+	let orginizationObj = null;
+	try {
+		orginizationObj = await Orginization.findOne({value: orginization});
+		console.log('orginization', orginizationObj)
+		const count = await User.count({ orginization: orginizationObj._id });
 		sendObj.total = count;
-		return Profile.find({ orginization: req.params.orginization })
-		.populate('user', ['name', 'avatar', 'email', 'last_name', 'first_name']).exec()
-	}).then(profiles => {
-		if(!profiles) {
-			errors.noprofile = "There are no profiles for this orginization";
-			res.status(400). json(errors)
+		const allUsers = await User.find({ orginization: orginizationObj._id  }).sort('last_name first_name').skip(skip).limit(limit);
+		if(!allUsers) {
+			errors.noprofile = "There were no users found";
+			return res.status(404).json(errors)
 		}
-		let sortedProfiles = utils.sortProfileByUserName(profiles)
-		let skipAndLimit = sortedProfiles.slice(skip, skip+limit);
-		sendObj.sortedProfiles = skipAndLimit;
-		return res.json(sendObj)
-	})
-	.catch(err => res.status(404).json(err));
+		const allProfiles = await Profile.find({ orginization: orginization }).populate('user', ['name', 'email', 'avatar', 'last_name', 'first_name']).lean();
+		if(!allProfiles) {
+			errors.noprofile = "There are no profiles found";
+			return res.status(404).json(errors)
+		}
+		let profileList = [];
+		allUsers.forEach(user => {
+			const foundProfile = allProfiles.find(profile => {
+				if (profile.user._id+"" == user._id+'') {
+					profileList.push(profile);
+					return profile
+				}
+            })
+            if (typeof foundProfile === 'undefined') {
+				var cleanUser = authController.sanitizeUserObject(user)
+                profileList.push(cleanUser);
+            } 
+		})
+		sendObj.sortedProfiles = profileList;
+		res.status(200).json(sendObj); 
+	} catch (err) {
+		console.error(err.message);
+		res.status(500).send('Server Error')
+	}
 
 });
 
 //GET API/profile/search/:criteria
 //GET  all profiles that meet criteria
 //private
-router.get('/search/:criteria', passport.authenticate('jwt', {session: false }), (req, res) => {
+router.get('/search/:criteria', passport.authenticate('jwt', {session: false }), async (req, res) => {
 	const criteria = req.params.criteria;
 	var profile_parameters = {};
 	let limit = parseInt(req.query.limit) || 1000;
 	let skip= parseInt(req.query.skip) || 0;
-	let sendObj = {}
+	let org = req.query.org || null;
+	let sendObj = {};
+	let allUsers = null;
+	let allProfiles = null;
+	let orgId = null;
+	let included_user_ids = [];
 	if (criteria == null || criteria == undefined) {
 		return res.send(400)
-    }
+	}
+	if (org) {
+		const orginization = await Orginization.findOne({value: org});
+		orgId = orginization._id;
+	}
 	let user_parameters = {
 		$or: [{
 			first_name : {$regex: criteria, $options: 'i'}
@@ -146,11 +192,15 @@ router.get('/search/:criteria', passport.authenticate('jwt', {session: false }),
 		}
 		]
 	}
-	return User.find(user_parameters).lean().exec()
+	if(orgId) {
+		user_parameters.orginization = orgId;
+	}
+	User.find(user_parameters).sort('last_name first_name').lean().exec()
 	.then(users => {
-		let included_user_ids = users.map(user => {
-			return user._id;
-		})	
+		users.forEach(user => {
+			included_user_ids.push(user._id);
+		});
+		allUsers = users;
 		//search profile with parameters	
 		profile_parameters = {
             $or: [{
@@ -170,6 +220,9 @@ router.get('/search/:criteria', passport.authenticate('jwt', {session: false }),
 			}
             ]
 		}
+		if (org) {
+			profile_parameters.orginization= org;
+		}
 		let reqLink = req.headers.referer.split('/')
 		if (reqLink[reqLink.length -1] != 'profiles') {
 			profile_parameters.orginization = reqLink[reqLink.length -1]; 
@@ -179,21 +232,55 @@ router.get('/search/:criteria', passport.authenticate('jwt', {session: false }),
 			profile_parameters.$or.push({user: {$in: included_user_ids}})
 		}
 		return Profile.count(profile_parameters).exec()
-		.then(count => {
+		}).then(count => {
 			sendObj.total = count;
 		return Profile.find(profile_parameters).populate('user', ['name', 'first_name', 'last_name']).lean().exec()
 		}).then(profiles => {
+			console.log('line 228', profiles)
 			if(!profiles || profiles == null) {
 				res.json({noprofiles: "There were no profiles found for "+criteria})
 			}
-			let sortedProfiles = utils.sortProfileByUserName(profiles)
+			allProfiles = profiles;
+			profiles.forEach(profile => {
+				included_user_ids.push(profile.user._id);
+			});
+			console.log('line 236', included_user_ids)
+			return User.find({_id: {$in: included_user_ids}}).sort('last_name first_name').skip(skip).limit(limit).exec()
+		}).then(aUsers => {
+			console.log('line 239', aUsers)
+			let profileList = [];
+			aUsers.forEach(user => {
+				const foundProfile = allProfiles.find(profile => {
+					if (profile.user._id+"" == user._id+'') {
+						profileList.push(profile);
+						return profile
+					}
+				})
+				if (typeof foundProfile === 'undefined') {
+					var cleanUser = authController.sanitizeUserObject(user)
+					profileList.push(cleanUser);
+				} 
+			})
+			// allUsers.forEach(user => {
+			// 	const foundProfile = profiles.find(profile => {
+			// 		if (profile.user._id+"" == user._id+'') {
+			// 			profileList.push(profile);
+			// 			return profile
+			// 		}
+			// 	})
+			// 	if (typeof foundProfile === 'undefined') {
+			// 		var cleanUser = authController.sanitizeUserObject(user)
+			// 		profileList.push(cleanUser);
+			// 	} 
+			// })
+			// let sortedProfiles = utils.sortProfileByUserName(profiles)
 			//adding the skip and limit to the query was kicking profiles out of order since the name
 			// is in the user object.  Using Slice as an 'ugly' replacement to skip and limit
-			let skipAndLimit = sortedProfiles.slice(skip, skip+limit);
-			sendObj.sortedProfiles = sortedProfiles;
+			// let skipAndLimit = sortedProfiles.slice(skip, skip+limit);
+			// sendObj.sortedProfiles = sortedProfiles;
+			sendObj.sortedProfiles = profileList;
 			return res.json(sendObj)
 		})
-	})
 	.catch(err => res.status(404).json(err));
 });
 
