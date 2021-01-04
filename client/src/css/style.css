@@ -115,8 +115,7 @@ li .profile {
 .checkboxes {
     border:2px 
     solid #ccc; 
-    width:300px; 
-    height: 70px; 
+    height: 100px; 
     overflow-y: scroll; 
     margin-bottom: 16px;
 }

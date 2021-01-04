@@ -413,6 +413,7 @@ if(!this.state.lookingFor) {
     ];
 
     let chapters = allOrgChapters.map(chapter => {
+        console.log('line 416', chapter)
         return {label: chapter.name , value: chapter.value }
     })
     let orginizations = [];
@@ -504,10 +505,16 @@ if(!this.state.lookingFor) {
           </div>
       )
   }
+    if (this.state.myChapters && chapters.length > 0) {
+        console.log('line 508', chapters)
+            const index = chapters.findIndex(chapter => chapter.value ==  this.state.chapter);
+            chapters.unshift(chapters.splice(index, 1)[0]);
+      
+    }
     const checkboxes = chapters.map(chapterBox => (
         <li>
             <input type="checkbox" id={chapterBox.value} onChange={this.updateMyChapters} name={chapterBox.value} checked={this.state.myChapters.includes(chapterBox.value) ? true : false} /> {"\n"}
-            <label for={chapterBox.value}>{chapterBox.label}</label>{"\n"}
+            <label htmlFor={chapterBox.value}>{chapterBox.label}</label>{"\n"}
         </li>
     ));
     let cancelButton = user.profileHandle ? <Link to={`/myprofile/${user.profileHandle}`} className="btn btn-light">Cancel</Link> : profile && profile.handle ? <Link to={`/myprofile/${profile.handle}`} className="btn btn-light">Cancel</Link>: ""
