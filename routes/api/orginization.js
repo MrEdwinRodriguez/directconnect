@@ -82,4 +82,22 @@ router.post('/sendEmail', passport.authenticate('jwt', { session: false }), (req
 
 	
 });
+
+//GET API/orginization/chapters
+//get all chapters
+//private
+router.get('/chapters', passport.authenticate('jwt', {session: false }), async (req, res) => {
+
+    try {
+       let user = await User.findOne({_id: req.user.id})
+       if (!user) return res.status(404).json({errors : "You are not an authorized admin user"});
+       let chapters = await Chapter.find({orginization: user.orginization}).populate('orginization').sort('name')
+       res.json(chapters);
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).send('Server Error')
+    }
+
+})
+
 module.exports = router;

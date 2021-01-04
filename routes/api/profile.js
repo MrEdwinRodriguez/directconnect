@@ -399,7 +399,7 @@ router.post('/', passport.authenticate('jwt', {session: false }), (req, res) => 
 	if(!isValid) {
 		return res.status(400).json(errors);
 	};
-
+	console.log('line 402', req.body)
 	const profileFields = {};
 	profileFields.user = req.user.id;
 	profileFields.handle = req.body.handle ? req.body.handle : null;
@@ -413,6 +413,7 @@ router.post('/', passport.authenticate('jwt', {session: false }), (req, res) => 
 	profileFields.title = req.body.title ? req.body.title : null;
 	profileFields.orginization = req.body.orginization ? req.body.orginization: null;
 	profileFields.chapter = req.body.chapter? req.body.chapter: null;
+	profileFields.myChapters = req.body.myChapters? req.body.myChapters: [req.body.chapter];
 	profileFields.githubusername = req.body.githubusername ? req.body.githubusername : null;
 	profileFields.lookingFor = req.body.lookingFor ? req.body.lookingFor : null;
 	if (typeof req.body.skills !== 'undefined') {

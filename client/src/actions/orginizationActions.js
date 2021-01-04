@@ -1,6 +1,6 @@
 
 import axios from 'axios';
-import { GET_ERRORS, GET_ORGINIZATION_EMAIL_INFO} from './types';
+import { GET_ERRORS, GET_ORGINIZATION_EMAIL_INFO, GET_CHAPTERS} from './types';
 
 export const getUserAssociatedChapters = () => dispatch => {
      axios.get('api/orginization/getEmailList')
@@ -29,4 +29,20 @@ export const sendEmail = (emailData, history) => dispatch => {
             );
 }
 
+ //get chapters
+ export const getChapters = () => dispatch => {
+    axios
+        .get(`api/orginization/chapters`)
+        .then(res =>             
+            dispatch({
+                type: GET_CHAPTERS,
+                payload: res.data
+            }))
+        .catch(err => 
+            dispatch({
+                type: GET_ERRORS,
+                payload: { msg: "error", status: 400 }
+            })
+            );
+}
 

@@ -112,6 +112,15 @@ li .profile {
     padding-bottom: 6px;
 }
 
+.checkboxes {
+    border:2px 
+    solid #ccc; 
+    width:300px; 
+    height: 70px; 
+    overflow-y: scroll; 
+    margin-bottom: 16px;
+}
+
 .zoom {
     transition: transform .2s; /* Animation */
 

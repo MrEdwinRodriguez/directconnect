@@ -7,8 +7,10 @@ import TextFieldGroup from '../common/TextFieldGroup';
 import { uploadProfileImage } from "../../actions/profileActions";
 import InputGroup from '../common/InputGroup';
 import TextAreaFieldGroup from '../common/TextAreaFieldGroup';
+import { getChapters } from '../../actions/orginizationActions';
 import { FaWindowClose} from 'react-icons/fa';
 import SelectListGroup from '../common/SelectListGroup';
+import CheckBoxGroup from '../common/CheckBoxGroup';
 import { createProfile, getCurrentProfile, deleteProfileImage } from "../../actions/profileActions";
 import isEmpty from '../../validation/is-empty';
 import '../../css/style.css';
@@ -28,6 +30,7 @@ class CreateProfile extends Component {
             blogLink: "",
             blogAbout: "",
             profileImage: "",
+            myChapters: "",
             hasPodcast: false,
             podcastName: "",
             podcastLink: "",
@@ -50,6 +53,7 @@ class CreateProfile extends Component {
         this.onChange = this.onChange.bind(this);
         this.onCheck = this.onCheck.bind(this);
         this.onCheckPodcast = this.onCheckPodcast.bind(this);
+        this.updateMyChapters = this.updateMyChapters.bind(this);
         this.onUpload = this.onUpload.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
         this.showDelete = this.showDelete.bind(this);
@@ -59,13 +63,13 @@ class CreateProfile extends Component {
 
     componentDidMount() {
         this.props.getCurrentProfile();
+        this.props.getChapters();
     }
 
     componentWillReceiveProps(nextProps) {
         if(nextProps.errors) {
             this.setState({errors: nextProps.errors});
         }
-
         if(nextProps.profile.profile) {
             const profile = nextProps.profile.profile;
 
@@ -106,6 +110,7 @@ class CreateProfile extends Component {
                 title: profile.title,
                 orginization: profile.orginization,
                 chapter: profile.chapter,
+                myChapters: profile.myChapters ? profile.myChapters : [profile.chapter] ,
                 skills: skillsCSV,
                 bio: profile.bio,
                 twitter: profile.twitter,
@@ -219,6 +224,7 @@ class CreateProfile extends Component {
             title: this.state.title,
             orginization: this.state.orginization,
             chapter: this.state.chapter,
+            myChapters: this.state.myChapters ? this.state.myChapters : [this.state.chapter] ,
             phoneNumber: this.state.phoneNumber,
             profileImage: this.state.profileImage,
             website: this.state.website,
@@ -275,10 +281,30 @@ class CreateProfile extends Component {
           hasPodcast: !this.state.hasPodcast,
         });
       }
+      updateMyChapters(e) {
+          let  updateChapter = e.target.id;
+          let chapterList = this.state.myChapters;
+          var isMyChapters = chapterList.includes(updateChapter);
+          if (!isMyChapters) {
+               this.setState({
+                myChapters: [
+                    ...chapterList,
+                    updateChapter
+                  ]
+                });
+          } else { 
+              const index = chapterList.indexOf(updateChapter);
+              chapterList.splice(index, 1);
+              this.setState({
+                    myChapters: chapterList
+                });
+          }
+      }
 
   render() {
-    const { errors, displaySocialInputs, displayLooking} = this.state;
+    const { errors, displaySocialInputs, displayLooking, chapter} = this.state;
     const { profile } = this.props.profile;
+    const allOrgChapters = this.props.chapters;
     const {user} = this.props.auth;
     let socialInputs;
     let lookingFor;
@@ -386,27 +412,20 @@ if(!this.state.lookingFor) {
         {label: "Other", value: "Other"},
     ];
 
-    var orginizations = [];
-    var chapters =[];
+    let chapters = allOrgChapters.map(chapter => {
+        return {label: chapter.name , value: chapter.value }
+    })
+    let orginizations = [];
     switch (this.state.orginization) {
         case "phi_beta_sigma":
             orginizations = [
                 {label: "Phi Beta Sigma", value: "phi_beta_sigma"},
-            ];
-            chapters = [
-                {label: "Iota Rho", value: "iota_rho"},
-                {label: "Gamma Delta Sigma", value: "gamma_delta_sigma"},
             ];
           break;
         case "zeta_phi_beta":
             orginizations = [
                     {label: "Zeta Phi Beta", value: "zeta_phi_beta"}
                 ];
-            chapters = [
-                {label: "Sigma Epsilon", value: "sigma_epsilon"},
-                {label: "Epsilon Zeta Zeta", value: "epsilon_zeta_zeta"}
-            ];
-        
           break;
         default:
           orginizations = [
@@ -414,16 +433,7 @@ if(!this.state.lookingFor) {
                 {label: "Phi Beta Sigma", value: "phi_beta_sigma"},
                 {label: "Zeta Phi Beta", value: "zeta_phi_beta"}
             ];
-
-            chapters = [
-                {label: "* Chapters", value: 0},
-                {label: "Iota Rho", value: "iota_rho"},
-                {label: "Gamma Delta Sigma", value: "gamma_delta_sigma"},
-                {label: "Sigma Epsilon", value: "sigma_epsilon"},
-                {label: "Epsilon Zeta Zeta", value: "epsilon_zeta_zeta"}
-            ];
-      }
-
+      };
       let imageUrl = <img className="rounded-circle" src="/blank.png"  alt="no image" />;
       if (profile && this.state.currentImage == profile.profileImage) {
         imageUrl = <Spinner />
@@ -494,6 +504,12 @@ if(!this.state.lookingFor) {
           </div>
       )
   }
+    const checkboxes = chapters.map(chapterBox => (
+        <li>
+            <input type="checkbox" id={chapterBox.value} onChange={this.updateMyChapters} name={chapterBox.value} checked={this.state.myChapters.includes(chapterBox.value) ? true : false} /> {"\n"}
+            <label for={chapterBox.value}>{chapterBox.label}</label>{"\n"}
+        </li>
+    ));
     let cancelButton = user.profileHandle ? <Link to={`/myprofile/${user.profileHandle}`} className="btn btn-light">Cancel</Link> : profile && profile.handle ? <Link to={`/myprofile/${profile.handle}`} className="btn btn-light">Cancel</Link>: ""
     return (
       <div className='create-profile'>
@@ -558,14 +574,12 @@ if(!this.state.lookingFor) {
                         options={orginizations}
                         error={errors.orginization}
                         info="What orginization did you pledge?"/>
-                     <SelectListGroup 
-                        placeholder="Chapter"
-                        name='chapter'
-                        value={this.state.chapter}
-                        onChange={this.onChange}
-                        options={chapters}
-                        error={errors.chapter}
-                        info="What chapter did you pledge?"/>
+                    <h5>Chapter(s)</h5>
+                    <div className='checkboxes'>
+                        <ul>
+                            {checkboxes}
+                        </ul>
+                    </div>
                     <TextFieldGroup 
                         placeholder="Company"
                         name='company'
@@ -664,8 +678,9 @@ CreateProfile.propTypes = {
 
 const mapStateToProops = state => ({
     profile: state.profile,
+    chapters: state.orginization.chapters,
     auth: state.auth,
     errors: state.errors,
 })
 
-export default connect(mapStateToProops, {createProfile, getCurrentProfile, uploadProfileImage, deleteProfileImage})(withRouter(CreateProfile));
+export default connect(mapStateToProops, {createProfile, getCurrentProfile, uploadProfileImage, deleteProfileImage, getChapters})(withRouter(CreateProfile));

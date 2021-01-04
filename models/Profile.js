@@ -24,6 +24,7 @@ const ProfileScheme = new Schema({
 	title: {type: String},
 	orginization: {type: String},
 	chapter: {type: String},
+	myChapters: [{type: String}],
 	status: { type: String, required: true},
 	skills: { type: [String]},
 	bio: {type: String },
