@@ -413,7 +413,6 @@ if(!this.state.lookingFor) {
     ];
 
     let chapters = allOrgChapters.map(chapter => {
-        console.log('line 416', chapter)
         return {label: chapter.name , value: chapter.value }
     })
     let orginizations = [];
